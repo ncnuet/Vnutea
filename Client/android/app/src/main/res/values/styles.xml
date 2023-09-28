@@ -1,8 +1,0 @@
-<resources>
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="android:editTextBackground">@layout/launch_screen</item>
-        <item name="android:windowSplashScreenBackground">@color/blue_foreground</item>
-        <item name="android:windowSplashScreenAnimationDuration">3000</item>
-        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
-    </style>
-</resources>

@@ -26,8 +26,7 @@ app.use(cors.default({
   origin: config.CORS_ORIGIN,
   credentials: true,
   methods: ['GET', 'PUT', 'POST', 'DELETE'],
-  optionsSuccessStatus: 200,
-  // allowedHeaders: ['Content-Type, Authorization']
+  optionsSuccessStatus: 200
 }))
 
 // Initialize routes

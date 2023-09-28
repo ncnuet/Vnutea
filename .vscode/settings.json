@@ -1,3 +1,7 @@
 {
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "disabled",
+    "cSpell.words": [
+        "vnutea"
+    ],
+    "java.compile.nullAnalysis.mode": "automatic"
 }
