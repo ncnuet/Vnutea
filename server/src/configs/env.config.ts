@@ -21,7 +21,7 @@ interface ENV_VALUE extends DotenvParseOutput {
 }
 
 export default dotenv.config(
-    process.env.NODE_ENV === "dev"
+    process.env.NODE_ENV.trim() === "dev"
         ? { path: path.resolve(process.cwd(), '.env.dev') }
         : undefined
 ).parsed as ENV_VALUE;

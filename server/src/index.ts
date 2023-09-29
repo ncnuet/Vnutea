@@ -4,7 +4,7 @@ import * as cors from "cors";
 import morgan from "morgan";
 import cookieParser from 'cookie-parser';
 
-// import route from './routes';
+import route from './routes';
 import config from './configs/env.config';
 
 // cookieParser
@@ -20,8 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-
-app.use(helmet()); // protection middleware
+app.use(helmet());
 app.use(cors.default({
   origin: config.CORS_ORIGIN,
   credentials: true,
@@ -30,12 +29,14 @@ app.use(cors.default({
 }))
 
 // Initialize routes
-// route(app);
+route(app);
 
-if (require.main === module) { // true if file is executed by cmd. This lines for testing purposes
-  // Start application
+
+// Start app
+// true if file is executed by cmd. This lines for testing purposes
+if (require.main === module) { 
   app.listen(port, () => {
-    console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
+    console.log(`⚡️[server]: Server is running at ${config.BACKEND}`);
 
   });
 }
