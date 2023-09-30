@@ -1,0 +1,29 @@
+name: Create tag
+run-name: ${{ github.actor }} build project
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+  workflow_dispatch:
+
+    
+jobs:
+  release-version:
+    if: github.event.pull_request.merged || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+      - name: Get package versions
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@main 
+  
+      - name: "Push tag v${{ steps.package-version.outputs.current-version }}"
+        uses: rickstaa/action-create-tag@v1
+        id: tag_version
+        with:
+          tag_exists_error: false
+          tag: "v${{ steps.package-version.outputs.current-version }}"

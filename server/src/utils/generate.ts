@@ -1,10 +1,12 @@
 import * as jwt from "jsonwebtoken";
 import config from "@/configs/env.config";
-import { JWTOpt, JWTRefreshOpt, JWTResetOpt } from "@/configs/jwt";
-import AuthModel from "@/models/auth.model";
+import { JWTOpt, JWTRefreshOpt } from "@/configs/jwt";
 import { IUser } from "@/types/auth";
 
-interface IUnencryptedData extends IUser { }
+interface IUserPayload extends IUser {
+    iat: number
+    exp: number
+}
 
 function generateMinMax(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min)) + min;
@@ -21,31 +23,19 @@ export function generate_uid(length: number = 8): string {
 
 /**
  * Generates token and refresh token
- * @param data 
+ * @param user 
  * @param gen_RT 
  * @returns 
  */
-export async function generate_token(data: IUnencryptedData, gen_RT?: boolean) {
+export async function generate_token(user: IUserPayload | IUser, gen_RT?: boolean) {
+    const { iat, exp, ...data } = user as IUserPayload;
     const accessToken = jwt.sign(data, config.JWT_KEY, JWTOpt);
-    let refreshToken;
-    if (gen_RT) {
-        refreshToken = jwt.sign(data, config.JWT_REFRESH_KEY, JWTRefreshOpt)
-        if (!await AuthModel.insertRefreshToken(refreshToken, data.uid)) {
-            throw new Error("Unable to add refresh token");
-        }
-    }
+
+    const refreshToken = (gen_RT)
+        ? jwt.sign(data, config.JWT_REFRESH_KEY, JWTRefreshOpt)
+        : undefined
 
     return { accessToken, refreshToken }
-}
-
-/**
- * 
- * @param data 
- * @returns 
- */
-export async function generate_reset_token(data: IUnencryptedData){
-    const token = jwt.sign(data, config.JWT_RESET_KEY, JWTResetOpt);
-    return token;
 }
 
 /**

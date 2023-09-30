@@ -6,6 +6,8 @@ import cookieParser from 'cookie-parser';
 
 import route from './routes';
 import config from './configs/env.config';
+import { redis, setupRedisIndex } from './configs/redis';
+import database from './configs/database';
 
 // cookieParser
 // SQLlite
@@ -31,14 +33,26 @@ app.use(cors.default({
 // Initialize routes
 route(app);
 
-
 // Start app
 // true if file is executed by cmd. This lines for testing purposes
-if (require.main === module) { 
-  app.listen(port, () => {
-    console.log(`⚡️[server]: Server is running at ${config.BACKEND}`);
 
-  });
+const start = async () => {
+  try {
+    await redis.connect();
+    await database.getConnection();
+    await setupRedisIndex();
+    app.listen(port, () => {
+      console.log(`⚡️[server]: Server is running at ${config.BACKEND}`);
+
+    });
+  } catch (error) {
+    console.log(error)
+  }
+};
+
+
+if (require.main === module) {
+  start();
 }
 
 export default app;

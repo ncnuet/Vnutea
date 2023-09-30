@@ -4,6 +4,7 @@ import handleError from "@/utils/handle_error";
 import authModel from "@/models/auth.model";
 import { generate_token } from "@/utils/generate";
 import authValidator, { ILoginByPassword } from "@/validators/auth.validator";
+import tokenModel from "@/models/token.model";
 
 function setToken(res: Response, accessToken: string, refreshToken?: string) {
     refreshToken && res.cookie("refresh_token", refreshToken, setAge(86400 * 1000))
@@ -22,8 +23,11 @@ class AuthController {
         await handleError(res, async () => {
             authValidator.validateLoginPassword(data);
             const user = await authModel.findAccountByPassword(data.username, data.password);
+            
             if (user) {
-                const token = await generate_token(user, true)
+                const version = await tokenModel.getVersion(user.uid);
+                const token = await generate_token({ ...user, version }, true);
+                await tokenModel.insertRefreshToken(token.refreshToken, user.uid, user.role)
                 setToken(res, token.accessToken, token.refreshToken);
             } else {
                 res.status(401).json({
@@ -44,8 +48,8 @@ class AuthController {
         const user = res.locals.user;
 
         await handleError(res, async () => {
-            authModel.deleteRefreshToken(user.uid);
-            authModel.updateVersion(user.uid);
+            tokenModel.deleteRefreshToken(user.uid);
+            tokenModel.updateVersion(user.uid);
             res.cookie("token", null, setAge(0));
             res.cookie("refresh_token", null, setAge(0));
             res.sendStatus(200);

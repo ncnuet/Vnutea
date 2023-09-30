@@ -15,15 +15,23 @@ interface ENV_VALUE extends DotenvParseOutput {
     DB_PASSWORD: string
     DB_NAME: string
 
+    RD_PORT:string
+    RD_HOST:string
+    RD_PASSWORD:string
+
     JWT_KEY: string
     JWT_REFRESH_KEY: string
     JWT_RESET_KEY: string
 }
 
-export default dotenv.config(
+const config = dotenv.config(
     process.env.NODE_ENV.trim() === "dev"
         ? { path: path.resolve(process.cwd(), '.env.dev') }
         : undefined
-).parsed as ENV_VALUE;
+).parsed;
 
+export default {
+    ... config,
+    NODE_ENV: process.env.NODE_ENV.trim()
+} as ENV_VALUE
 
