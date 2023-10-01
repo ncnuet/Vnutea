@@ -20,7 +20,7 @@ export async function setTokenIndex() {
         });
     } catch (e) {
         if (e.message === 'Index already exists') {
-            console.log('Index exists already, skipped creation.');
+            console.log('Index idx:token exists already, skipped creation.');
         } else {
             console.error(e);
         }
