@@ -6,7 +6,7 @@ export const JWTOpt: SignOptions = {
 }
 
 export const JWTRefreshOpt: SignOptions = {
-    expiresIn: config.NODE_ENV === "dev" ? "86400s" : "3600s" // 24 hours
+    expiresIn: config.NODE_ENV === "dev" ? "3600s" : "86400s"// 24 hours
 }
 
 export const TTLRefToken = config.NODE_ENV === "dev" ? 86400 : 3600 // 24 hours

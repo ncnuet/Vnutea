@@ -1,3 +1,4 @@
+import { MESSAGE_TYPES } from "@/models/schema/chat.schema"
 import { UID } from "@/types/auth"
 
 export interface ICreateRoom {
@@ -10,12 +11,24 @@ export interface IDeleteRoom {
 }
 
 export interface IGetRoomByID {
-    roomID: string
+    roomID: string,
+    limit?: number
+    page?: number
 }
 
 export interface IUpdateRoom {
     roomID: string
     name?: string
+}
+
+export interface ICreateMessage {
+    roomID: string,
+    message?: string,
+    type: MESSAGE_TYPES
+}
+
+export interface IDeleteMessage {
+    messageID: string
 }
 
 class ChatValidator {
@@ -37,6 +50,18 @@ class ChatValidator {
     validateUpdateRoom(data: IGetRoomByID) {
         if (!data.roomID)
             throw new Error("roomID must not be empty", { cause: "roomID" });
+    }
+
+    validateCreateMessage(data: ICreateMessage) {
+        if (!data.roomID || !data.type)
+            throw new Error("Payload must include roomID and type", { cause: "type" });
+        if (!Object.values(MESSAGE_TYPES).includes(data.type))
+            throw new Error("Invalid message type", { cause: "type" });
+    }
+
+    validateDeleteMessage(data: IDeleteMessage) {
+        if (!data.messageID)
+            throw new Error("messageID must not be empty", { cause: "messageID" });
     }
 }
 
