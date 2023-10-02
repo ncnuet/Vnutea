@@ -25,6 +25,7 @@ function Section({ children, title }: SectionProps): JSX.Element {
   useEffect(() => {
     SplashScreen.hide();
   }, []);
+  
   return (
     <View className="mt-8 px-2">
       <Text className="text-2xl text-black dark:text-white">

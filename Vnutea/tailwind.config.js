@@ -2,7 +2,16 @@
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        "primary": "#19253D",
+        "secondary": "#D9E8ED"
+      },
+      fontFamily: {
+        'montserrat': ['Montserrat'],
+        'lato': ["Lato"]
+      }
+    },
   },
   plugins: [],
 }
