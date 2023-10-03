@@ -1,5 +1,7 @@
 # Vnutea
 
+![img](./assets//app_pre.png)
+
 ## Team of students contains the following:
 - 21020365 Do Tuan Nghia - Leader
 - 21020023 Pham Hong Minh
