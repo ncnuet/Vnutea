@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useEffect } from 'react';
 import type { PropsWithChildren } from 'react';
 import {
@@ -21,11 +22,35 @@ type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
+async function send(): Promise<any> {
+  const res = await axios.post("localhost:8000/auth/login", {
+    username: "21020365",
+    password: "123456789"
+  })
+
+  console.log(res)
+}
+
+const res = new Promise((resolve, reject) => {
+  axios.post("localhost:8000/auth/login", {
+    username: "21020365",
+    password: "123456789"
+  }).then(data => {
+    if (data.status == 200) {
+      resolve(data)
+    } else {
+      reject();
+    }
+  })
+})
+
+
 function Section({ children, title }: SectionProps): JSX.Element {
   useEffect(() => {
+    send()
     SplashScreen.hide();
   }, []);
-  
+
   return (
     <View className="mt-8 px-2">
       <Text className="text-2xl text-black dark:text-white">
