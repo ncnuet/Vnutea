@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Platform, SafeAreaView, StatusBar } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
+import Chat from "./chat/chat"
 
 function App(): JSX.Element {
   useEffect(() => {
@@ -12,6 +13,7 @@ function App(): JSX.Element {
   return (
     <SafeAreaView>
       <StatusBar />
+      <Chat />
     </SafeAreaView>
   );
 }
