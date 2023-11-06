@@ -6,12 +6,9 @@ import cookieParser from 'cookie-parser';
 
 import route from './routes';
 import config from './configs/env.config';
-import { redis, setupRedisIndex } from './configs/redis';
-import database from './configs/database';
-import * as mongo from './configs/mongo';
-
-// cookieParser
-// SQLlite
+import * as database from '@/configs/database';
+import * as redis from './configs/redis';
+import * as mailer from "@/utils/send_mail";
 
 // Initialize application
 const app: Express = express();
@@ -35,31 +32,18 @@ app.use(cors.default({
 route(app);
 
 // Start app
-const start = async () => {
-  try {
-    // Startup database
-    await redis.connect();
-    console.log("Connected to redis");
+if (require.main === module) { // true if file is executed by cmd. This lines for testing purposes
+  // Start application
+  app.listen(port, async () => {
+    await redis.startup();
+    console.log("📕 [database]: Connected to redis");
+    await database.connect();
+    console.log("📒 [database]: Connected to mysql");
+    // await mailer.startup();
+    // console.log("💌 [database]: Connected to mailer");
 
-    await database.getConnection();
-    console.log("Connected to database");
-
-    await mongo.connect();
-    console.log("Connected to mongodb");
-
-    await setupRedisIndex();
-    app.listen(port, () => {
-      console.log(`⚡️[server]: Server is running at ${config.BACKEND}`);
-      
-    });
-  } catch (error) {
-    console.log(error)
-  }
-};
-
-// true if file is executed by cmd. This lines for testing purposes
-if (require.main === module) {
-  start();
+    console.log(`✅ [server]: Server is running at http://localhost:${port}`);
+  });
 }
 
 export default app;

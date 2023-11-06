@@ -1,48 +1,52 @@
-import database from "@/configs/database";
-import { IUserRole, IUserWithoutVersion } from "@/types/auth";
-import { RowDataPacket } from "mysql2";
 import * as bcrypt from "bcryptjs";
+import { UserBaseModel } from "./schema/user.schema";
+import { IQueryableUser, IUserWithoutVersion } from "@/types/auth";
 
 class AuthModel {
-    async findAccountByPassword(info: string, password: string): Promise<IUserWithoutVersion> {
-        const query = `
-            SELECT password, uid, username, role 
-            FROM account 
-            WHERE provider=? AND username=? OR uid=? 
-            LIMIT 1`;
+    /**
+     * Checks if the user is existed in the database. 
+     * Search by the username/uid and verified by the password
+     * @param _username username
+     * @param _password 
+     * @returns IUser if the user exists or undefined otherwise
+     */
+    async findUserByPassword(_username: string, _password: string): Promise<IUserWithoutVersion> {
+        const user = await UserBaseModel.findOne(
+            { username: _username },
+            { uid: 1, role: 1, username: 1, password: 1 })
+            .exec();
 
-        const [results] = await database.execute<RowDataPacket[]>(query, ["local", info, info]);
+        if (!user) return undefined;
 
-        if (!results.length) return undefined;
-        const { hashPassword, ...userData } = results.map(row => ({
-            hashPassword: row["password"],
-            uid: row["uid"],
-            username: row["username"],
-            role: row["role"]
-        }))[0];
-
-        return hashPassword
-            ? await bcrypt.compare(password, hashPassword) && userData
+        const { uid, username, password, role } = user;
+        return _password
+            ? await bcrypt.compare(_password, password) && { uid, username, role }
             : undefined
     }
 
     /**
-     * 
-     * @param uid 
-     * @returns 
+     * Check if the user linking with given email is existed in the database.
+     * @param email 
+     * @returns UID if the user exists or undefined otherwise
      */
-    async findRole(uid: string): Promise<IUserRole> {
-        const query = `
-                SELECT role 
-                FROM account_detail 
-                WHERE uid = ? 
-                LIMIT 1`;
+    async findUserByInfo(info: IQueryableUser): Promise<IQueryableUser> {
+        const user = await UserBaseModel.findOne(
+            {
+                $or: [
+                    { username: info.username },
+                    { email: info.email },
+                    { phone: info.phone },
+                    { uid: info.uid }
+                ]
+            },
+            { email: true, username: true, phone: true, uid: true })
+            .exec()
 
-        const [results] = await database.execute<RowDataPacket[]>(query, [uid]);
+        if (!user) return undefined;
+        const { username, phone, uid, email } = user;
 
-        if (!results.length) return undefined;
-        return results[0]["role"];
+        return { username, phone, uid, email };
     }
 }
 
-export default new AuthModel();
+export default new AuthModel()

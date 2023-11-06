@@ -1,13 +1,7 @@
-import mysql from 'mysql2';
-import config from "./env.config";
+import mongoose from 'mongoose';
+import config from './env.config';
 
-// create the connection to database
-const connection = mysql.createPool({
-    port: Number(config.DB_PORT),
-    host: config.DB_HOST,
-    user: config.DB_USER,
-    password: config.DB_PASSWORD,
-    database: config.DB_NAME
-})
+const { MG_HOST, MG_PORT, MG_NAME } = config;
 
-export default connection.promise();
+mongoose.set('strictQuery', true);
+export const connect = async () => mongoose.connect(`mongodb://${MG_HOST}:${MG_PORT}/${MG_NAME}`);

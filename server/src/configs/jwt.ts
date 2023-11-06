@@ -1,12 +1,12 @@
-import { SignOptions } from "jsonwebtoken";
-import config from "./env.config";
+import * as jwt from "jsonwebtoken";
+import env from "@/configs/env.config"
 
-export const JWTOpt: SignOptions = {
-    expiresIn: config.NODE_ENV === "dev" ? "10s" : "1800s" // 30 mins
+export const JWTTokenOpt: jwt.SignOptions = {
+    expiresIn: env.ENV === "dev" ? "10s" : "3600s"
 }
-
-export const JWTRefreshOpt: SignOptions = {
-    expiresIn: config.NODE_ENV === "dev" ? "3600s" : "86400s"// 24 hours
+export const JWTRefreshOpt: jwt.SignOptions = {
+    expiresIn: env.ENV === "dev" ? "60s" : "86400s"
 }
-
-export const TTLRefToken = config.NODE_ENV === "dev" ? 86400 : 3600 // 24 hours
+export const JWTResetOpt: jwt.SignOptions = {
+    expiresIn: env.ENV === "dev" ? "180s" : "300s"
+}
