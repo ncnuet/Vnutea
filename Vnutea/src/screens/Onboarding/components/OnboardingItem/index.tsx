@@ -9,8 +9,8 @@ export default function OnboardingItem({ data }: IProps) {
     const { width } = useWindowDimensions();
 
     return (
-        <View style={[{ width }]}>
-            <Image alt="illustration photo" source={data.image} className="w-full" />
+        <View style={[{ width }]} className="flex flex-col">
+            <Image alt="illustration photo" source={data.image} className="w-full flex-shrink object-none object-bottom" />
 
             <View className="p-7">
                 <Text
