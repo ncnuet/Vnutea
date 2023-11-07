@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './screens/homepage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Onboarding from './screens/onboarding';
+import Onboarding from './screens/Onboarding';
 import { RootStackParamList } from './types/routing';
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
