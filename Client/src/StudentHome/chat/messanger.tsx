@@ -11,18 +11,16 @@ import {
   TextInput,
   Platform,
 } from 'react-native';
-import Task from './task';
+import Task from './taskChat';
 
 function messanger() {
-  const [task, setTask] = useState();
-  const [taskItems, setTaskItems] = useState([]);
 
   return (
     <View style={styles.container}>
       <View style={styles.containerTop}>
-        <ImageBackground source={require('./image/Vector.png')} style={{flex: 1,}}>
+        <ImageBackground source={require('../image/Vector.png')} style={{flex: 1,}}>
           <TouchableOpacity style = {styles.roundButton} >
-            <Image source = {require('./image/arrowleft.png')} />
+            <Image source = {require('../image/arrowleft.png')} />
           </TouchableOpacity>
           <Image style = {styles.avtar} source= {  {uri: 'https://pyxis.nymag.com/v1/imgs/51b/28a/622789406b8850203e2637d657d5a0e0c3-avatar-rerelease.1x.rsquare.w1400.jpg'} }></Image>
           <Text style = {styles.textPostion}>Le Quang Do</Text>
