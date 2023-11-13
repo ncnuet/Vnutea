@@ -30,7 +30,7 @@ function Onboarding({ navigation }: Props): JSX.Element {
         if (currentIndex + 1 <= slides.length - 1)
             (slideRef.current as FlatList).scrollToIndex({ index: currentIndex + 1 })
         else {
-            navigation.replace("HomeScreen");
+            navigation.replace("ChatScreen");
         }
     }
 

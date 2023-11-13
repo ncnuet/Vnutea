@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import Task from './task';
 
-function chat() {
+function ChatScreen() {
   const [task, setTask] = useState();
   const [taskItems, setTaskItems] = useState([]);
 
@@ -99,4 +99,4 @@ const styles = StyleSheet.create({
     width: 333,
   },
 });
-export default chat;
+export default ChatScreen;

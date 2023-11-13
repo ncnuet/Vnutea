@@ -5,6 +5,7 @@ import HomeScreen from './screens/homepage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Onboarding from './screens/Onboarding';
 import { RootStackParamList } from './types/routing';
+import ChatScreen from './screens/Chat/chat';
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
@@ -31,11 +32,15 @@ function App(): JSX.Element {
     isAppFirstLaunched !== null
       ? <NavigationContainer>
         <RootStack.Navigator screenOptions={{ headerShown: false }}>
-          {isAppFirstLaunched && (<RootStack.Screen
-            name='OnBoarding'
-            component={Onboarding}
-          />)}
+          {/* Show onboarding screen in the first time */}
+          {isAppFirstLaunched &&
+            (<RootStack.Screen
+              name='OnBoarding'
+              component={Onboarding}
+            />)}
+          {/* Home Screen */}
           <RootStack.Screen name="HomeScreen" component={HomeScreen} />
+          <RootStack.Screen name="ChatScreen" component={ChatScreen} />
         </RootStack.Navigator>
       </NavigationContainer>
       : <></>
