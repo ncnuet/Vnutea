@@ -22,11 +22,11 @@ const HomeStackNavigator = () => {
                 },
             }}
         >
-            <Stack.Screen name="Home" component={HomeScreen} options={{ title: '', }} />
-            <Stack.Screen name="Chat" component={chat} />
-            <Stack.Screen name="Messanger" component={messanger} />
-            <Stack.Screen name="Lecturer" component={Lecturer} />
-            <Stack.Screen name="ContactLecturer" component={ContactLecturer} />
+            {/* <Stack.Screen name="Home" component={HomeScreen} options={{ title: '', }} /> */}
+            {/* <Stack.Screen name="Chat" component={chat} />
+            <Stack.Screen name="Messanger" component={messanger} /> */}
+            {/* <Stack.Screen name="Lecturer" component={Lecturer} /> */}
+            {/* <Stack.Screen name="ContactLecturer" component={ContactLecturer} /> */}
             <Stack.Screen name="Comment" component={Comment} />
         </Stack.Navigator>
     );

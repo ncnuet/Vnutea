@@ -45,7 +45,7 @@ function App(): JSX.Element {
     //   : <></>
     <NavigationContainer>
       <Tab.Navigator>
-        <Tab.Screen name="Home" component={HomeStackNavigator} />
+        <Tab.Screen name="Homess" component={HomeStackNavigator} />
         <Tab.Screen name="Settings" component={StudentScreen} />
       </Tab.Navigator>
     </NavigationContainer>
