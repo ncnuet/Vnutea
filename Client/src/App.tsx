@@ -1,10 +1,10 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { HomeStackNavigator } from "./ContactStackNavigator";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import StudentScreen from "./StudentHome/StudentScreen";
 
-const Tab = createBottomTabNavigator();
+const Tab =  createMaterialBottomTabNavigator();
 
 function App(): JSX.Element {
   return (
