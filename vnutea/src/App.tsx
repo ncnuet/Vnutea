@@ -8,28 +8,33 @@ import Onboarding from './screens/Onboarding';
 import { RootStackParamList } from './types/routing';
 import { HomeStackNavigator } from './ContactStackNavigator';
 import StudentScreen from './screens/StudentHome/StudentScreen';
+import SplashScreen from 'react-native-splash-screen';
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createMaterialBottomTabNavigator();
 
 function App(): JSX.Element {
-  // const [isAppFirstLaunched, setAppFirstLaunched] = React.useState<boolean | null>(null);
+  const [isAppFirstLaunched, setAppFirstLaunched] = React.useState<boolean | null>(null);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     // await AsyncStorage.removeItem('isAppFirstLaunched');
-  //     const appData = await AsyncStorage.getItem('isAppFirstLaunched');
-  //     console.log(appData);
+  useEffect(() => {
+    SplashScreen.hide();
+  })
 
-  //     if (appData) {
-  //       // TODO: change this to false
-  //       setAppFirstLaunched(true);
-  //     } else {
-  //       setAppFirstLaunched(true);
-  //       AsyncStorage.setItem('isAppFirstLaunched', 'marked')
-  //     }
-  //   })();
-  // }, []);
+  useEffect(() => {
+    (async () => {
+      // await AsyncStorage.removeItem('isAppFirstLaunched');
+      const appData = await AsyncStorage.getItem('isAppFirstLaunched');
+      console.log(appData);
+
+      if (appData) {
+        // TODO: change this to false
+        setAppFirstLaunched(true);
+      } else {
+        setAppFirstLaunched(true);
+        AsyncStorage.setItem('isAppFirstLaunched', 'marked')
+      }
+    })();
+  }, []);
 
   return (
     // isAppFirstLaunched !== null
