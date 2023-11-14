@@ -24,7 +24,7 @@ function setToken(res: Response, remember: boolean, accessToken: string, refresh
 
 class AuthController {
     /**
-     * Verify account, return access token and resfresh token if true.
+     * Verify account, return access token and refresh token if true.
      * @param req 
      * @param res 
      */
@@ -35,6 +35,7 @@ class AuthController {
         await handleError(res, async () => {
             authValidator.validateLoginPassword(data);
             const user = await authModel.findUserByPassword(data.username, data.password);
+
             if (user) {
                 const version = (await tokenModel.getVersion(user.uid)) || "0";
                 const token = generateToken({ ...user, version, remember: data.remember }, true);

@@ -13,14 +13,14 @@ class AuthModel {
     async findUserByPassword(_username: string, _password: string): Promise<IUserWithoutVersion> {
         const user = await UserBaseModel.findOne(
             { username: _username },
-            { uid: 1, role: 1, username: 1, password: 1 })
+            { _id: 1, role: 1, username: 1, password: 1 })
             .exec();
 
         if (!user) return undefined;
 
-        const { uid, username, password, role } = user;
+        const { _id, username, password, role } = user;
         return _password
-            ? await bcrypt.compare(_password, password) && { uid, username, role }
+            ? await bcrypt.compare(_password, password) && { uid: _id.toString(), username, role }
             : undefined
     }
 
@@ -36,16 +36,16 @@ class AuthModel {
                     { username: info.username },
                     { email: info.email },
                     { phone: info.phone },
-                    { uid: info.uid }
+                    { _id: info.uid }
                 ]
             },
-            { email: true, username: true, phone: true, uid: true })
+            { email: true, username: true, phone: true, _id: true })
             .exec()
 
         if (!user) return undefined;
-        const { username, phone, uid, email } = user;
+        const { username, phone, _id, email } = user;
 
-        return { username, phone, uid, email };
+        return { username, phone, uid: _id.toString(), email };
     }
 
     /**
@@ -56,7 +56,7 @@ class AuthModel {
     */
     async updatePassword(uid: string, password: string): Promise<any> {
         const user = await UserBaseModel.updateOne(
-            { uid },
+            { _id: uid },
             { password: await bcrypt.hash(password, 10) })
             .exec();
 

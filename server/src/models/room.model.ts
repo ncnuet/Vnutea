@@ -1,60 +1,72 @@
 import { UID } from "@/types/auth";
-import roomSchema, { IRoomSchema } from "./schema/room.schema";
-
-interface ICreateRoomResult {
-    isNew: boolean,
-    id: string
-}
-
-interface IGetRoomResult extends IRoomSchema {
-    createAt: Date,
-    updateAt: Date
-}
-
+import { RoomBaseModel } from "./base/room.base";
+import mongoose from "mongoose";
+var ObjectId = mongoose.Types.ObjectId;
 class RoomModel {
-    async createRoom({ initiator, name, uids }: IRoomSchema): Promise<ICreateRoomResult> {
-        const availableRoom = await roomSchema.findOne({
-            uids: {
-                $size: uids.length,
-                $all: [...uids],
-            },
-        });
+    async findByParticipants(participants: UID[]) {
+        const result = await RoomBaseModel.findOne(
+            {
+                participants: {
+                    $size: participants.length,
+                    $all: [...participants],
+                },
+            })
+            .exec();
 
-        if (availableRoom) {
-            return {
-                isNew: false,
-                id: availableRoom._id.toString()
-            };
-        } else {
-            const newRoom = await roomSchema.create({ uids, initiator, name });
-            return {
-                isNew: true,
-                id: newRoom._id.toString()
-            };
-        }
+        return result ? result : undefined;
     }
 
-    async deleteRoom(roomID: string, initiator: string): Promise<boolean> {
-        const response = await roomSchema.deleteOne({ _id: roomID, initiator })
-        return response.deletedCount > 0;
-    }
+    async createRoom(initiator: UID, participants: UID[], name: string) {
+        participants.push(initiator)
 
-    async getRoom(roomID: string, uid: UID): Promise<IGetRoomResult> {
-        const room = await roomSchema.findOne<IGetRoomResult>({ _id: roomID, uids: { $in: [uid] } });
+        const room = await RoomBaseModel.create({
+            name, initiator, participants,
+            room_type: (participants.length > 2) ? "group" : "P2P"
+        })
 
         return room;
     }
 
-    async getAllRooms(uid: UID): Promise<IGetRoomResult[]> {
-        const rooms = await roomSchema.find<IGetRoomResult>({ uids: { $in: [uid] } });
-
-        return rooms;
+    async deleteRoom(roomID: string, initiator: UID) {
+        const result = await RoomBaseModel.deleteOne({ _id: roomID, initiator }).exec();
+        return result.deletedCount > 0 ? roomID : false;
     }
 
-    async updateRoom(roomID: string, uid: UID, name?: string): Promise<boolean> {
-        const response = await roomSchema.updateOne({ _id: roomID, uids: { $in: [uid] } }, { name });
+    async getRoom(roomID: string, uid: UID) {
+        const room = await RoomBaseModel.findOne(
+            {
+                _id: roomID,
+                participants: {
+                    $elemMatch: {
+                        $eq: new ObjectId(uid)
+                    }
+                }
+            })
+            .exec()
 
-        return response.modifiedCount > 0;
+        return room;
+    }
+
+    // async getAllRooms(uid: UID): Promise<IGetRoomResult[]> {
+    //     const rooms = await roomSchema.find<IGetRoomResult>({ uids: { $in: [uid] } });
+
+    //     return rooms;
+    // }
+
+    async updateRoom(roomID: string, uid: UID, name?: string) {
+        const result = await RoomBaseModel.updateOne(
+            {
+                _id: roomID,
+                participants: {
+                    $elemMatch: {
+                        $eq: new ObjectId(uid)
+                    }
+                }
+            },
+            { name })
+            .exec();
+
+        return result.modifiedCount > 0 ? roomID : false;
     }
 }
 

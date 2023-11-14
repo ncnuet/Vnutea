@@ -5,6 +5,7 @@ export interface IRoomSchema {
     participants: Array<ObjectId>
     name: string
     initiator: ObjectId
+    room_type: "P2P" | "group"
 }
 
 export const RoomSchema = new mongoose.Schema<IRoomSchema>({
@@ -16,7 +17,11 @@ export const RoomSchema = new mongoose.Schema<IRoomSchema>({
         type: ObjectId,
         required: true
     },
-    name: String
+    name: String,
+    room_type: {
+        type: String,
+        required: true
+    }
 }, {
     timestamps: true
 });
