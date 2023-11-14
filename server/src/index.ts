@@ -14,6 +14,7 @@ import * as mailer from "@/utils/send_mail";
 const app: Express = express();
 const port = config.PORT;
 
+
 // Initialize middleware
 app.use(morgan(process.env.NODE_ENV === 'dev' ? "dev" : "tiny"));
 app.use(express.json());
