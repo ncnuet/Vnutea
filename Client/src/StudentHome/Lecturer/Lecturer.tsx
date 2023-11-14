@@ -13,15 +13,11 @@ import TaskComment from './TaskComment';
 
 const Lecturer = () => {
     const navigation = useNavigation();
-    const [likes, setLikes] = useState(require('../image/love.png'));
     const [isClicked, setIsClicked] = useState(false);
+    const image_btn1 = require('../image/loved.png');
+    const image_btn1_on = require('../image/love.png');
 
     const handleClick = () => {
-        if (isClicked) {
-            setLikes(require('../image/loved.png'));
-        } else {
-            setLikes(require('../image/love.png'));
-        }
         setIsClicked(!isClicked);
     };
     return (
@@ -31,7 +27,7 @@ const Lecturer = () => {
                 <Text style={styles.textNameLecturer}>Thầy Lê Phê Đô</Text>
                 <Text style={styles.textMota}>Giảng viên bộ bôn toán đại cương, đã có hơn 30 năm đứng trên cương vị giảng dạy với bề dày thành tích đáng tự hào</Text>
                 <TouchableOpacity style={styles.circular} onPress={handleClick}>
-                    <Image style={styles.imageLove} source={likes}></Image>
+                    <Image style={styles.imageLove} source={isClicked ? image_btn1 : image_btn1_on}></Image>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.buttonMessanger} onPress={() => navigation.navigate('Messanger')} >
                     <Image style={{ height: '100%', width: '100%' }} source={require('../image/mess.png')} />
