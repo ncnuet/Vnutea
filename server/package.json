@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon",
-    "start:prod": "node ./build/index.js",
-    "build": "rimraf build && webpack",
+    "start:prod": "node ./dist/index.js",
+    "build": "rimraf dist && webpack",
     "build:tsc": "rimraf dist && tsc && tsc-alias",
-    "build:dev": "rimraf dev && tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "add-build": "git add dist"
   },
   "author": "",
   "license": "ISC",
