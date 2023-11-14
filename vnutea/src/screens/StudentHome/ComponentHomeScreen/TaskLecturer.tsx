@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList, _Image, Button } from 'react-native';
-import HomeScreen from '../HomeScreen';
 import { useNavigation } from '@react-navigation/native';
 const DATA = [
     {
@@ -62,16 +61,12 @@ const DATA = [
 type ItemProps = { name: string, position: string, department: string, url: string, star: string,favorite: boolean};
 const Item = ({ name, department, url, star,favorite }: ItemProps) => {
     const navigation2 = useNavigation();
-    const [likes, setLikes] = useState(require('../image/love.png'));
     const [isClicked, setIsClicked] = useState(favorite);
-
+    const image_btn1 = require('../image/loved.png');
+    const image_btn1_on = require('../image/love.png');
     const handleClick = () => {
-        if (isClicked) {
-            setLikes(require('../image/loved.png'));
-        } else {
-            setLikes(require('../image/love.png'));
-        }
         setIsClicked(!isClicked);
+        favorite = !favorite;
     };
     return (
         <TouchableOpacity style={styles.item} onPress={() => navigation2.navigate('Lecturer')}>
@@ -82,7 +77,7 @@ const Item = ({ name, department, url, star,favorite }: ItemProps) => {
             <Text style={styles.textStar}>{star}</Text>
             <View style={styles.border1}><Text style={styles.textBorder1}>GV Xuất sắc TB</Text></View>
             <TouchableOpacity style={styles.circular} onPress={handleClick}>
-                <Image style = {styles.imageLove} source={likes}></Image>
+                <Image style = {styles.imageLove} source={isClicked ? image_btn1 : image_btn1_on}></Image>
             </TouchableOpacity>
         </TouchableOpacity>
     )
@@ -120,14 +115,18 @@ const styles = StyleSheet.create({
         color: '#263257',
         fontSize: 20,
         fontFamily: 'Montserrat Alternates',
+        fontWeight: '700',
+        wordWrap: 'break-word',
     },
     titleUnder: {
         position: 'absolute',
         top: 25,
         left: 70,
-        color: '#263257',
-        fontSize: 14,
-        fontFamily: 'Montserrat Alternates',
+        color: '#7D8BB7',
+        fontSize: 12,
+        fontFamily: 'Lato',
+        fontWeight: '600',
+        wordWrap: 'break-word',
     },
     avatar: {
         position: 'absolute',

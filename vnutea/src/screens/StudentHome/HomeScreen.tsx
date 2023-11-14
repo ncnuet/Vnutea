@@ -10,6 +10,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import LecturerFavorite from './ComponentHomeScreen/lecturerFavorite';
 import TaskLecturer from './ComponentHomeScreen/TaskLecturer';
+import ListDepartment from './ComponentHomeScreen/ListDepartment';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -31,6 +32,7 @@ const HomeScreen = () => {
       <ScrollView keyboardShouldPersistTaps='handled' style = {{marginTop: 80}}>
         <Text style={styles.textGv}>Giảng viên nổi bật</Text>
         <LecturerFavorite></LecturerFavorite>
+        <ListDepartment></ListDepartment>
         <Text style = {styles.textGv}>Danh sách giảng viên</Text>
         <TaskLecturer></TaskLecturer>
       </ScrollView>
