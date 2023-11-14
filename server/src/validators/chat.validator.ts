@@ -23,11 +23,11 @@ export interface IUpdateRoom {
     name?: string
 }
 
-// export interface ICreateMessage {
-//     roomID: string,
-//     message?: string,
-//     type: MESSAGE_TYPES
-// }
+export interface ICreateMessage {
+    roomID: string,
+    message?: string,
+    type: MESSAGE_TYPES
+}
 
 // export interface IDeleteMessage {
 //     messageID: string
@@ -63,12 +63,11 @@ class ChatValidator {
         this.validateRoomID(data.roomID)
     }
 
-    // validateCreateMessage(data: ICreateMessage) {
-    //     if (!data.roomID || !data.type)
-    //         throw new Error("Payload must include roomID and type", { cause: "type" });
-    //     if (!Object.values(MESSAGE_TYPES).includes(data.type))
-    //         throw new Error("Invalid message type", { cause: "type" });
-    // }
+    validateCreateMessage(data: ICreateMessage) {
+        this.validateRoomID(data.roomID)
+        if (!Object.values(MESSAGE_TYPES).includes(data.type))
+            throw new Error("Invalid message type", { cause: "type" });
+    }
 
     // validateDeleteMessage(data: IDeleteMessage) {
     //     if (!data.messageID)

@@ -11,7 +11,7 @@ router.put('/room/:roomID', [checkJWT], roomChatController.updateRoomName);
 router.delete('/room/:roomID', [checkJWT], roomChatController.deleteRoom);
 // router.get('/room/:roomID', [checkJWT], roomChatController.getRoomByID);
 
-// router.post('/msg', [checkJWT], messageChatController.createMessage);
+router.post('/msg', [checkJWT], messageChatController.createMessage);
 // router.delete('/msg', [checkJWT], messageChatController.deleteMessage);
 
 export default router;

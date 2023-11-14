@@ -9,11 +9,6 @@ export enum MESSAGE_TYPES {
     DELETED = "deleted",
 }
 
-interface PaginationOption {
-    page?: number,
-    limit?: number
-}
-
 export interface IMessageSchema {
     message: string
     type: MESSAGE_TYPES,

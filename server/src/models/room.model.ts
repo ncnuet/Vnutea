@@ -47,6 +47,20 @@ class RoomModel {
         return room;
     }
 
+    async getRoomHasUser(uid: UID) {
+        const rooms = await RoomBaseModel.find(
+            {
+                participants: {
+                    $elemMatch: {
+                        $eq: new ObjectId(uid)
+                    }
+                }
+            })
+            .exec()
+
+        return rooms;
+    }
+
     // async getAllRooms(uid: UID): Promise<IGetRoomResult[]> {
     //     const rooms = await roomSchema.find<IGetRoomResult>({ uids: { $in: [uid] } });
 

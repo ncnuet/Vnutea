@@ -9,6 +9,8 @@ import config from './configs/env';
 import * as database from '@/configs/database';
 import * as redis from './configs/redis';
 import * as mailer from "@/utils/send_mail";
+import { graphqlHTTP } from 'express-graphql';
+import schema from './schema';
 
 // Initialize application
 const app: Express = express();
@@ -21,7 +23,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use(helmet());
+// app.use(helmet());
 app.use(cors.default({
   origin: config.CORS_ORIGIN,
   credentials: true,
@@ -31,6 +33,12 @@ app.use(cors.default({
 
 // Initialize routes
 route(app);
+
+app.use("/graphql/",
+  graphqlHTTP({
+    schema,
+    graphiql: true
+  }));
 
 // Start app
 if (require.main === module) { // true if file is executed by cmd. This lines for testing purposes
