@@ -4,6 +4,7 @@ import { InputError } from "@/types/controller";
 export interface ILoginByPassword {
     username: string,
     password: string
+    remember?: boolean
 }
 
 export interface IRequestReset extends IQueryableUser { }
@@ -32,10 +33,27 @@ class AuthValidator {
         }
         return true
     }
+    private validateRePassword(password: string, re_password: string) {
+        if (re_password != password) {
+            throw new InputError("Mật khẩu nhập lại cần giống mật khẩu", "re_password");
+
+        }
+    }
 
     validateLoginPassword(data: ILoginByPassword) {
         this.validateUsername(data.username)
         this.validatePassword(data.password)
+    }
+
+    validateRequestReset(data: IRequestReset) {
+        data.username &&
+            this.validateUsername(data.username) ||
+            this.validateEmail(data.email)
+    }
+
+    validateReset(data: IResetPassword) {
+        this.validatePassword(data.password)
+        this.validateRePassword(data.password, data.re_password);
     }
 }
 

@@ -1,10 +1,6 @@
-import { Express } from "express";
-import AuthRouter from "./auth.route";
-import ChatRouter from "./chat.route";
-import TestRouter from "./test.route";
+import V1Route from "./v1"
+import { Express } from "express"
 
 export default function route(app: Express) {
-    app.use("/auth", AuthRouter);
-    app.use("/chat", ChatRouter);
-    app.use("/test", TestRouter);
+    app.use("/v1", V1Route)
 }

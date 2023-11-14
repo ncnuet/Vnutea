@@ -1,11 +1,11 @@
 import { sign } from "jsonwebtoken";
-import config from "@/configs/env.config";
+import config from "@/configs/env";
 import { JWTTokenOpt, JWTRefreshOpt, JWTResetOpt } from "@/configs/jwt";
 import { IUser } from "@/types/auth";
 
 interface IUserPayload extends IUser {
-    iat: number
-    exp: number
+    iat?: number
+    exp?: number
 }
 
 /**

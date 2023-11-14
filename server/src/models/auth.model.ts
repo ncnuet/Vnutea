@@ -47,6 +47,21 @@ class AuthModel {
 
         return { username, phone, uid, email };
     }
+
+    /**
+    * Reset password 
+    * @param uid 
+    * @param password 
+    * @returns 
+    */
+    async updatePassword(uid: string, password: string): Promise<any> {
+        const user = await UserBaseModel.updateOne(
+            { uid },
+            { password: await bcrypt.hash(password, 10) })
+            .exec();
+
+        if (!user) return undefined;
+    }
 }
 
 export default new AuthModel()

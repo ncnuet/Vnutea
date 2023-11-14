@@ -5,7 +5,7 @@ import morgan from "morgan";
 import cookieParser from 'cookie-parser';
 
 import route from './routes';
-import config from './configs/env.config';
+import config from './configs/env';
 import * as database from '@/configs/database';
 import * as redis from './configs/redis';
 import * as mailer from "@/utils/send_mail";

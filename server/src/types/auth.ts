@@ -5,6 +5,11 @@ export interface IUser extends IUserWithoutVersion {
     version: string
 }
 
+export interface IUser extends IUserWithoutVersion {
+    version: string,
+    remember: boolean
+}
+
 export interface IUserWithoutVersion {
     username: string,
     uid: UID
