@@ -1,5 +1,5 @@
 import * as bcrypt from "bcryptjs";
-import { UserBaseModel } from "./schema/user.schema";
+import { UserBaseModel } from "./base/user.base";
 import { IQueryableUser, IUserWithoutVersion } from "@/types/auth";
 
 class AuthModel {

@@ -1,25 +1,22 @@
-import { UID } from "@/types/auth";
-import mongoose from "mongoose";
+import mongoose, { ObjectId } from "mongoose";
+var ObjectId = mongoose.Types.ObjectId;
 
-export interface IChatRoom {
-    uids: Array<UID>
+export interface IRoomSchema {
+    participants: Array<ObjectId>
     name: string
-    initiator: UID
+    initiator: ObjectId
 }
 
-const chatRoomSchema = new mongoose.Schema<IChatRoom>({
-    uids: [{
-        type: String,
+export const RoomSchema = new mongoose.Schema<IRoomSchema>({
+    participants: [{
+        type: ObjectId,
         required: true
     }],
     initiator: {
-        type: String,
+        type: ObjectId,
         required: true
     },
     name: String
 }, {
-    timestamps: true,
-    collection: "chatrooms",
+    timestamps: true
 });
-
-export default mongoose.model("ChatRoom", chatRoomSchema);

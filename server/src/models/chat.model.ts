@@ -1,16 +1,16 @@
 import { UID } from "@/types/auth";
-import chatSchema, { MESSAGE_TYPES } from "./schema/chat.schema";
+import chatSchema, { MESSAGE_TYPES } from "./schema/message.schema";
 
 class ChatModel {
     async createMessage(roomID: string, uid: UID, message: string, type: MESSAGE_TYPES = MESSAGE_TYPES.TEXT) {
         await chatSchema.create({
-            roomID, message, createdUID: uid, type,
-            readByRecipients: { uid }
+            roomID, message, createdBy: uid, type,
+            seenBy: { uid }
         });
     }
 
     async deleteMessage(messageID: string, uid: UID) {
-        await chatSchema.updateOne({ _id: messageID, createdUID: uid }, { type: MESSAGE_TYPES.DELETED, message: null });
+        await chatSchema.updateOne({ _id: messageID, createdBy: uid }, { type: MESSAGE_TYPES.DELETED, message: null });
     }
 
     async getConversation(roomID: string, limit: number = 20, page: number = 0) {

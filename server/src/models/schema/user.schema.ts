@@ -2,7 +2,7 @@
 import { IUserRole, UID } from '@/types/auth';
 import { Schema, model } from 'mongoose';
 
-interface IUserSchema {
+export interface IUserSchema {
     uid: UID;
     username: string;
     password: string;
@@ -12,7 +12,7 @@ interface IUserSchema {
     phone: string;
 }
 
-const userSchema = new Schema<IUserSchema>({
+export const UserSchema = new Schema<IUserSchema>({
     uid: { type: String, required: true, unique: true, index: true },
     username: { type: String, required: true, unique: true, index: true },
     password: { type: String, required: true },
@@ -21,5 +21,3 @@ const userSchema = new Schema<IUserSchema>({
     email: { type: String, unique: true, index: true },
     phone: { type: String, unique: true, index: true }
 });
-
-export const UserBaseModel = model<IUserSchema>('User', userSchema);

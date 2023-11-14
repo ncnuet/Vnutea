@@ -1,4 +1,4 @@
-import { MESSAGE_TYPES } from "@/models/schema/chat.schema"
+import { MESSAGE_TYPES } from "@/models/schema/message.schema"
 import { UID } from "@/types/auth"
 
 export interface ICreateRoom {

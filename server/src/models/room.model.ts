@@ -1,18 +1,18 @@
 import { UID } from "@/types/auth";
-import roomSchema, { IChatRoom } from "./schema/room.schema";
+import roomSchema, { IRoomSchema } from "./schema/room.schema";
 
 interface ICreateRoomResult {
     isNew: boolean,
     id: string
 }
 
-interface IGetRoomResult extends IChatRoom {
+interface IGetRoomResult extends IRoomSchema {
     createAt: Date,
     updateAt: Date
 }
 
 class RoomModel {
-    async createRoom({ initiator, name, uids }: IChatRoom): Promise<ICreateRoomResult> {
+    async createRoom({ initiator, name, uids }: IRoomSchema): Promise<ICreateRoomResult> {
         const availableRoom = await roomSchema.findOne({
             uids: {
                 $size: uids.length,
