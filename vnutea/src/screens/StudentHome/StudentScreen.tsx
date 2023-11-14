@@ -14,7 +14,7 @@ const StudentScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.containerTop}>
-        <Image style={styles.matcuoi} source={require('./image/matcuoi.png')} />
+        {/* <Image style={styles.matcuoi} source={require('./image/matcuoi.png')} /> */}
         <Image style={styles.imagecontainerTop} source={require('./image/coc.png')} />
         <Text style={styles.textvnu}>VNUTea</Text>
         <Image style = {styles.avatarTop} source={{uri:url}} />
@@ -23,21 +23,21 @@ const StudentScreen = () => {
       </View>
       <View style={styles.box}>
         <TouchableOpacity style={styles.buttonBox}>
-          <Image style={styles.imageBox} source={require('./image/crown2.png')}/>
+          {/* <Image style={styles.imageBox} source={require('./image/crown2.png')}/> */}
           <Text style={styles.textBox}>Đánh giá môn học</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.buttonBox}>
-          <Image style={styles.imageBox} source={require('./image/suitcase.png')}/>
+          {/* <Image style={styles.imageBox} source={require('./image/suitcase.png')}/> */}
           <Text style={styles.textBox}>Lớp học của tôi</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.buttonBox}>
-          <Image style={styles.imageBox} source={require('./image/heart.png')}/>
+          {/* <Image style={styles.imageBox} source={require('./image/heart.png')}/> */}
           <Text style={styles.textBox}>Lớp học của tôi</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.box}>
       <TouchableOpacity style={styles.buttonBox}>
-          <Image style={styles.imageBox} source={require('./image/logout.png')}/>
+          {/* <Image style={styles.imageBox} source={require('./image/logout.png')}/> */}
           <Text style={styles.textLogout}>Logout</Text>
         </TouchableOpacity>
       </View>
