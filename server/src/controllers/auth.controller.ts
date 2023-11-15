@@ -22,13 +22,13 @@ function setToken(res: Response, remember: boolean, accessToken: string, refresh
         .send();
 }
 
-class AuthController {
+export default class AuthController {
     /**
      * Verify account, return access token and refresh token if true.
      * @param req 
      * @param res 
      */
-    async loginByPassword(req: Request, res: Response) {
+    static async login(req: Request, res: Response) {
         const data = <ILoginByPassword>req.body;
         console.log(data);
 
@@ -43,7 +43,7 @@ class AuthController {
                 setToken(res, data.remember, token.accessToken, token.refreshToken);
             } else {
                 res.status(401).json({
-                    message: "Tài khoản hoặc mật khẩu không chính xác",
+                    message: "Invalid username or password",
                     name: "password"
                 });
             }
@@ -55,7 +55,7 @@ class AuthController {
      * @param req 
      * @param res 
      */
-    async logout(req: Request, res: Response) {
+    static async logout(req: Request, res: Response) {
         const user = res.locals.user;
 
         await handleError(res, async () => {
@@ -72,7 +72,7 @@ class AuthController {
      * @param req 
      * @param res 
      */
-    async requestReset(req: Request, res: Response) {
+    static async requestReset(req: Request, res: Response) {
         const data = <IRequestReset>req.body;
         console.log(data);
 
@@ -105,7 +105,7 @@ class AuthController {
      * @param req 
      * @param res 
      */
-    async verifyReset(req: Request, res: Response<any, ILocalData<IUserWithEpx>>) {
+    static async verifyReset(req: Request, res: Response<any, ILocalData<IUserWithEpx>>) {
         const username = res.locals.user.username;
         const timeExp = res.locals.user.exp * 1000;
         const remaining = Math.floor((timeExp - new Date().getTime()) / 1000);
@@ -115,7 +115,7 @@ class AuthController {
             .redirect(env.FRONTEND + "/resetpassword?ttl=" + remaining + "&user=" + username)
     }
 
-    async resetPassword(req: Request, res: Response) {
+    static async resetPassword(req: Request, res: Response) {
         const data = <IResetPassword>req.body;
 
         await handleError(res, async () => {
@@ -126,6 +126,9 @@ class AuthController {
             res.json({ message: "Password changed successfully" });
         })
     }
-}
 
-export default new AuthController()
+    static async create(req: Request, res: Response) {
+        const data = <IResetPassword>req.body;
+        
+    }
+}

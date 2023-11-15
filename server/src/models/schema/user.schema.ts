@@ -12,6 +12,7 @@ export interface IUserSchema {
     name: string;
     major: string;
     teacher_profile: ObjectId;
+    created_by: ObjectId;
 }
 
 export const UserSchema = new Schema<IUserSchema>({
@@ -22,5 +23,6 @@ export const UserSchema = new Schema<IUserSchema>({
     email: { type: String, unique: true, index: true },
     name: { type: String, required: true },
     major: { type: String, required: true },
-    teacher_profile: { type: ObjectId }
+    teacher_profile: { type: ObjectId },
+    created_by: { type: ObjectId },
 });

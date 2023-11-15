@@ -20,8 +20,8 @@ class UserModel {
         if (!user) return undefined;
 
         return user.map(user => {
-            const { username, phone, _id: uid, email, role } = user;
-            return { username, phone, uid, email, role }
+            const { username, _id: uid, email, role } = user;
+            return { username, uid, email, role }
         })
     }
 }
