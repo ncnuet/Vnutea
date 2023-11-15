@@ -1,6 +1,7 @@
 
 import { IUserRole } from '@/types/auth';
-import { Schema } from 'mongoose';
+import mongoose, { ObjectId, Schema } from 'mongoose';
+var ObjectId = mongoose.Types.ObjectId;
 
 export interface IUserSchema {
     username: string;
@@ -8,7 +9,9 @@ export interface IUserSchema {
     role: IUserRole;
     version: number;
     email: string;
-    phone: string;
+    name: string;
+    major: string;
+    teacher_profile: ObjectId;
 }
 
 export const UserSchema = new Schema<IUserSchema>({
@@ -17,5 +20,7 @@ export const UserSchema = new Schema<IUserSchema>({
     role: { type: String, required: true },
     version: { type: Number, required: true },
     email: { type: String, unique: true, index: true },
-    phone: { type: String, unique: true, index: true }
+    name: { type: String, required: true },
+    major: { type: String, required: true },
+    teacher_profile: { type: ObjectId }
 });

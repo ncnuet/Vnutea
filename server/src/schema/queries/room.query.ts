@@ -15,7 +15,7 @@ export const roomsQuery: GraphQLFieldConfig<any, any, IArgs> = {
     },
 
     resolve: async (source, args) => {
-        console.log(source, args);
+        // console.log(source, args);
 
         if (args.uid) {
             return await roomModel.getRoomHasUser(args.uid);

@@ -1,3 +1,4 @@
+import { ObjectId } from "mongoose";
 import { UserBaseModel } from "./base/user.base";
 
 class UserModel {
@@ -10,16 +11,18 @@ class UserModel {
         return ref.every(uid => userIDs.includes(uid))
     }
 
-    async getUser(uid: string) {
-        const user = await UserBaseModel.findOne(
-            { _id: uid },
+    async getUsers(uids: ObjectId[]) {
+        const user = await UserBaseModel.find(
+            { _id: { $in: uids } },
             { email: true, username: true, phone: true, _id: true, role: 1 })
             .exec()
 
         if (!user) return undefined;
-        const { username, phone, _id, email, role } = user;
 
-        return { username, phone, uid: _id.toString(), email, role };
+        return user.map(user => {
+            const { username, phone, _id: uid, email, role } = user;
+            return { username, phone, uid, email, role }
+        })
     }
 }
 

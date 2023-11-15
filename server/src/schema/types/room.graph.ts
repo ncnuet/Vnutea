@@ -1,6 +1,6 @@
 import { GraphQLObjectType, GraphQLList, GraphQLString, GraphQLEnumType } from "graphql"
 import { UserGraph } from "./user.graph"
-import { UserQuery } from "../queries/user.query"
+import { UserQuery, UserQueryMany } from "../queries/user.query"
 
 export const ERoomType = new GraphQLEnumType({
     name: "RoomTypeEnum",
@@ -16,7 +16,7 @@ export const RoomGraph: GraphQLObjectType = new GraphQLObjectType({
     description: "Room Graph",
 
     fields: {
-        participants: UserQuery,
+        participants: UserQueryMany,
         name: { type: GraphQLString },
         initiator: UserQuery,
         room_type: { type: ERoomType }

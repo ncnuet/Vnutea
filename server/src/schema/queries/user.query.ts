@@ -1,37 +1,33 @@
-import { GraphQLFieldConfig, GraphQLString, GraphQLUnionType, GraphQLList } from "graphql"
+import { GraphQLFieldConfig, GraphQLList } from "graphql"
 import { UserGraph } from "../types/user.graph";
 import userModel from "@/models/user.model";
 
-interface IArgs {
-    uid: string;
-}
-
-export const UT = new GraphQLUnionType({
-    name: "a",
-    description: "",
-    types: [UserGraph, GraphQLList<UserGraph>],
-
-    resolveType: (value) => {
-        return UserGraph;
-    }
-})
-
-export const UserQuery: GraphQLFieldConfig<any, any, IArgs> = {
-    type: UT,
+export const UserQuery: GraphQLFieldConfig<any, any> = {
+    type: UserGraph,
     description: "User Query",
 
-    args: {
-        uid: { type: GraphQLString }
-    },
-
     resolve: async (source, args) => {
-        console.log(source, args);
-        if (args.uid) {
-            return await userModel.getUser(args.uid);
-        } else if (source.initiator) {
-            return await userModel.getUser(source.initiator.toString());
+        // console.log(source, args);
+
+        if (source.initiator) {
+            return (await userModel.getUsers([source.initiator]))[0];
         } else {
             return null;
+        }
+    }
+}
+
+export const UserQueryMany: GraphQLFieldConfig<any, any> = {
+    type: GraphQLList(UserGraph),
+    description: "User Query Many",
+
+    resolve: async (source, args) => {
+        // console.log(source, args);
+
+        if (source.participants) {
+            return await userModel.getUsers([...source.participants]);
+        } else {
+            return [];
         }
     }
 }
