@@ -11,7 +11,16 @@ import StudentScreen from './screens/StudentHome/StudentScreen';
 import SplashScreen from 'react-native-splash-screen';
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
-const Tab = createMaterialBottomTabNavigator();
+const TabApp = createMaterialBottomTabNavigator();
+
+function MainRootApp() {
+  return (
+    <TabApp.Navigator>
+      <TabApp.Screen name="Homess" component={HomeStackNavigator} />
+      <TabApp.Screen name="Settings" component={StudentScreen} />
+    </TabApp.Navigator>
+  )
+}
 
 function App(): JSX.Element {
   const [isAppFirstLaunched, setAppFirstLaunched] = React.useState<boolean | null>(null);
@@ -24,7 +33,6 @@ function App(): JSX.Element {
     (async () => {
       // await AsyncStorage.removeItem('isAppFirstLaunched');
       const appData = await AsyncStorage.getItem('isAppFirstLaunched');
-      console.log(appData);
 
       if (appData) {
         // TODO: change this to false
@@ -37,23 +45,15 @@ function App(): JSX.Element {
   }, []);
 
   return (
-    // isAppFirstLaunched !== null
-    //   ? <NavigationContainer>
-    //     <RootStack.Navigator screenOptions={{ headerShown: false }}>
-    //       {/* Show onboarding screen in the first time */}
-    //       {isAppFirstLaunched &&
-    //         (<RootStack.Screen name='OnBoarding' component={Onboarding} />)}
-    //       {/* Home Screen */}
-    //       <RootStack.Screen name="StartScreen" component={ } />
-    //     </RootStack.Navigator>
-    //   </NavigationContainer>
-    //   : <></>
-    <NavigationContainer>
-      <Tab.Navigator>
-        <Tab.Screen name="Homess" component={HomeStackNavigator} />
-        <Tab.Screen name="Settings" component={StudentScreen} />
-      </Tab.Navigator>
-    </NavigationContainer>
+    isAppFirstLaunched !== null
+      ? <NavigationContainer>
+        <RootStack.Navigator screenOptions={{ headerShown: false }}>
+          {isAppFirstLaunched &&
+            (<RootStack.Screen name='OnBoarding' component={Onboarding} />)}
+          <RootStack.Screen name="MainRootApp" component={MainRootApp} />
+        </RootStack.Navigator>
+      </NavigationContainer>
+      : <></>
   )
 }
 

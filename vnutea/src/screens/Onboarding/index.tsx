@@ -4,7 +4,7 @@ import SplashScreen from "react-native-splash-screen";
 import { RootStackParamList } from "@/types/routing";
 import slides from "@/constants/onboarding.data";
 
-import { View, StatusBar, FlatList, Animated, FlatListComponent } from "react-native";
+import { View, StatusBar, FlatList, Animated } from "react-native";
 import OnboardingItem from "./components/OnboardingItem";
 import Paginator from "./components/Paginator";
 import NextButton from "./components/NextButton";
@@ -30,7 +30,7 @@ function Onboarding({ navigation }: Props): JSX.Element {
         if (currentIndex + 1 <= slides.length - 1)
             (slideRef.current as FlatList).scrollToIndex({ index: currentIndex + 1 })
         else {
-            navigation.replace("ChatScreen");
+            navigation.replace("MainRootApp");
         }
     }
 
@@ -42,7 +42,7 @@ function Onboarding({ navigation }: Props): JSX.Element {
                 renderItem={({ item }) => <OnboardingItem data={item} />}
                 horizontal
                 pagingEnabled
-                showsHorizontalScrollIndicator = {false}
+                showsHorizontalScrollIndicator={false}
                 bounces={false}
                 keyExtractor={(item) => item.id}
                 onScroll={Animated.event(

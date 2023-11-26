@@ -7,12 +7,14 @@ import messanger from "@/screens/StudentHome/chat/messanger";
 import Lecturer from "@/screens/StudentHome/Lecturer/Lecturer";
 import ContactLecturer from "@/screens/StudentHome/Lecturer/ContactLecturer";
 import Comment from "@/screens/StudentHome/Lecturer/Comment";
+
 const Stack = createNativeStackNavigator();
 
 const HomeStackNavigator = () => {
     return (
         <Stack.Navigator
             screenOptions={{
+                headerShown: false,
                 headerStyle: {
                     backgroundColor: '#77C9A3',
                 },
