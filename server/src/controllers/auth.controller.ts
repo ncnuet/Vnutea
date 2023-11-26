@@ -2,7 +2,7 @@ import { ILocalData, Request, Response } from "@/types/controller"
 import { withAge, withSession } from '@/configs/cookie';
 import { generateResetToken, generateToken } from '@/utils/generate';
 import handleError from '@/utils/handle_error';
-import authValidator, { ILoginByPassword, IRequestReset, IResetPassword } from "@/validators/auth.validator";
+import AuthValidator, { ICreateUser, ILogin, IRequestReset, IResetPassword } from "@/validators/auth.validator";
 import authModel from '@/models/auth.model';
 import tokenModel from "@/models/token.model";
 import { sendForgetPasswordMail } from "@/utils/send_mail";
@@ -29,11 +29,11 @@ export default class AuthController {
      * @param res 
      */
     static async login(req: Request, res: Response) {
-        const data = <ILoginByPassword>req.body;
+        const data = <ILogin>req.body;
         console.log(data);
 
         await handleError(res, async () => {
-            authValidator.validateLoginPassword(data);
+            AuthValidator.validateLogin(data);
             const user = await authModel.findUserByPassword(data.username, data.password);
 
             if (user) {
@@ -77,7 +77,7 @@ export default class AuthController {
         console.log(data);
 
         await handleError(res, async () => {
-            authValidator.validateRequestReset(data);
+            AuthValidator.validateRequestReset(data);
             const user = await authModel.findUserByInfo(data);
             if (user) {
                 const { username, uid } = user;
@@ -119,7 +119,7 @@ export default class AuthController {
         const data = <IResetPassword>req.body;
 
         await handleError(res, async () => {
-            authValidator.validateReset(data);
+            AuthValidator.validateReset(data);
             const user = <IUser>res.locals.user;
 
             await authModel.updatePassword(user.uid, data.password)
@@ -128,7 +128,20 @@ export default class AuthController {
     }
 
     static async create(req: Request, res: Response) {
-        const data = <IResetPassword>req.body;
-        
+        const data = <ICreateUser>req.body;
+        const user = res.locals.user;
+
+        handleError(res, async () => {
+            AuthValidator.validateCreate(data);
+
+            await authModel.createUser(
+                data.username,
+                data.name,
+                user.uid,
+                data.major,
+                data.role
+            );
+            res.json({message: "User created successfully"},)
+        })
     }
 }

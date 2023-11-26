@@ -1,6 +1,6 @@
 import * as bcrypt from "bcryptjs";
 import { UserBaseModel } from "./base/user.base";
-import { IQueryableUser, IUserWithoutVersion } from "@/types/auth";
+import { IQueryableUser, IUserRole, IUserWithoutVersion } from "@/types/auth";
 
 class AuthModel {
     /**
@@ -35,7 +35,6 @@ class AuthModel {
                 $or: [
                     { username: info.username },
                     { email: info.email },
-                    { phone: info.phone },
                     { _id: info.uid }
                 ]
             },
@@ -43,9 +42,9 @@ class AuthModel {
             .exec()
 
         if (!user) return undefined;
-        const { username, phone, _id, email } = user;
+        const { username, _id, email } = user;
 
-        return { username, phone, uid: _id.toString(), email };
+        return { username, uid: _id.toString(), email };
     }
 
     /**
@@ -61,6 +60,18 @@ class AuthModel {
             .exec();
 
         if (!user) return undefined;
+    }
+
+    async createUser(username: string, name: string, initiator: string, major: string, role: IUserRole) {
+        const user = await UserBaseModel.create(
+            {
+                username, name, initiator, major, role,
+                email: username + "@vnu.edu.vn",
+                password: await bcrypt.hash("12345678", 10),
+            }
+        )
+
+        return user._id;
     }
 }
 
