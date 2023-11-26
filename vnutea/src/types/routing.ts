@@ -6,7 +6,7 @@ export type RootStackParamList = {
 export type StudentTabParamList = {
     Home: undefined;
     Setting: undefined;
-
+    Search: undefined;
 }
 
 export type StudentStackParamList = {

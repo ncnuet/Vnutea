@@ -10,18 +10,18 @@ import { ImageBackground } from 'react-native';
 import {Dimensions} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faHouse } from '@fortawesome/free-solid-svg-icons/faHouse'
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons/faMagnifyingGlass'
-import { faBookOpen } from '@fortawesome/free-solid-svg-icons/faBookOpen'
-import { faUser } from '@fortawesome/free-solid-svg-icons/faUser'
-import { faMicrophone } from '@fortawesome/free-solid-svg-icons/faMicrophone'
-import { faChalkboardUser } from '@fortawesome/free-solid-svg-icons/faChalkboardUser'
-import { faFlaskVial } from '@fortawesome/free-solid-svg-icons/faFlaskVial'
-import { faGraduationCap } from '@fortawesome/free-solid-svg-icons/faGraduationCap'
-import { faBook } from '@fortawesome/free-solid-svg-icons/faBook'
-import { faHeart } from '@fortawesome/free-solid-svg-icons/faHeart'
-import { faStar} from '@fortawesome/free-solid-svg-icons/faStar'
+// import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+// import { faHouse } from '@fortawesome/free-solid-svg-icons/faHouse'
+// import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons/faMagnifyingGlass'
+// import { faBookOpen } from '@fortawesome/free-solid-svg-icons/faBookOpen'
+// import { faUser } from '@fortawesome/free-solid-svg-icons/faUser'
+// import { faMicrophone } from '@fortawesome/free-solid-svg-icons/faMicrophone'
+// import { faChalkboardUser } from '@fortawesome/free-solid-svg-icons/faChalkboardUser'
+// import { faFlaskVial } from '@fortawesome/free-solid-svg-icons/faFlaskVial'
+// import { faGraduationCap } from '@fortawesome/free-solid-svg-icons/faGraduationCap'
+// import { faBook } from '@fortawesome/free-solid-svg-icons/faBook'
+// import { faHeart } from '@fortawesome/free-solid-svg-icons/faHeart'
+// import { faStar} from '@fortawesome/free-solid-svg-icons/faStar'
 
 import {styles} from './Searchcss.js';
 
