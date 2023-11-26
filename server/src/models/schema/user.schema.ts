@@ -1,25 +1,28 @@
 
-import { IUserRole, UID } from '@/types/auth';
-import { Schema, model } from 'mongoose';
+import { IUserRole } from '@/types/auth';
+import mongoose, { ObjectId, Schema } from 'mongoose';
+var ObjectId = mongoose.Types.ObjectId;
 
-interface IUserSchema {
-    uid: UID;
+export interface IUserSchema {
     username: string;
     password: string;
     role: IUserRole;
     version: number;
     email: string;
-    phone: string;
+    name: string;
+    major: string;
+    teacher_profile: ObjectId;
+    created_by: ObjectId;
 }
 
-const userSchema = new Schema<IUserSchema>({
-    uid: { type: String, required: true, unique: true, index: true },
+export const UserSchema = new Schema<IUserSchema>({
     username: { type: String, required: true, unique: true, index: true },
     password: { type: String, required: true },
     role: { type: String, required: true },
     version: { type: Number, required: true },
     email: { type: String, unique: true, index: true },
-    phone: { type: String, unique: true, index: true }
+    name: { type: String, required: true },
+    major: { type: String, required: true },
+    teacher_profile: { type: ObjectId },
+    created_by: { type: ObjectId },
 });
-
-export const UserBaseModel = model<IUserSchema>('User', userSchema);

@@ -1,5 +1,5 @@
 import * as nodemailer from "nodemailer";
-import config from "./env.config";
+import config from "./env";
 
 const mailer = nodemailer.createTransport({
     pool: true,

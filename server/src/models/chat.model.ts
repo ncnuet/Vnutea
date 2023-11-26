@@ -1,30 +1,31 @@
 import { UID } from "@/types/auth";
-import chatSchema, { MESSAGE_TYPES } from "./schema/chat.schema";
+import { MESSAGE_TYPES } from "./schema/message.schema";
+import { MessageBaseModel } from "./base/message.base";
 
 class ChatModel {
     async createMessage(roomID: string, uid: UID, message: string, type: MESSAGE_TYPES = MESSAGE_TYPES.TEXT) {
-        await chatSchema.create({
-            roomID, message, createdUID: uid, type,
-            readByRecipients: { uid }
+        await MessageBaseModel.create({
+            roomID, message, createdBy: uid, type,
+            seenBy: { uid }
         });
     }
 
-    async deleteMessage(messageID: string, uid: UID) {
-        await chatSchema.updateOne({ _id: messageID, createdUID: uid }, { type: MESSAGE_TYPES.DELETED, message: null });
-    }
+    // async deleteMessage(messageID: string, uid: UID) {
+    //     await chatSchema.updateOne({ _id: messageID, createdBy: uid }, { type: MESSAGE_TYPES.DELETED, message: null });
+    // }
 
-    async getConversation(roomID: string, limit: number = 20, page: number = 0) {
-        console.log(roomID, limit, page);
-        return await chatSchema.aggregate([
-            { $match: { roomID } },
-            { $sort: { createdAt: -1 } },
+    // async getConversation(roomID: string, limit: number = 20, page: number = 0) {
+    //     console.log(roomID, limit, page);
+    //     return await chatSchema.aggregate([
+    //         { $match: { roomID } },
+    //         { $sort: { createdAt: -1 } },
 
-            // apply pagination
-            // { $skip: page * limit },
-            // { $limit: limit },
-            // { $sort: { createdAt: 1 } },
-        ]).exec();
-    }
+    //         // apply pagination
+    //         // { $skip: page * limit },
+    //         // { $limit: limit },
+    //         // { $sort: { createdAt: 1 } },
+    //     ]).exec();
+    // }
 }
 
 export default new ChatModel();

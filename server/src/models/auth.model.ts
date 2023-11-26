@@ -1,6 +1,6 @@
 import * as bcrypt from "bcryptjs";
-import { UserBaseModel } from "./schema/user.schema";
-import { IQueryableUser, IUserWithoutVersion } from "@/types/auth";
+import { UserBaseModel } from "./base/user.base";
+import { IQueryableUser, IUserRole, IUserWithoutVersion } from "@/types/auth";
 
 class AuthModel {
     /**
@@ -13,14 +13,14 @@ class AuthModel {
     async findUserByPassword(_username: string, _password: string): Promise<IUserWithoutVersion> {
         const user = await UserBaseModel.findOne(
             { username: _username },
-            { uid: 1, role: 1, username: 1, password: 1 })
+            { _id: 1, role: 1, username: 1, password: 1 })
             .exec();
 
         if (!user) return undefined;
 
-        const { uid, username, password, role } = user;
+        const { _id, username, password, role } = user;
         return _password
-            ? await bcrypt.compare(_password, password) && { uid, username, role }
+            ? await bcrypt.compare(_password, password) && { uid: _id.toString(), username, role }
             : undefined
     }
 
@@ -35,17 +35,43 @@ class AuthModel {
                 $or: [
                     { username: info.username },
                     { email: info.email },
-                    { phone: info.phone },
-                    { uid: info.uid }
+                    { _id: info.uid }
                 ]
             },
-            { email: true, username: true, phone: true, uid: true })
+            { email: true, username: true, phone: true, _id: true })
             .exec()
 
         if (!user) return undefined;
-        const { username, phone, uid, email } = user;
+        const { username, _id, email } = user;
 
-        return { username, phone, uid, email };
+        return { username, uid: _id.toString(), email };
+    }
+
+    /**
+    * Reset password 
+    * @param uid 
+    * @param password 
+    * @returns 
+    */
+    async updatePassword(uid: string, password: string): Promise<any> {
+        const user = await UserBaseModel.updateOne(
+            { _id: uid },
+            { password: await bcrypt.hash(password, 10) })
+            .exec();
+
+        if (!user) return undefined;
+    }
+
+    async createUser(username: string, name: string, initiator: string, major: string, role: IUserRole) {
+        const user = await UserBaseModel.create(
+            {
+                username, name, initiator, major, role,
+                email: username + "@vnu.edu.vn",
+                password: await bcrypt.hash("12345678", 10),
+            }
+        )
+
+        return user._id;
     }
 }
 

@@ -6,13 +6,21 @@ interface ENV_VAL extends DotenvParseOutput {
     APP_NAME: string
     BACKEND: string
     FRONTEND: string
-    HOSTNAME: string
     PORT: string
     CORS_ORIGIN: string
 
     MG_HOST: string
     MG_PORT: string
     MG_NAME: string
+    MG_USERNAME: string
+    MG_PASSWORD: string
+    MONGODB_URI:string
+
+    RD_PORT: string
+    RD_HOST: string
+    RD_PASSWORD: string
+    RD_USERNAME: string
+
 
     JWT_KEY: string
     JWT_REFRESH_KEY: string
@@ -22,14 +30,19 @@ interface ENV_VAL extends DotenvParseOutput {
     MAIL_USER: string
     MAIL_PASSWORD: string
 }
+const { NODE_ENV, ..._override } = process.env;
+const override = _override ? _override as Object : {};
+
 const data = config(
-    process.env.NODE_ENV === "dev"
+    NODE_ENV === "dev"
         ? { path: path.resolve(process.cwd(), '.env.dev') }
         : undefined
 ).parsed
 
+
 export const env = process.env.NODE_ENV
 export default {
     ...data,
-    ENV: process.env.NODE_ENV
+    ENV: process.env.NODE_ENV,
+    ...override
 } as ENV_VAL;

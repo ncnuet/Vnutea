@@ -5,13 +5,13 @@ import { Router } from "express"
 
 const router: Router = Router();
 
-router.get('/', [checkJWT], roomChatController.getAllRooms);
+// router.get('/', [checkJWT], roomChatController.getAllRooms);
 router.post('/room', [checkJWT], roomChatController.createRoom);
-router.put('/room', [checkJWT], roomChatController.updateRoomName);
-router.delete('/room', [checkJWT], roomChatController.deleteRoom);
-router.get('/room', [checkJWT], roomChatController.getRoom);
+router.put('/room/:roomID', [checkJWT], roomChatController.updateRoomName);
+router.delete('/room/:roomID', [checkJWT], roomChatController.deleteRoom);
+// router.get('/room/:roomID', [checkJWT], roomChatController.getRoomByID);
 
 router.post('/msg', [checkJWT], messageChatController.createMessage);
-router.delete('/msg', [checkJWT], messageChatController.deleteMessage);
+// router.delete('/msg', [checkJWT], messageChatController.deleteMessage);
 
 export default router;

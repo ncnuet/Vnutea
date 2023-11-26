@@ -1,34 +1,37 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from "@/types/controller";
 import * as jwt from "jsonwebtoken";
-import config from "@/configs/env.config";
-import { IUser } from "@/types/auth";
+import config from "@/configs/env";
 import { checkRWT } from "./checkRWT.middler";
-import { ILocalData } from "@/types/controller";
 import tokenModel from "@/models/token.model";
+import { IUser } from "@/types/auth";
 
 interface ICheckJWT {
-    tokenOn?: "param" | "cookie"
+    tokenOn?: "query" | "cookie"
 }
 
-export async function checkJWT(this: ICheckJWT | void, req: Request, res: Response<any, ILocalData>, next: NextFunction) {
-    const token = this && this.tokenOn === "param"
-        ? req.query.token
-        : req.cookies.token;
+export async function checkJWT(this: ICheckJWT | void, req: Request, res: Response, next: NextFunction) {
+    const token = this && this.tokenOn === "query"
+        ? <string>req.query.token
+        : <string>req.cookies.token;
 
     if (!token) return res.sendStatus(401);
 
     //Try to validate the token and get data
     try {
-        const userData = <IUser>jwt.verify(token, config.JWT_KEY);
-        const version = await tokenModel.getVersion(userData.uid);
+        const user = <IUser>jwt.verify(token, config.JWT_KEY);
+        const version = await tokenModel.getVersion(user.uid);
 
-        console.log(userData, version, userData.version);
-        if (version && version !== userData.version) return res.sendStatus(401);
+        if (version && version !== user.version) return res.sendStatus(401);
 
         // if valid, pass resolve data to local response and continue processing.
-        res.locals.user = userData;
+        res.locals.user = user;
         next();
     } catch (error) {
-        checkRWT(req, res, next);
+        if (error instanceof jwt.TokenExpiredError) {
+            checkRWT(req, res, next);
+        } else {
+            console.log(error);
+            return res.sendStatus(401);
+        }
     }
 }

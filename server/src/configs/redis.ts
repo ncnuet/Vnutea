@@ -1,5 +1,5 @@
-import { createClient } from 'redis';
-import config from "./env.config"
+import { createClient } from 'redis'    
+import config from "./env"
 import { setTokenIndex } from '@/models/schema/token.schema';
 
 export const redis = createClient({
@@ -14,7 +14,7 @@ export async function setupRedisIndex() {
     await setTokenIndex();
 }
 
-export async function startup(){
+export async function startup() {
     await redis.connect()
     await setupRedisIndex();
 }
