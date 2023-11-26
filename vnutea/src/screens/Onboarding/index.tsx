@@ -9,9 +9,9 @@ import OnboardingItem from "./components/OnboardingItem";
 import Paginator from "./components/Paginator";
 import NextButton from "./components/NextButton";
 
-type Props = NativeStackScreenProps<RootStackParamList, 'OnBoarding'>;
+type TProps = NativeStackScreenProps<RootStackParamList, 'OnBoarding'>;
 
-function Onboarding({ navigation }: Props): JSX.Element {
+function Onboarding({ navigation }: TProps): JSX.Element {
     const scrollX = useRef(new Animated.Value(0)).current;
     const slideRef = useRef<FlatList>(null);
     const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current

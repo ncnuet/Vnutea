@@ -2,28 +2,38 @@ import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import HomeScreen from './screens/homepage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Onboarding from './screens/Onboarding';
-import { RootStackParamList } from './types/routing';
+import { RootStackParamList, StudentTabParamList } from './types/routing';
 import { HomeStackNavigator } from './ContactStackNavigator';
 import StudentScreen from './screens/StudentHome/StudentScreen';
 import SplashScreen from 'react-native-splash-screen';
+import Onboarding from './screens/Onboarding';
+import Icon from 'react-native-vector-icons/Octicons';
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
-const TabApp = createMaterialBottomTabNavigator();
+const TabApp = createMaterialBottomTabNavigator<StudentTabParamList>();
 
 function MainRootApp() {
   return (
     <TabApp.Navigator>
-      <TabApp.Screen name="Homess" component={HomeStackNavigator} />
-      <TabApp.Screen name="Settings" component={StudentScreen} />
+      <TabApp.Screen
+        name="Home"
+        component={HomeStackNavigator}
+        options={{
+          tabBarIcon: () => (
+            <Icon name="home" size={16} color="#19253D" />
+          )
+        }}
+      />
+      <TabApp.Screen
+        name="Setting"
+        component={StudentScreen} />
     </TabApp.Navigator>
   )
 }
 
 function App(): JSX.Element {
-  const [isAppFirstLaunched, setAppFirstLaunched] = React.useState<boolean | null>(null);
+  const [isFirstLaunched, setFirstLaunched] = React.useState<boolean | null>(null);
 
   useEffect(() => {
     SplashScreen.hide();
@@ -36,19 +46,19 @@ function App(): JSX.Element {
 
       if (appData) {
         // TODO: change this to false
-        setAppFirstLaunched(true);
+        setFirstLaunched(true);
       } else {
-        setAppFirstLaunched(true);
+        setFirstLaunched(true);
         AsyncStorage.setItem('isAppFirstLaunched', 'marked')
       }
     })();
   }, []);
 
   return (
-    isAppFirstLaunched !== null
+    isFirstLaunched !== null
       ? <NavigationContainer>
         <RootStack.Navigator screenOptions={{ headerShown: false }}>
-          {isAppFirstLaunched &&
+          {isFirstLaunched &&
             (<RootStack.Screen name='OnBoarding' component={Onboarding} />)}
           <RootStack.Screen name="MainRootApp" component={MainRootApp} />
         </RootStack.Navigator>

@@ -1,63 +1,64 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
+  ScrollView, StyleSheet, Text, View,
+  TouchableOpacity, Image, StatusBar
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+
+import Icon from "react-native-vector-icons/MaterialIcons"
 import LecturerFavorite from './ComponentHomeScreen/lecturerFavorite';
 import TaskLecturer from './ComponentHomeScreen/TaskLecturer';
 import ListDepartment from './ComponentHomeScreen/ListDepartment';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { StudentStackParamList } from '@/types/routing';
 
-const HomeScreen = () => {
-  const navigation = useNavigation();
+type TProps = NativeStackScreenProps<StudentStackParamList, 'HomeScreen'>;
+export default function HomeScreen({ navigation }: TProps) {
   return (
-    <View style={styles.container}>
-      <View style={styles.containerTop} >
-        <Image style={styles.imagecontainerTop} source={require('./image/coc.png')} />
-        <Text style={styles.textvnu}>VNUTea</Text>
-        <TouchableOpacity style={styles.avatarButton}  >
-          <Image style = {{width: '100%',height:'100%',borderRadius: 40,}} source={{uri: 'https://pyxis.nymag.com/v1/imgs/51b/28a/622789406b8850203e2637d657d5a0e0c3-avatar-rerelease.1x.rsquare.w1400.jpg'}} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.bellButton} >
-          <Image source={require('./image/bell.png')} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.messButton} onPress={() => navigation.navigate('Chat')} >
-          <Image source={require('./image/mess.png')}  />
-        </TouchableOpacity>
-      </View>
-      <ScrollView keyboardShouldPersistTaps='handled' style = {{marginTop: 80}}>
-        <Text style={styles.textGv}>Giảng viên nổi bật</Text>
-        <LecturerFavorite></LecturerFavorite>
-        <ListDepartment></ListDepartment>
-        <Text style = {styles.textGv}>Danh sách giảng viên</Text>
-        <TaskLecturer></TaskLecturer>
+    <View>
+      <StatusBar animated translucent backgroundColor={"transparent"} />
+      <ScrollView
+        keyboardShouldPersistTaps='handled'
+        className='font-lato bg-secondary pt-14 '>
+        <View className='px-5 flex flex-row items-center justify-between pb-3'>
+          <View className='mx-2 flex flex-row items-center font-lato'>
+            <Icon name='coffee' color="#19253D" size={32} />
+            <Text className='ml-3 text-primary text-lg font-semibold'>VNUTea</Text>
+          </View>
+
+          <View className='flex flex-row gap-4'>
+            <TouchableOpacity
+              className='h-12 w-12 rounded-full bg-white flex justify-center items-center'
+              onPress={() => navigation.navigate("ChatScreen")}>
+              <Icon name='sms' color="#19253D" size={24} />
+            </TouchableOpacity>
+            <TouchableOpacity className='h-12 w-12 rounded-full bg-white flex justify-center items-center' >
+              <Icon name='notifications' color="#19253D" size={24} />
+            </TouchableOpacity>
+            <TouchableOpacity className='h-12 w-12 rounded-full'>
+              <Image style={{ width: '100%', height: '100%', borderRadius: 40, }} source={{ uri: 'https://pyxis.nymag.com/v1/imgs/51b/28a/622789406b8850203e2637d657d5a0e0c3-avatar-rerelease.1x.rsquare.w1400.jpg' }} />
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View>
+          <Text style={styles.textGv}>Giảng viên nổi bật</Text>
+          <LecturerFavorite></LecturerFavorite>
+          <ListDepartment></ListDepartment>
+          <Text style={styles.textGv}>Danh sách giảng viên</Text>
+          <TaskLecturer></TaskLecturer>
+        </View>
       </ScrollView>
     </View>
   )
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex:1,
-    backgroundColor: '#D9E8ED',
-  },
-  containerTop: {
-    position: "absolute",
-    top:10,
-    width: '100%',
-    height: 50,
-    justifyContent: 'center',
-  },
   imagecontainerTop: {
     position: 'absolute',
     width: 30,
     height: 30,
     marginLeft: 10,
-    
+
   },
   textvnu: {
     position: 'absolute',
@@ -66,36 +67,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Lato',
     fontWeight: '800',
     marginLeft: 45,
-  },
-  avatarButton: {
-    position: 'absolute',
-    right: 10,
-    width: 50,
-    height: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 100,
-    backgroundColor: '#FFFFFF80',
-  },
-  bellButton: {
-    position: 'absolute',
-    right: 70,
-    width: 50,
-    height: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 100,
-    backgroundColor: '#FFFFFF80',
-  },
-  messButton: {
-    position: 'absolute',
-    right: 130,
-    width: 50,
-    height: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 100,
-    backgroundColor: '#FFFFFF80',
   },
   textGv: {
     color: '#19253D',
@@ -106,4 +77,3 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
 });
-export default HomeScreen;
