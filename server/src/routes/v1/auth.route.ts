@@ -13,7 +13,6 @@ router.post('/reset', AuthController.requestReset)
 router.get('/reset', [checkReset], AuthController.verifyReset)
 router.put('/reset', [checkReset], AuthController.resetPassword)
 
-// router.put('/changePassword', [checkJWT], AuthController.changePassword);
 router.post('/', [checkJWT, checkRole.bind("admin")], AuthController.create);
 
 export default router;

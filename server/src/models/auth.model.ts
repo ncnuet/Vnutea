@@ -2,6 +2,15 @@ import * as bcrypt from "bcryptjs";
 import { UserBaseModel } from "./base/user.base";
 import { IQueryableUser, IUserRole, IUserWithoutVersion } from "@/types/auth";
 
+interface ICreateUser {
+    username: string;
+    role: IUserRole;
+    email: string;
+    name: string;
+    major: string;
+    initiator: string;
+}
+
 class AuthModel {
     /**
      * Checks if the user is existed in the database. 
@@ -62,7 +71,7 @@ class AuthModel {
         if (!user) return undefined;
     }
 
-    async createUser(username: string, name: string, initiator: string, major: string, role: IUserRole) {
+    async createUser(user: ICreateUser) {
         const user = await UserBaseModel.create(
             {
                 username, name, initiator, major, role,
