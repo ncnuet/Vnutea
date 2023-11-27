@@ -1,7 +1,7 @@
 import { InputError } from "@/types/controller";
 
 export interface ICreateOutstanding {
-    image: string;
+    image: any;
     ref: string;
     type: string;
 }
@@ -24,7 +24,7 @@ export default class OutstandingValidator {
     }
 
     private static validateImage(image: string) {
-        if (!image) {
+        if (!image || Object.keys(image).length === 0) {
             throw new InputError("Image must be provided", "image");
         }
     }
@@ -48,7 +48,6 @@ export default class OutstandingValidator {
     }
 
     static validateCreate(data: ICreateOutstanding) {
-        OutstandingValidator.validateImage(data.image);
         OutstandingValidator.validateRef(data.ref);
         OutstandingValidator.validateType(data.type);
     }

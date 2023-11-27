@@ -11,20 +11,27 @@ import config from './configs/env';
 import * as database from '@/configs/database';
 import * as redis from './configs/redis';
 import * as mailer from "@/utils/send_mail";
+import cloudinary from './configs/cloudinary';
 import { graphqlHTTP } from 'express-graphql';
 import schema from './schema';
-
+import uploadFile from "express-fileupload"
 // Initialize application
 const app: Express = express();
 const port = config.PORT;
 const server = createServer(app);
-
 
 // Initialize middleware
 app.use(morgan(process.env.NODE_ENV === 'dev' ? "dev" : "tiny"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+app.use(
+  uploadFile({
+    useTempFiles: true,
+    limits: { fileSize: 50 * 1024 * 1024 },
+  })
+);
 
 // app.use(helmet());
 app.use(cors.default({
@@ -39,8 +46,7 @@ route(app);
 
 app.use("/graphql/",
   graphqlHTTP({
-    schema,
-    graphiql: true
+    schema
   }));
 
 

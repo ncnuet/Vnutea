@@ -29,6 +29,10 @@ interface ENV_VAL extends DotenvParseOutput {
     MAIL_SERVICE: string
     MAIL_USER: string
     MAIL_PASSWORD: string
+
+    CLOUDINARY_CLOUD_NAME: string
+    CLOUDINARY_API_KEY: string
+    CLOUDINARY_API_SECRET: string
 }
 const { NODE_ENV, ..._override } = process.env;
 const override = _override ? _override as Object : {};
