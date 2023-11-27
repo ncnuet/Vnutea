@@ -3,6 +3,7 @@ import { InputError } from "@/types/controller";
 export interface ICreateOutstanding {
     image: string;
     ref: string;
+    type: string;
 }
 
 export interface IDeleteOutstanding {
@@ -29,12 +30,27 @@ export default class OutstandingValidator {
     }
 
     private static validateRef(ref: string) {
-        throw new InputError("Ref must be provided", "ref");
+        if (!ref) {
+            throw new InputError("Ref must be provided", "ref");
+        }
+        if (ref.length != 24) {
+            throw new InputError("Invalid ref", "ref");
+        }
+    }
+
+    private static validateType(type: string) {
+        if (!type) {
+            throw new InputError("Type must be provided", "type");
+        }
+        if (!["teacher", "department", "lab"].includes(type)) {
+            throw new InputError("Invalid type", "type");
+        }
     }
 
     static validateCreate(data: ICreateOutstanding) {
         OutstandingValidator.validateImage(data.image);
         OutstandingValidator.validateRef(data.ref);
+        OutstandingValidator.validateType(data.type);
     }
 
     static validateDelete(data: IDeleteOutstanding) {

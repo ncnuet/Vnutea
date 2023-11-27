@@ -102,10 +102,10 @@ const Lecturer = () => {
                     </TouchableOpacity>
                 </View>
                 <View>
-                    <TaskComment text='Kha Banh'></TaskComment>
-                    <TaskComment text='Kha Banh'></TaskComment>
-                    <TaskComment text='Kha Banh'></TaskComment>
-                    <TaskComment text='Kha Banh'></TaskComment>
+                    <TaskComment text='Tran Anh Tuấn'></TaskComment>
+                    <TaskComment text='Vũ Như Anh'></TaskComment>
+                    <TaskComment text='Vũ Bá Hùng'></TaskComment>
+                    <TaskComment text='Lại Hải Đăng'></TaskComment>
                 </View>
             </ScrollView>
         </View>

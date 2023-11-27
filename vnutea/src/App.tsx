@@ -29,9 +29,9 @@ function MainRootApp() {
       <TabApp.Screen
         name="Setting"
         component={StudentScreen} />
-      <TabApp.Screen
+      {/* <TabApp.Screen
         name="Search"
-        component={Search} />
+        component={Search} /> */}
     </TabApp.Navigator>
   )
 }

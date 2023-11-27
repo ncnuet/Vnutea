@@ -20,9 +20,9 @@ export const HomeStackNavigator = () => {
             <StackHome.Screen name="HomeScreen" component={HomeScreen} />
             <StackHome.Screen name="ChatScreen" component={ChatScreen} />
             <StackHome.Screen name="Lecturer" component={Lecturer} />
-            {/* <Stack.Screen name="ContactLecturer" component={ContactLecturer} />
-            <Stack.Screen name="Comment" component={Comment} />
-            <Stack.Screen name="Messanger" component={messanger} /> */}
+            <StackHome.Screen name="ContactLecturer" component={ContactLecturer} />
+            <StackHome.Screen name="Comment" component={Comment} />
+            <StackHome.Screen name="Messanger" component={messanger} />
         </StackHome.Navigator>
     );
 }

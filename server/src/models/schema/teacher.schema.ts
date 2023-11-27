@@ -1,10 +1,11 @@
-import mongoose, { ObjectId, Schema } from "mongoose";
+import mongoose, { Document, ObjectId, Schema } from "mongoose";
 import { DepartmentBaseModel } from "../base/department.base";
 import { ContactSchema, IContactSchema } from "./contact.schema";
 import { DetailSchema, IDetailSchema } from "./detail.schema";
+import mongoosastic, { MongoosasticDocument } from "mongoosastic";
 var ObjectId = mongoose.Types.ObjectId;
 
-export interface ITeacherSchema {
+export interface ITeacherSchema extends Document, MongoosasticDocument {
     department: ObjectId;
     fullname: String;
     description: String;
@@ -21,3 +22,6 @@ export const TeacherSchema = new Schema<ITeacherSchema>({
     contacts: { type: ContactSchema, required: true },
     details: { type: [DetailSchema], required: true }
 })
+
+// @ts-ignore
+TeacherSchema.plugin(mongoosastic)

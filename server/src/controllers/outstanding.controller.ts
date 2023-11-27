@@ -11,7 +11,9 @@ export default class OutstandingController {
         handleError(res, async () => {
             OutstandingValidator.validateCreate(data);
 
-            OutstandingModel.create(data.image, data.ref, user.uid)
+            const id = await OutstandingModel.create(data.image, data.ref, data.type, user.uid)
+
+            res.status(200).send({ message: "Success", data: { id } })
         })
     }
 
@@ -31,7 +33,7 @@ export default class OutstandingController {
         const data = <IUpdateOutstanding>req.body;
 
         handleError(res, async () => {
-            OutstandingValidator.validateCreate({ id, ...data });
+            OutstandingValidator.validateUpdate({ id, ...data });
 
             OutstandingModel.update(id, data.image, data.ref, user.uid);
         })
