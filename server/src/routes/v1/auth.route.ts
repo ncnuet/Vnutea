@@ -14,6 +14,6 @@ router.get('/reset', [checkReset], AuthController.verifyReset)
 router.put('/reset', [checkReset], AuthController.resetPassword)
 
 // router.put('/changePassword', [checkJWT], AuthController.changePassword);
-router.post('/create', [checkJWT, checkRole.bind("admin")], AuthController.create);
+router.post('/', [checkJWT, checkRole.bind("admin")], AuthController.create);
 
 export default router;
