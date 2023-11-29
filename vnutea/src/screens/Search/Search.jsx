@@ -23,6 +23,10 @@ import {Dimensions} from 'react-native';
 // import { faHeart } from '@fortawesome/free-solid-svg-icons/faHeart'
 // import { faStar} from '@fortawesome/free-solid-svg-icons/faStar'
 
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import IconFontisto from 'react-native-vector-icons/Fontisto';
+import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
+
 import {styles} from './Searchcss.js';
 
 //Cac du lieu la hang so dung cho css
@@ -36,7 +40,7 @@ const myMaxLength = 40;
 
 // Nếu xâu có quá nhiều ký tự sẽ được chuẩn hóa xuống còn tối đa 40 ký tự
 // Dùng cho Recent Searchs
-const ReduceString = (myString: string) => {
+const ReduceString = (myString) => {
     let res = myString;
 
     if (myString.length >= myMaxLength) {
@@ -47,7 +51,9 @@ const ReduceString = (myString: string) => {
 }
 
 // @ts-check
-export default function Search({ navigation }) {
+export default function Search(
+    // { navigation }
+    ) {
 
     const [typeSearch, setTypeSearch] = useState('Teachers');
     const [mySearch, setMySearch] = useState('');
@@ -100,10 +106,10 @@ export default function Search({ navigation }) {
     //Xu ly tim kiem
     const handleSearchOnPress = () => {
         if (mySearch != '') {
-            navigation.navigate('SearchRes',{
-                searchValue: mySearch,
-                typeSearchValue: typeSearch,
-            })
+            // navigation.navigate('SearchRes',{
+            //     searchValue: mySearch,
+            //     typeSearchValue: typeSearch,
+            // })
         }
     }
 
@@ -153,7 +159,6 @@ export default function Search({ navigation }) {
 
     //...
 
-
     return (
         <View style={styles.container}>
             {/* Khoang trang de tranh Khung giao dien cham dinh dien thoai*/}
@@ -181,6 +186,7 @@ export default function Search({ navigation }) {
                          onPress = {handleSearchOnPress}
                         >
                             {/* <FontAwesomeIcon icon={faMagnifyingGlass} color={'#000'} size={0.028 * windowHeight}/> */}
+                            <Icon name="search" size={(0.02 * windowHeight + 0.02 * windowWidth)} color="#000" />
                         </TouchableOpacity>
 
                         {/* O Tim Kiem voi do dai toi da la 40 ky tu*/}
@@ -200,6 +206,7 @@ export default function Search({ navigation }) {
                      }}
                     >
                       {/* <FontAwesomeIcon icon={faMicrophone} size={0.028 * windowHeight} color={"white"}/> */}
+                      <Icon name="microphone" size={(0.02 * windowHeight + 0.02 * windowWidth)} color="#fff" />
                     </TouchableOpacity>
                 </View>
 
@@ -209,6 +216,7 @@ export default function Search({ navigation }) {
                     <View style={styles.btnOptionsWrapper}>
                         <TouchableOpacity style={[btnOptionsStyle, typeSearch === 'Teachers' && btnOptionsSelectedStyle]} onPress={handleTeachersOnPress}>
                             {/* <FontAwesomeIcon icon={faChalkboardUser} size={0.03 * windowHeight} color={typeSearch === 'Teachers' ? '#fff' : myBoldGray}/> */}
+                            <Icon name="chalkboard-teacher" size={(0.0164 * windowHeight + 0.0164 * windowWidth)} color={typeSearch === 'Teachers' ? '#fff' : myBoldGray} />
                         </TouchableOpacity>  
 
                         {/* Teachers */}
@@ -222,6 +230,7 @@ export default function Search({ navigation }) {
                     <View style={styles.btnOptionsWrapper}>
                         <TouchableOpacity style={[btnOptionsStyle, typeSearch === 'Lab' && btnOptionsSelectedStyle]} onPress={handleLabOnPress}>
                             {/* <FontAwesomeIcon icon={faFlaskVial } size={0.03 * windowHeight} color={typeSearch === 'Lab' ? '#fff' : myBoldGray}/> */}
+                            <IconFontisto name="laboratory" size={(0.0164 * windowHeight + 0.0164 * windowWidth)} color={typeSearch === 'Lab' ? '#fff' : myBoldGray} />
                         </TouchableOpacity>  
 
                         {/* Lab */}
@@ -234,6 +243,7 @@ export default function Search({ navigation }) {
                     <View style={styles.btnOptionsWrapper}>
                         <TouchableOpacity style={[btnOptionsStyle, typeSearch === 'Class' && btnOptionsSelectedStyle]} onPress={handleClassOnPress}>
                             {/* <FontAwesomeIcon icon={faGraduationCap} size={0.03 * windowHeight} color={typeSearch === 'Class' ? '#fff' : myBoldGray}/> */}
+                            <IconFontAwesome name="mortar-board" size={(0.0164 * windowHeight + 0.0164 * windowWidth)} color={typeSearch === 'Class' ? '#fff' : myBoldGray} />
                         </TouchableOpacity>  
 
                         {/* Class */}
@@ -246,6 +256,7 @@ export default function Search({ navigation }) {
                     <View style={styles.btnOptionsWrapper}>
                         <TouchableOpacity style={[btnOptionsStyle, typeSearch === 'Facility' && btnOptionsSelectedStyle]} onPress={handleFacilityOnPress}>
                             {/* <FontAwesomeIcon icon={faBook} size={0.03 * windowHeight} color={typeSearch === 'Facility' ? '#fff' : myBoldGray}/> */}
+                            <IconFontAwesome name="book" size={(0.0164 * windowHeight + 0.0164 * windowWidth)} color={typeSearch === 'Facility' ? '#fff' : myBoldGray} />
                         </TouchableOpacity>  
 
                         {/* Facility */}
@@ -327,7 +338,7 @@ export default function Search({ navigation }) {
                             >   
                             <View style={styles.searchItemAvtWrapper}>
                                 <View style={styles.avtGv}>
-                                    <Image style={styles.avtStyle} source={require('../assets/avtgv.png')}/>
+                                    {/* <Image style={styles.avtStyle} source={require('../assets/avtgv.png')}/> */}
                                 </View>
                                 <View style={styles.rateWrapper}>
                                     {/* <FontAwesomeIcon icon={faStar} /> */}
@@ -395,12 +406,12 @@ export default function Search({ navigation }) {
 
                 {/* Nut mon hoc */}
                 <TouchableOpacity style={styles.btnMenu}>
-                    <FontAwesomeIcon icon={faBookOpen} color={'#fff'} size={0.038 * windowHeight}/>
+                    {/* <FontAwesomeIcon icon={faBookOpen} color={'#fff'} size={0.038 * windowHeight}/> */}
                 </TouchableOpacity>
 
                 {/* Nut profile cua toi */}
-                <TouchableOpacity style={styles.btnMenu}>
-                    <FontAwesomeIcon icon={faUser} color={'#fff'} size={0.038 * windowHeight}/>
+                <TouchableOpacity style={styles.btnMenu}> 
+                    {/* <FontAwesomeIcon icon={faUser} color={'#fff'} size={0.038 * windowHeight}/> */}
                 </TouchableOpacity>
             </View>
 

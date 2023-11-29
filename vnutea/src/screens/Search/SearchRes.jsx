@@ -1,11 +1,11 @@
 import { Image, TouchableOpacity, View, Text, TextInput, ScrollView } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faHouse, faMagnifyingGlass, faBookOpen, faUser, faMicrophone, faChalkboardUser, faFlaskVial, faGraduationCap, faBook } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+// import { faHouse, faMagnifyingGlass, faBookOpen, faUser, faMicrophone, faChalkboardUser, faFlaskVial, faGraduationCap, faBook } from '@fortawesome/free-solid-svg-icons';
 import { Dimensions, StyleSheet } from 'react-native';
 import React, { useState, useMemo } from 'react';
 
-import { faHeart } from '@fortawesome/free-solid-svg-icons/faHeart'
-import { faStar} from '@fortawesome/free-solid-svg-icons/faStar'
+// import { faHeart } from '@fortawesome/free-solid-svg-icons/faHeart'
+// import { faStar} from '@fortawesome/free-solid-svg-icons/faStar'
 
 import {styles} from './Searchcss.js';
 
@@ -131,7 +131,7 @@ export default function Search({route, navigation}) {
                     <View style={styles.inputWrapper}>
                         <View style={styles.inputAndBtnWrapper}>
                             <TouchableOpacity style={styles.btnSearch} onPress={handleSearchOnPress}>
-                                <FontAwesomeIcon icon={faMagnifyingGlass} color={'#000'} size={0.028 * windowHeight} />
+                                {/* <FontAwesomeIcon icon={faMagnifyingGlass} color={'#000'} size={0.028 * windowHeight} /> */}
                             </TouchableOpacity>
                             <View style={styles.inputSearch}>
                                 <TextInput placeholder='Nhập từ khóa tìm kiếm' style={styles.inputSearchText} maxLength={40}
@@ -141,13 +141,13 @@ export default function Search({route, navigation}) {
                             </View>
                         </View>
                         <TouchableOpacity style={styles.btnMic} onPress={() => { /* Xu ly tim kiem bang giong noi */ }}>
-                            <FontAwesomeIcon icon={faMicrophone} size={0.028 * windowHeight} color={"white"} />
+                            {/* <FontAwesomeIcon icon={faMicrophone} size={0.028 * windowHeight} color={"white"} /> */}
                         </TouchableOpacity>
                     </View>
                     <View style={styles.fourOptionsWrapper}>
                         <View style={styles.btnOptionsWrapper}>
                             <TouchableOpacity style={[btnOptionsStyle, typeSearch === 'Teachers' && btnOptionsSelectedStyle]} onPress={handleTeachersOnPress}>
-                                <FontAwesomeIcon icon={faChalkboardUser} size={0.03 * windowHeight} color={typeSearch === 'Teachers' ? '#fff' : myBoldGray} />
+                                {/* <FontAwesomeIcon icon={faChalkboardUser} size={0.03 * windowHeight} color={typeSearch === 'Teachers' ? '#fff' : myBoldGray} /> */}
                             </TouchableOpacity>
                             <Text style={[textOptionsStyle, typeSearch === 'Teachers' && textOptionsSelectedStyle]}>
                                 Teachers
@@ -155,7 +155,7 @@ export default function Search({route, navigation}) {
                         </View>
                         <View style={styles.btnOptionsWrapper}>
                             <TouchableOpacity style={[btnOptionsStyle, typeSearch === 'Lab' && btnOptionsSelectedStyle]} onPress={handleLabOnPress}>
-                                <FontAwesomeIcon icon={faFlaskVial} size={0.03 * windowHeight} color={typeSearch === 'Lab' ? '#fff' : myBoldGray} />
+                                {/* <FontAwesomeIcon icon={faFlaskVial} size={0.03 * windowHeight} color={typeSearch === 'Lab' ? '#fff' : myBoldGray} /> */}
                             </TouchableOpacity>
                             <Text style={[textOptionsStyle, typeSearch === 'Lab' && textOptionsSelectedStyle]}>
                                 Lab
@@ -163,7 +163,7 @@ export default function Search({route, navigation}) {
                         </View>
                         <View style={styles.btnOptionsWrapper}>
                             <TouchableOpacity style={[btnOptionsStyle, typeSearch === 'Class' && btnOptionsSelectedStyle]} onPress={handleClassOnPress}>
-                                <FontAwesomeIcon icon={faGraduationCap} size={0.03 * windowHeight} color={typeSearch === 'Class' ? '#fff' : myBoldGray} />
+                                {/* <FontAwesomeIcon icon={faGraduationCap} size={0.03 * windowHeight} color={typeSearch === 'Class' ? '#fff' : myBoldGray} /> */}
                             </TouchableOpacity>
                             <Text style={[textOptionsStyle, typeSearch === 'Class' && textOptionsSelectedStyle]}>
                                 Class
@@ -171,7 +171,7 @@ export default function Search({route, navigation}) {
                         </View>
                         <View style={styles.btnOptionsWrapper}>
                             <TouchableOpacity style={[btnOptionsStyle, typeSearch === 'Facility' && btnOptionsSelectedStyle]} onPress={handleFacilityOnPress}>
-                                <FontAwesomeIcon icon={faBook} size={0.03 * windowHeight} color={typeSearch === 'Facility' ? '#fff' : myBoldGray} />
+                                {/* <FontAwesomeIcon icon={faBook} size={0.03 * windowHeight} color={typeSearch === 'Facility' ? '#fff' : myBoldGray} /> */}
                             </TouchableOpacity>
                             <Text style={[textOptionsStyle, typeSearch === 'Facility' && textOptionsSelectedStyle]}>
                                 Facility
@@ -200,7 +200,7 @@ export default function Search({route, navigation}) {
                                             <Image style={styles.avtStyle} source={require('../assets/avtgv.png')}/>
                                         </View>
                                         <View style={styles.rateWrapper}>
-                                            <FontAwesomeIcon icon={faStar} />
+                                            {/* <FontAwesomeIcon icon={faStar} /> */}
                                             <Text> 4.8 </Text>
                                         </View>
                                     </View>
@@ -223,7 +223,7 @@ export default function Search({route, navigation}) {
                                             </View>
 
                                             <View style={styles.searchHeartWrapper}>
-                                                <FontAwesomeIcon icon={faHeart} style={{color: "#F64545"}} size={0.032 * windowHeight}/>
+                                                {/* <FontAwesomeIcon icon={faHeart} style={{color: "#F64545"}} size={0.032 * windowHeight}/> */}
                                             </View>
                                         </View>
 
@@ -253,16 +253,16 @@ export default function Search({route, navigation}) {
             </View>
             <View style={styles.tabBarWrapper}>
                 <TouchableOpacity style={styles.btnMenu}>
-                    <FontAwesomeIcon icon={faHouse} color={'#fff'} size={0.038 * windowHeight} />
+                    {/* <FontAwesomeIcon icon={faHouse} color={'#fff'} size={0.038 * windowHeight} /> */}
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.btnMenu}>
-                    <FontAwesomeIcon icon={faMagnifyingGlass} color={'#fff'} size={0.038 * windowHeight} />
+                    {/* <FontAwesomeIcon icon={faMagnifyingGlass} color={'#fff'} size={0.038 * windowHeight} /> */}
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.btnMenu}>
-                    <FontAwesomeIcon icon={faBookOpen} color={'#fff'} size={0.038 * windowHeight} />
+                    {/* <FontAwesomeIcon icon={faBookOpen} color={'#fff'} size={0.038 * windowHeight} /> */}
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.btnMenu}>
-                    <FontAwesomeIcon icon={faUser} color={'#fff'} size={0.038 * windowHeight} />
+                    {/* <FontAwesomeIcon icon={faUser} color={'#fff'} size={0.038 * windowHeight} /> */}
                 </TouchableOpacity>
             </View>
         </View>
