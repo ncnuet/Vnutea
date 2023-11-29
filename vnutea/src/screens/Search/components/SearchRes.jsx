@@ -30,6 +30,8 @@ const ReduceString = (myString) => {
 export default function Search({route, navigation}) {
 
     const {searchValue, typeSearchValue} = route.params;
+    // const searchValue = '1';
+    // const typeSearchValue = '2';
 
     const [typeSearch, setTypeSearch] = useState('Teachers');
     const [mySearch, setMySearch] = useState('');

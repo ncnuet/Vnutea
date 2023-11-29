@@ -5,7 +5,7 @@ import SearchRes from './components/SearchRes.jsx';
 
 type SearchStackParamList = {
    SearchScreen: undefined;
-   SearchResScreen: undefined;
+   SearchResScreen: {searchValue : string, typeSearchValue : string};
 }
 
 const StackSearch = createNativeStackNavigator<SearchStackParamList>();
