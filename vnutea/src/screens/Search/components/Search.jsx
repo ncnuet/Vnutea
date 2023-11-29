@@ -52,7 +52,7 @@ const ReduceString = (myString) => {
 
 // @ts-check
 export default function Search(
-    // { navigation }
+    { navigation }
     ) {
 
     const [typeSearch, setTypeSearch] = useState('Teachers');
@@ -106,10 +106,12 @@ export default function Search(
     //Xu ly tim kiem
     const handleSearchOnPress = () => {
         if (mySearch != '') {
-            // navigation.navigate('SearchRes',{
+            navigation.navigate('SearchResScreen'
+            // ,{
             //     searchValue: mySearch,
             //     typeSearchValue: typeSearch,
-            // })
+            // }
+            )
         }
     }
 

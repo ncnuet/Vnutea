@@ -66,7 +66,7 @@ export default function Search({route, navigation}) {
     //Xu ly tim kiem
     const handleSearchOnPress = () => {
         if (mySearch != '') {
-            navigation.navigate('SearchRes',{
+            navigation.replace('SearchResScreen',{
                 searchValue: mySearch,
                 typeSearchValue: typeSearch,
             })
@@ -197,7 +197,7 @@ export default function Search({route, navigation}) {
                                     {/* <Text style={styles.resultItemText}>{item.value}</Text> */}
                                     <View style={styles.searchItemAvtWrapper}>
                                         <View style={styles.avtGv}>
-                                            <Image style={styles.avtStyle} source={require('../assets/avtgv.png')}/>
+                                            {/* <Image style={styles.avtStyle} source={require('../assets/avtgv.png')}/> */}
                                         </View>
                                         <View style={styles.rateWrapper}>
                                             {/* <FontAwesomeIcon icon={faStar} /> */}
