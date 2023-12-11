@@ -1,12 +1,10 @@
-import { ILocalData, Request, Response } from "@/types/controller"
-import { withAge, withSession } from '@/configs/cookie';
-import { generateResetToken, generateToken } from '@/utils/generate';
+import { Request, Response } from "@/types/controller"
+import { withAge } from '@/configs/cookie';
+import { generateToken } from '@/utils/generate';
 import handleError from '@/utils/handle_error';
-import AuthValidator, { ICreateUser, ILogin, IRequestReset, IResetPassword } from "@/validators/auth.validator";
+import AuthValidator, { ICreateUser, ILogin} from "@/validators/auth.validator";
 import authModel from '@/models/auth.model';
 import tokenModel from "@/models/token.model";
-import { sendForgetPasswordMail } from "@/utils/send_mail";
-import env from "@/configs/env";
 import { IUser } from "@/types/auth";
 
 interface IUserWithEpx extends IUser {
@@ -23,11 +21,6 @@ function setToken(res: Response, remember: boolean, accessToken: string, refresh
 }
 
 export default class AuthController {
-    /**
-     * Verify account, return access token and refresh token if true.
-     * @param req 
-     * @param res 
-     */
     static async login(req: Request, res: Response) {
         const data = <ILogin>req.body;
         console.log(data);
@@ -50,11 +43,6 @@ export default class AuthController {
         })
     }
 
-    /**
-     * Logout
-     * @param req 
-     * @param res 
-     */
     static async logout(req: Request, res: Response) {
         const user = res.locals.user;
 
@@ -67,66 +55,6 @@ export default class AuthController {
         });
     }
 
-    /**
-     * Request reset password
-     * @param req 
-     * @param res 
-     */
-    static async requestReset(req: Request, res: Response) {
-        const data = <IRequestReset>req.body;
-        console.log(data);
-
-        await handleError(res, async () => {
-            AuthValidator.validateRequestReset(data);
-            const user = await authModel.findUserByInfo(data);
-            if (user) {
-                const { username, uid } = user;
-                const token = generateResetToken({
-                    username, uid,
-                    role: "admin",
-                    version: "0",
-                    remember: false
-                });
-
-                await sendForgetPasswordMail(user, token);
-
-                res.status(200).json({ message: "Email đã được gửi thành công tới " + user.email });
-            } else {
-                res.status(400).json({
-                    message: "Không tồn tại email",
-                    name: "email"
-                })
-            }
-        })
-    }
-
-    /**
-     * Verify link and redirect to front-end 
-     * @param req 
-     * @param res 
-     */
-    static async verifyReset(req: Request, res: Response<any, ILocalData<IUserWithEpx>>) {
-        const username = res.locals.user.username;
-        const timeExp = res.locals.user.exp * 1000;
-        const remaining = Math.floor((timeExp - new Date().getTime()) / 1000);
-
-        res
-            .cookie("token", req.query.token, withAge(180 * 1000))
-            .redirect(env.FRONTEND + "/resetpassword?ttl=" + remaining + "&user=" + username)
-    }
-
-    static async resetPassword(req: Request, res: Response) {
-        const data = <IResetPassword>req.body;
-
-        await handleError(res, async () => {
-            AuthValidator.validateReset(data);
-            const user = <IUser>res.locals.user;
-
-            await authModel.updatePassword(user.uid, data.password)
-            res.json({ message: "Password changed successfully" });
-        })
-    }
-
     static async create(req: Request, res: Response) {
         const data = <ICreateUser>req.body;
         const user = res.locals.user;
@@ -135,7 +63,7 @@ export default class AuthController {
             AuthValidator.validateCreate(data);
 
             await authModel.createUser({
-                username:  data.username,
+                username: data.username,
                 name: data.name,
                 initiator: user.uid,
                 major: data.major,

@@ -1,7 +1,6 @@
 import { MESSAGE_TYPES } from "@/models/schema/message.schema"
 import { UID } from "@/types/auth"
 import { InputError } from "@/types/controller";
-import CommonValidator from "./common.validator";
 
 export interface ICreateRoom {
     name?: string
@@ -47,7 +46,7 @@ class ChatValidator {
         } else if (!Array.isArray(data.participants)) {
             throw new InputError("Participants must be an array", "participants");
         } else {
-            data.participants.map(uid => CommonValidator.validateUID(uid))
+            // data.participants.map(uid => CommonValidator.validateUID(uid))
         }
     }
 

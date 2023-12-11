@@ -11,13 +11,6 @@ interface ICreateUser {
 }
 
 class AuthModel {
-    /**
-     * Checks if the user is existed in the database. 
-     * Search by the username/uid and verified by the password
-     * @param _username username
-     * @param _password 
-     * @returns IUser if the user exists or undefined otherwise
-     */
     async findUserByPassword(_username: string, _password: string): Promise<IUserWithoutVersion> {
         const user = await UserBaseModel.findOne(
             { username: _username },
@@ -32,11 +25,6 @@ class AuthModel {
             : undefined
     }
 
-    /**
-     * Check if the user linking with given email is existed in the database.
-     * @param email 
-     * @returns UID if the user exists or undefined otherwise
-     */
     async findUserByInfo(info: IQueryableUser): Promise<IQueryableUser> {
         const user = await UserBaseModel.findOne(
             {
@@ -55,12 +43,6 @@ class AuthModel {
         return { username, uid: _id.toString(), email };
     }
 
-    /**
-    * Reset password 
-    * @param uid 
-    * @param password 
-    * @returns 
-    */
     async updatePassword(uid: string, password: string): Promise<any> {
         const user = await UserBaseModel.updateOne(
             { _id: uid },
