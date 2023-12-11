@@ -11,7 +11,7 @@ class UserModel {
         return ref.every(uid => userIDs.includes(uid))
     }
 
-    async getUsers(uids: ObjectId[]) {
+    async getUsers(uids: string[]) {
         const user = await UserBaseModel.find(
             { _id: { $in: uids } },
             { email: true, username: true, phone: true, _id: true, role: 1 })

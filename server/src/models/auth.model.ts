@@ -37,7 +37,7 @@ class AuthModel {
         return { username, uid: _id.toString(), email };
     }
 
-    async createUser(creator: string, profile: string, user: ICreateUser) {
+    async create(creator: string, profile: string, user: ICreateUser) {
         const { username, name, major, role } = user;
         const _user = await UserBaseModel.create(
             {
@@ -50,6 +50,12 @@ class AuthModel {
         )
 
         return _user._id;
+    }
+
+    async delete(id: string){
+        const response = await UserBaseModel.deleteOne({_id: id});
+
+        return response.acknowledged;
     }
 }
 

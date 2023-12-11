@@ -5,10 +5,6 @@ export enum EUserRole {
     STUDENT = "student"
 }
 
-export enum EMajor {
-    IT = "it",
-}
-
 export interface IUser extends IUserWithoutVersion {
     version: string,
     remember: boolean

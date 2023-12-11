@@ -1,26 +1,36 @@
 import mongoose, { Document, ObjectId, Schema } from "mongoose";
 import { DepartmentBaseModel } from "../base/department.base";
-import { ContactSchema, IContactSchema } from "./contact.schema";
-import { DetailSchema, IDetailSchema } from "./detail.schema";
+import { ContactSchema, IContact } from "./contact.schema";
+import { DetailSchema, IDetail } from "./detail.schema";
 import mongoosastic, { MongoosasticDocument } from "mongoosastic";
+import { LabBaseModel } from "../base/lab.base";
 var ObjectId = mongoose.Types.ObjectId;
 
-export interface ITeacherSchema extends Document, MongoosasticDocument {
+export interface ITeacher {
+    department: string;
+    lab?: string;
+    name: string;
+    description: string;
+    awards: string[];
+    contact: IContact,
+    details: IDetail[]
+}
+
+export interface ITeacherSchema
+    extends Omit<ITeacher, "department" | "lab" | "awards">, Document, MongoosasticDocument {
     department: ObjectId;
-    fullname: String;
-    description: String;
+    lab?: ObjectId;
     awards: ObjectId[];
-    contacts: IContactSchema,
-    details: IDetailSchema[]
 }
 
 export const TeacherSchema = new Schema<ITeacherSchema>({
-    department: { type: ObjectId, ref: DepartmentBaseModel, required: true },
-    fullname: { type: String, required: true },
+    department: { type: Schema.Types.ObjectId, ref: DepartmentBaseModel, required: true },
+    lab: { type: Schema.Types.ObjectId, ref: LabBaseModel },
+    name: { type: String, required: true },
     description: { type: String },
     awards: { type: [ObjectId] },
-    contacts: { type: ContactSchema, required: true },
-    details: { type: [DetailSchema], required: true }
+    contact: { type: ContactSchema },
+    details: { type: [DetailSchema] }
 })
 
 // @ts-ignore

@@ -14,6 +14,10 @@ export interface ICreateUser {
     role: EUserRole,
     major: string
 }
+
+export interface IDeleteUser {
+    id: string
+}
 export default class AuthValidator extends BaseValidator {
     private static checkUsername(username: string, und?: boolean) {
         if (username){
@@ -23,14 +27,6 @@ export default class AuthValidator extends BaseValidator {
         } else if (!und) throw new InputError("Must include username", "username");
     }
 
-    private static checkName(name: string, und?: boolean){
-        if (name){
-            if (!name || name.length < 5) {
-                throw new InputError("Invalid name", "name");
-            }
-        } else if (!und) throw new InputError("Must include name", "name");
-    }
-
     private static checkPassword(password: string) {
         if (!password || password.length < 8 || password.length > 50) {
             throw new InputError("Mật khẩu có độ dài từ 8 đến 50 ký tự", "password");
@@ -38,14 +34,18 @@ export default class AuthValidator extends BaseValidator {
     }
 
     static validateLogin(data: ILogin) {
-        AuthValidator.checkUsername(data.username)
-        AuthValidator.checkPassword(data.password)
+        this.checkUsername(data.username)
+        this.checkPassword(data.password)
     }
 
     static validateCreate(data: ICreateUser) {
-        AuthValidator.checkUsername(data.username);
-        AuthValidator.checkName(data.name);
+        this.checkUsername(data.username);
+        this.checkName(data.name);
         this.checkRole(data.role)
-        this.checkMajor(data.major);
+        this.checkId(data.major);
+    }
+
+    static validateDelete(data: IDeleteUser) {
+        this.checkId(data.id);
     }
 }

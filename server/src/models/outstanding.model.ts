@@ -1,12 +1,14 @@
+import { ICreateOutstanding } from "@/validators/outstanding.validate";
 import { OutstandingBaseModel } from "./base/outstanding.base";
 
 export default class OutstandingModel {
-    static async create(image: string, ref: string, type: string, initiator: string) {
-        const result = await OutstandingBaseModel.create(
-            { image, ref, initiator, type }
+    static async create(data: ICreateOutstanding) {
+        const { creator, image, ref, type } = data;
+        const response = await OutstandingBaseModel.create(
+            { creator, image, ref, type }
         );
 
-        return result._id;
+        return response._id;
     }
 
     static async delete(id: string) {
@@ -14,7 +16,7 @@ export default class OutstandingModel {
             { _id: id }
         ).exec();
 
-        return result.acknowledged ? id : undefined;
+        return result.acknowledged;
     }
 
     static async get() {
