@@ -8,6 +8,7 @@ import { EOutstandingType } from "@/models/schema/outstanding.schema";
 import userModel from "@/models/user.model";
 import { EUserRole } from "@/types/auth";
 import DepartmentModel from "@/models/department.model";
+import LabModel from "@/models/lab.model";
 export default class OutstandingController {
     private static async precheck(data: ICreateOutstanding) {
         switch (data.type) {
@@ -17,11 +18,12 @@ export default class OutstandingController {
                 if (teacher[0].role !== EUserRole.TEACHER) throw new InputError("Invalid role ref", "ref")
                 break;
             case EOutstandingType.DEPARTMENT:
-                const department = await DepartmentModel.get([data.ref]);
-                if (department.length === 0) throw new InputError("Invalid ref id", "ref")
+                const departments = await DepartmentModel.get([data.ref]);
+                if (departments.length === 0) throw new InputError("Invalid ref id", "ref")
                 break;
             case EOutstandingType.LAB:
-                // TODO: check lab
+                const labs = await LabModel.get([data.ref]);
+                if (labs.length === 0) throw new InputError("Invalid ref id", "ref")
                 break;
             default:
         }
