@@ -2,14 +2,10 @@ import { Image, TouchableOpacity, View, Text, TextInput, ScrollView } from 'reac
 // import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 // import { faHouse, faMagnifyingGlass, faBookOpen, faUser, faMicrophone, faChalkboardUser, faFlaskVial, faGraduationCap, faBook } from '@fortawesome/free-solid-svg-icons';
 import { Dimensions, StyleSheet } from 'react-native';
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 
 // import { faHeart } from '@fortawesome/free-solid-svg-icons/faHeart'
 // import { faStar} from '@fortawesome/free-solid-svg-icons/faStar'
-
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import IconFontisto from 'react-native-vector-icons/Fontisto';
-import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import {styles} from './Searchcss.js';
 
@@ -32,10 +28,13 @@ const ReduceString = (myString) => {
 };
 
 export default function Search({route, navigation}) {
-    const {searchValue, typeSearchValue} = route.params;
 
-    const [typeSearch, setTypeSearch] = useState(typeSearchValue);
-    const [mySearch, setMySearch] = useState(searchValue);
+    const {searchValue, typeSearchValue} = route.params;
+    // const searchValue = '1';
+    // const typeSearchValue = '2';
+
+    const [typeSearch, setTypeSearch] = useState('Teachers');
+    const [mySearch, setMySearch] = useState('');
 
     const myListRes = [
         {
@@ -135,7 +134,6 @@ export default function Search({route, navigation}) {
                         <View style={styles.inputAndBtnWrapper}>
                             <TouchableOpacity style={styles.btnSearch} onPress={handleSearchOnPress}>
                                 {/* <FontAwesomeIcon icon={faMagnifyingGlass} color={'#000'} size={0.028 * windowHeight} /> */}
-                                <Icon name="search" size={(0.02 * windowHeight + 0.02 * windowWidth)} color="#000" />
                             </TouchableOpacity>
                             <View style={styles.inputSearch}>
                                 <TextInput placeholder='Nhập từ khóa tìm kiếm' style={styles.inputSearchText} maxLength={40}
@@ -146,14 +144,12 @@ export default function Search({route, navigation}) {
                         </View>
                         <TouchableOpacity style={styles.btnMic} onPress={() => { /* Xu ly tim kiem bang giong noi */ }}>
                             {/* <FontAwesomeIcon icon={faMicrophone} size={0.028 * windowHeight} color={"white"} /> */}
-                            <Icon name="microphone" size={(0.02 * windowHeight + 0.02 * windowWidth)} color="#fff" />
                         </TouchableOpacity>
                     </View>
                     <View style={styles.fourOptionsWrapper}>
                         <View style={styles.btnOptionsWrapper}>
                             <TouchableOpacity style={[btnOptionsStyle, typeSearch === 'Teachers' && btnOptionsSelectedStyle]} onPress={handleTeachersOnPress}>
                                 {/* <FontAwesomeIcon icon={faChalkboardUser} size={0.03 * windowHeight} color={typeSearch === 'Teachers' ? '#fff' : myBoldGray} /> */}
-                                <Icon name="chalkboard-teacher" size={(0.0164 * windowHeight + 0.0164 * windowWidth)} color={typeSearch === 'Teachers' ? '#fff' : myBoldGray} />
                             </TouchableOpacity>
                             <Text style={[textOptionsStyle, typeSearch === 'Teachers' && textOptionsSelectedStyle]}>
                                 Teachers
@@ -162,7 +158,6 @@ export default function Search({route, navigation}) {
                         <View style={styles.btnOptionsWrapper}>
                             <TouchableOpacity style={[btnOptionsStyle, typeSearch === 'Lab' && btnOptionsSelectedStyle]} onPress={handleLabOnPress}>
                                 {/* <FontAwesomeIcon icon={faFlaskVial} size={0.03 * windowHeight} color={typeSearch === 'Lab' ? '#fff' : myBoldGray} /> */}
-                                <IconFontisto name="laboratory" size={(0.0164 * windowHeight + 0.0164 * windowWidth)} color={typeSearch === 'Lab' ? '#fff' : myBoldGray} />
                             </TouchableOpacity>
                             <Text style={[textOptionsStyle, typeSearch === 'Lab' && textOptionsSelectedStyle]}>
                                 Lab
@@ -171,7 +166,6 @@ export default function Search({route, navigation}) {
                         <View style={styles.btnOptionsWrapper}>
                             <TouchableOpacity style={[btnOptionsStyle, typeSearch === 'Class' && btnOptionsSelectedStyle]} onPress={handleClassOnPress}>
                                 {/* <FontAwesomeIcon icon={faGraduationCap} size={0.03 * windowHeight} color={typeSearch === 'Class' ? '#fff' : myBoldGray} /> */}
-                                <IconFontAwesome name="mortar-board" size={(0.0164 * windowHeight + 0.0164 * windowWidth)} color={typeSearch === 'Class' ? '#fff' : myBoldGray} />
                             </TouchableOpacity>
                             <Text style={[textOptionsStyle, typeSearch === 'Class' && textOptionsSelectedStyle]}>
                                 Class
@@ -180,7 +174,6 @@ export default function Search({route, navigation}) {
                         <View style={styles.btnOptionsWrapper}>
                             <TouchableOpacity style={[btnOptionsStyle, typeSearch === 'Facility' && btnOptionsSelectedStyle]} onPress={handleFacilityOnPress}>
                                 {/* <FontAwesomeIcon icon={faBook} size={0.03 * windowHeight} color={typeSearch === 'Facility' ? '#fff' : myBoldGray} /> */}
-                                <IconFontAwesome name="book" size={(0.0164 * windowHeight + 0.0164 * windowWidth)} color={typeSearch === 'Facility' ? '#fff' : myBoldGray} />
                             </TouchableOpacity>
                             <Text style={[textOptionsStyle, typeSearch === 'Facility' && textOptionsSelectedStyle]}>
                                 Facility
