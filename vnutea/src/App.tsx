@@ -9,8 +9,7 @@ import StudentScreen from './screens/StudentHome/StudentScreen';
 import SplashScreen from 'react-native-splash-screen';
 import Onboarding from './screens/Onboarding';
 import Icon from 'react-native-vector-icons/Octicons';
-import { SearchStackNavigator } from './screens/Search';
-
+import Search from './screens/Search/components/Search';
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 const TabApp = createMaterialBottomTabNavigator<StudentTabParamList>();
 
