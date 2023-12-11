@@ -7,7 +7,7 @@ interface IArgs {
 }
 
 export const roomsQuery: GraphQLFieldConfig<any, any, IArgs> = {
-    type: GraphQLList(RoomGraph),
+    type: new GraphQLList(RoomGraph),
 
     description: "List all rooms satisfying filter.",
     args: {
