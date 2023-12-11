@@ -15,9 +15,10 @@ export interface IUser {
 }
 
 export interface IUserSchema
-    extends Omit<IUser, "creator" | "teacher_profile"> {
+    extends Omit<IUser, "creator" | "teacher_profile" | "major"> {
     creator: ObjectId;
     teacher_profile: ObjectId;
+    major: ObjectId;
 }
 
 const UserSchema = new Schema<IUserSchema>({
@@ -27,7 +28,7 @@ const UserSchema = new Schema<IUserSchema>({
     version: { type: Number, required: true },
     email: { type: String, unique: true, index: true },
     name: { type: String, required: true },
-    major: { type: String, required: true },
+    major: { type: Schema.Types.ObjectId, required: true },
     teacher_profile: { type: Schema.Types.ObjectId },
     creator: { type: Schema.Types.ObjectId },
 });

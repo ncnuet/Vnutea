@@ -1,6 +1,6 @@
 import { IContact } from "@/models/schema/contact.schema";
 import { IDetail } from "@/models/schema/detail.schema";
-import { EMajor, EUserRole } from "@/types/auth";
+import { EUserRole } from "@/types/auth";
 import { InputError } from "@/types/controller";
 
 export default abstract class BaseValidator {
@@ -40,14 +40,6 @@ export default abstract class BaseValidator {
         } else if (!und) throw new InputError("Must include role", "role");
     }
 
-    protected static checkMajor(major: string, und?: boolean) {
-        if (major) {
-            if (!Object.values(EMajor).includes(major as EMajor)) {
-                throw new InputError("Invalid major", "major");
-            }
-        } else if (!und) throw new InputError("Must include major", "major");
-    }
-
     protected static checkPhone(phone: string, und?: boolean) {
         if (phone) {
             if (phone.length !== 10 || !phone.startsWith("0")) {
@@ -85,7 +77,7 @@ export default abstract class BaseValidator {
         if (detail) {
             if (!Array.isArray(detail))
                 throw new InputError("Detail must be an array", "detail");
-            
+
             detail.forEach(section => {
                 this.checkName(section.title);
 

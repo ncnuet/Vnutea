@@ -3,9 +3,9 @@ import { DepartmentBaseModel } from "./base/department.base";
 
 export default class DepartmentModel {
     static async create(data: ICreateDepartment) {
-        const { name, dean, description, contact, details, image } = data;
+        const { name, dean, description, contact, details, image, creator } = data;
         const response = await DepartmentBaseModel.create(
-            { name, dean, description, contact, details, image }
+            { name, dean, description, contact, details, image, creator }
         );
 
         return response._id;
@@ -19,8 +19,8 @@ export default class DepartmentModel {
         return result.acknowledged;
     }
 
-    static async get() {
-        const result = await DepartmentBaseModel.find().exec();
+    static async get(ids: string[]) {
+        const result = await DepartmentBaseModel.find({ _id: { $in: ids } }).exec();
         return result;
     }
 }

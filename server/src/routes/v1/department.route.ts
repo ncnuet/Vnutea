@@ -3,9 +3,9 @@ import { checkJWT } from "@/middlewares/checkJWT.middler";
 import { checkRole } from "@/middlewares/checkRole.middler";
 import { Router } from "express"
 
-const router = Router();
+const DepartmentRouter = Router();
 
-router.post("/", [checkJWT, checkRole.bind({ role: ["admin"] })], DepartmentController.create);
-router.delete("/:id", [checkJWT, checkRole.bind({ role: ["admin"] })], DepartmentController.delete);
+DepartmentRouter.post("/", [checkJWT, checkRole.bind({ role: ["admin"] })], DepartmentController.create);
+DepartmentRouter.delete("/:id", [checkJWT, checkRole.bind({ role: ["admin"] })], DepartmentController.delete);
 
-export default router;
+export default DepartmentRouter;

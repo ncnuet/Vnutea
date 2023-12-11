@@ -42,7 +42,7 @@ export default class AuthValidator extends BaseValidator {
         this.checkUsername(data.username);
         this.checkName(data.name);
         this.checkRole(data.role)
-        this.checkMajor(data.major);
+        this.checkId(data.major);
     }
 
     static validateDelete(data: IDeleteUser) {
