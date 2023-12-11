@@ -9,12 +9,6 @@ export interface IDeleteOutstanding {
 }
 
 export default class OutstandingValidator extends BaseValidator {
-    private static checkFile(file: string, und?: boolean) {
-        if (file) {
-
-        } else if (!und) throw new InputError("Must include a file", "file")
-    }
-
     private static checkOutstandingType(type: string, und?: boolean) {
         if (type) {
             if (!Object.values(EOutstandingType).includes(type as EOutstandingType))

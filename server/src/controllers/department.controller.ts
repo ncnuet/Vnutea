@@ -1,37 +1,32 @@
-import OutstandingModel from "@/models/outstanding.model";
 import { InputError, Request, Response } from "@/types/controller";
 import handleError from "@/utils/handle_error";
-import OutstandingValidator, { ICreateOutstanding } from "@/validators/outstanding.validate";
 import cloudinary from "@/configs/cloudinary";
 import fileUpload from "express-fileupload";
-import { EOutstandingType } from "@/models/schema/outstanding.schema";
+import DepartmentValidator, { ICreateDepartment } from "@/validators/department.validator";
 import userModel from "@/models/user.model";
 import { EUserRole } from "@/types/auth";
-export default class OutstandingController {
-    private static async precheck(data: ICreateOutstanding) {
-        switch (data.type) {
-            case EOutstandingType.TEACHER:
-                const teacher = await userModel.getUsers([data.ref]);
-                if (teacher.length === 0) throw new InputError("Invalid ref id", "ref")
-                if (teacher[0].role !== EUserRole.TEACHER) throw new InputError("Invalid role ref", "ref")
-                break;
-            case EOutstandingType.DEPARTMENT:
-                // TODO: departments
-                break;
-            case EOutstandingType.LAB:
-                break;
-            default:
+import DepartmentModel from "@/models/department.model";
+
+export default class DepartmentController {
+    private static async precheck(data: ICreateDepartment) {
+        if (data.dean) {
+            const users = await userModel.getUsers([data.dean]);
+            if (users.length === 0) throw new InputError("Invalid dean id", "dean");
+            if (users[0].role !== EUserRole.TEACHER) throw new InputError("Invalid role of dean", "dean");
         }
     }
 
     public static async create(req: Request, res: Response) {
         const user = res.locals.user;
-        const data = <ICreateOutstanding>req.body;
+        const data = <ICreateDepartment>req.body;
         const file = req.files
 
         handleError(res, async () => {
-            OutstandingValidator.validateCreate({ ...data, image: file ? "true" : void 0 });
-            await OutstandingController.precheck(data);
+            data.contact = typeof data.contact === "string" ? JSON.parse(data.contact) : data.contact;
+            data.details = typeof data.details === "string" ? JSON.parse(data.details) : data.details;
+            
+            DepartmentValidator.validateCreate({ ...data, image: file ? "true" : void 0 });
+            await DepartmentController.precheck(data);
 
             const uploadFile = <fileUpload.UploadedFile>file.image;
             const result = await cloudinary.uploader.upload(uploadFile.tempFilePath, {
@@ -43,10 +38,13 @@ export default class OutstandingController {
             });
 
             if (result.secure_url) {
-                const id = await OutstandingModel.create({
+                const id = await DepartmentModel.create({
                     image: result.secure_url,
-                    ref: data.ref,
-                    type: data.type,
+                    dean: data.dean,
+                    contact: data.contact,
+                    name: data.name,
+                    description: data.description,
+                    details: data.details,
                     creator: user.uid
                 })
                 res.status(200).send({ message: "Success", data: { id } })
@@ -60,8 +58,8 @@ export default class OutstandingController {
         const id = req.params.id;
 
         handleError(res, async () => {
-            OutstandingValidator.validateDelete({ id });
-            const ack = await OutstandingModel.delete(id);
+            DepartmentValidator.validateDelete({ id });
+            const ack = await DepartmentModel.delete(id);
 
             res.status(200).send(
                 {

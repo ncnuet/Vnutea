@@ -27,14 +27,6 @@ export default class AuthValidator extends BaseValidator {
         } else if (!und) throw new InputError("Must include username", "username");
     }
 
-    private static checkName(name: string, und?: boolean){
-        if (name){
-            if (!name || name.length < 5) {
-                throw new InputError("Invalid name", "name");
-            }
-        } else if (!und) throw new InputError("Must include name", "name");
-    }
-
     private static checkPassword(password: string) {
         if (!password || password.length < 8 || password.length > 50) {
             throw new InputError("Mật khẩu có độ dài từ 8 đến 50 ký tự", "password");
