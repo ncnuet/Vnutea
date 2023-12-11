@@ -1,17 +1,38 @@
 import OutstandingModel from "@/models/outstanding.model";
-import { Request, Response } from "@/types/controller";
+import { InputError, Request, Response } from "@/types/controller";
 import handleError from "@/utils/handle_error";
-import OutstandingValidator, { ICreateOutstanding, IUpdateOutstanding } from "@/validators/outstanding.validate";
+import OutstandingValidator, { ICreateOutstanding } from "@/validators/outstanding.validate";
 import cloudinary from "@/configs/cloudinary";
 import fileUpload from "express-fileupload";
+import { EOutstandingType } from "@/models/schema/outstanding.schema";
+import userModel from "@/models/user.model";
+import { EUserRole } from "@/types/auth";
 export default class OutstandingController {
-    static async create(req: Request, res: Response) {
+    private static async precheck(data: ICreateOutstanding) {
+        switch (data.type) {
+            case EOutstandingType.TEACHER:
+                const users = await userModel.getUsers([data.ref]);
+                if (users.length === 0) throw new InputError("Invalid ref id", "ref")
+                if (users[0].role !== EUserRole.TEACHER) throw new InputError("Invalid role ref", "ref")
+                break;
+            case EOutstandingType.DEPARTMENT:
+                // TODO: departments
+                break;
+            case EOutstandingType.LAB:
+                break;
+            default:
+        }
+    }
+
+    public static async create(req: Request, res: Response) {
         const user = res.locals.user;
         const data = <ICreateOutstanding>req.body;
         const file = req.files
 
         handleError(res, async () => {
-            OutstandingValidator.validateCreate(data);
+            OutstandingValidator.validateCreate({ ...data, image: file ? "true" : void 0 });
+            await OutstandingController.precheck(data);
+
             const uploadFile = <fileUpload.UploadedFile>file.image;
             const result = await cloudinary.uploader.upload(uploadFile.tempFilePath, {
                 public_id: uploadFile.name,
@@ -22,7 +43,12 @@ export default class OutstandingController {
             });
 
             if (result.secure_url) {
-                const id = await OutstandingModel.create(result.secure_url, data.ref, data.type, user.uid)
+                const id = await OutstandingModel.create({
+                    image: result.secure_url,
+                    ref: data.ref,
+                    type: data.type,
+                    creator: user.uid
+                })
                 res.status(200).send({ message: "Success", data: { id } })
             } else {
                 res.status(500).send({ message: "Unable to upload image" })
@@ -35,13 +61,13 @@ export default class OutstandingController {
 
         handleError(res, async () => {
             OutstandingValidator.validateDelete({ id });
-            const _id = await OutstandingModel.delete(id);
+            const ack = await OutstandingModel.delete(id);
 
-            if (_id) {
-                res.status(200).send({ message: "Success", data: { id } })
-            } else {
-                res.status(500).send({ message: "Unable to delete", data: { id } })
-            }
+            res.status(200).send(
+                {
+                    message: ack ? "Deleted successfully" : "Unable to delete",
+                    data: { id }
+                })
         })
     }
 }

@@ -63,7 +63,7 @@ export default class AuthController {
                 ? void 0
                 : null;
 
-            const user_id = await authModel.createUser(
+            const user_id = await authModel.create(
                 user.uid, profile_id, {
                 username: data.username,
                 name: data.name,
@@ -80,6 +80,20 @@ export default class AuthController {
                     teacher_profile: profile_id
                 }
             });
+        })
+    }
+
+    static async delete(req: Request, res: Response) {
+        const id = req.params.id;
+
+        handleError(res, async () => {
+            AuthValidator.validateDelete({ id });
+
+            const user_ok = await authModel.delete(id);
+            res.status(200).json({
+                message: user_ok ? "Delete successfully" : "Unable to delete",
+                data: { id }
+            })
         })
     }
 }

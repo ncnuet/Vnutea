@@ -14,6 +14,10 @@ export interface ICreateUser {
     role: EUserRole,
     major: string
 }
+
+export interface IDeleteUser {
+    id: string
+}
 export default class AuthValidator extends BaseValidator {
     private static checkUsername(username: string, und?: boolean) {
         if (username){
@@ -38,14 +42,18 @@ export default class AuthValidator extends BaseValidator {
     }
 
     static validateLogin(data: ILogin) {
-        AuthValidator.checkUsername(data.username)
-        AuthValidator.checkPassword(data.password)
+        this.checkUsername(data.username)
+        this.checkPassword(data.password)
     }
 
     static validateCreate(data: ICreateUser) {
-        AuthValidator.checkUsername(data.username);
-        AuthValidator.checkName(data.name);
+        this.checkUsername(data.username);
+        this.checkName(data.name);
         this.checkRole(data.role)
         this.checkMajor(data.major);
+    }
+
+    static validateDelete(data: IDeleteUser) {
+        this.checkId(data.id);
     }
 }

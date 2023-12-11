@@ -2,6 +2,12 @@ import { EMajor, EUserRole } from "@/types/auth";
 import { InputError } from "@/types/controller";
 
 export default abstract class BaseValidator {
+    protected static checkId(id: string, und?: boolean) {
+        if (id) {
+            if (id.length != 24) throw new InputError("Invalid id", "id");
+        } else if (!und) throw new InputError("Must include id", "id");
+    }
+
     protected static checkEmail(email: string) {
         if (!email || !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
             throw new InputError("Email không hợp lệ", "email");
