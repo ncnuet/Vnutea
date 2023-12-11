@@ -5,7 +5,6 @@ import { IQueryableUser, IUserRole, IUserWithoutVersion } from "@/types/auth";
 interface ICreateUser {
     username: string;
     role: IUserRole;
-    email: string;
     name: string;
     major: string;
     initiator: string;
@@ -72,7 +71,8 @@ class AuthModel {
     }
 
     async createUser(user: ICreateUser) {
-        const user = await UserBaseModel.create(
+        const { username, name, initiator, major, role } = user;
+        const _user = await UserBaseModel.create(
             {
                 username, name, initiator, major, role,
                 email: username + "@vnu.edu.vn",
@@ -80,7 +80,7 @@ class AuthModel {
             }
         )
 
-        return user._id;
+        return _user._id;
     }
 }
 

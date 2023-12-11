@@ -134,14 +134,14 @@ export default class AuthController {
         handleError(res, async () => {
             AuthValidator.validateCreate(data);
 
-            await authModel.createUser(
-                data.username,
-                data.name,
-                user.uid,
-                data.major,
-                data.role
-            );
-            res.json({message: "User created successfully"},)
+            await authModel.createUser({
+                username:  data.username,
+                name: data.name,
+                initiator: user.uid,
+                major: data.major,
+                role: data.role
+            });
+            res.json({ message: "User created successfully" },)
         })
     }
 }
