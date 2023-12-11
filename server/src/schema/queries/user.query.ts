@@ -18,7 +18,7 @@ export const UserQuery: GraphQLFieldConfig<any, any> = {
 }
 
 export const UserQueryMany: GraphQLFieldConfig<any, any> = {
-    type: GraphQLList(UserGraph),
+    type: new GraphQLList(UserGraph),
     description: "User Query Many",
 
     resolve: async (source, args) => {
