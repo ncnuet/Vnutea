@@ -1,14 +1,7 @@
 import * as bcrypt from "bcryptjs";
 import { UserBaseModel } from "./base/user.base";
-import { IQueryableUser, IUserRole, IUserWithoutVersion } from "@/types/auth";
-
-interface ICreateUser {
-    username: string;
-    role: IUserRole;
-    name: string;
-    major: string;
-    initiator: string;
-}
+import { IQueryableUser, IUserWithoutVersion } from "@/types/auth";
+import { ICreateUser } from "@/validators/auth.validator";
 
 class AuthModel {
     async findUserByPassword(_username: string, _password: string): Promise<IUserWithoutVersion> {
@@ -21,7 +14,8 @@ class AuthModel {
 
         const { _id, username, password, role } = user;
         return _password
-            ? await bcrypt.compare(_password, password) && { uid: _id.toString(), username, role }
+            ? await bcrypt.compare(_password, password) &&
+            { uid: _id.toString(), username, role }
             : undefined
     }
 
@@ -43,22 +37,15 @@ class AuthModel {
         return { username, uid: _id.toString(), email };
     }
 
-    async updatePassword(uid: string, password: string): Promise<any> {
-        const user = await UserBaseModel.updateOne(
-            { _id: uid },
-            { password: await bcrypt.hash(password, 10) })
-            .exec();
-
-        if (!user) return undefined;
-    }
-
-    async createUser(user: ICreateUser) {
-        const { username, name, initiator, major, role } = user;
+    async createUser(creator: string, profile: string, user: ICreateUser) {
+        const { username, name, major, role } = user;
         const _user = await UserBaseModel.create(
             {
-                username, name, initiator, major, role,
+                username, name, role, major, creator,
+                version: 0,
+                teacher_profile: profile,
                 email: username + "@vnu.edu.vn",
-                password: await bcrypt.hash("12345678", 10),
+                password: await bcrypt.hash("123456789", 10),
             }
         )
 

@@ -2,14 +2,10 @@ import { Request, Response } from "@/types/controller"
 import { withAge } from '@/configs/cookie';
 import { generateToken } from '@/utils/generate';
 import handleError from '@/utils/handle_error';
-import AuthValidator, { ICreateUser, ILogin} from "@/validators/auth.validator";
+import AuthValidator, { ICreateUser, ILogin } from "@/validators/auth.validator";
 import authModel from '@/models/auth.model';
 import tokenModel from "@/models/token.model";
-import { IUser } from "@/types/auth";
-
-interface IUserWithEpx extends IUser {
-    exp: number;
-}
+import { EUserRole } from "@/types/auth";
 
 function setToken(res: Response, remember: boolean, accessToken: string, refreshToken?: string) {
     refreshToken && res.cookie("refresh_token", refreshToken, withAge(86400 * 1000))
@@ -62,14 +58,28 @@ export default class AuthController {
         handleError(res, async () => {
             AuthValidator.validateCreate(data);
 
-            await authModel.createUser({
+            // TODO: create profile
+            const profile_id: string = data.role === EUserRole.TEACHER
+                ? void 0
+                : null;
+
+            const user_id = await authModel.createUser(
+                user.uid, profile_id, {
                 username: data.username,
                 name: data.name,
-                initiator: user.uid,
-                major: data.major,
-                role: data.role
+                role: data.role,
+                major: data.major
             });
-            res.json({ message: "User created successfully" },)
+
+            res.json({
+                message: "Created successfully",
+                data: {
+                    id: user_id,
+                    password: "123456789",
+                    role: data.role,
+                    teacher_profile: profile_id
+                }
+            });
         })
     }
 }

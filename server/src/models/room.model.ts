@@ -1,9 +1,8 @@
-import { UID } from "@/types/auth";
 import { RoomBaseModel } from "./base/room.base";
 import mongoose from "mongoose";
 var ObjectId = mongoose.Types.ObjectId;
 class RoomModel {
-    async findByParticipants(participants: UID[]) {
+    async findByParticipants(participants: string[]) {
         const result = await RoomBaseModel.findOne(
             {
                 participants: {
@@ -16,7 +15,7 @@ class RoomModel {
         return result ? result : undefined;
     }
 
-    async createRoom(initiator: UID, participants: UID[], name: string) {
+    async createRoom(initiator: string, participants: string[], name: string) {
         participants.push(initiator)
 
         const room = await RoomBaseModel.create({
@@ -27,12 +26,12 @@ class RoomModel {
         return room;
     }
 
-    async deleteRoom(roomID: string, initiator: UID) {
+    async deleteRoom(roomID: string, initiator: string) {
         const result = await RoomBaseModel.deleteOne({ _id: roomID, initiator }).exec();
         return result.deletedCount > 0 ? roomID : false;
     }
 
-    async getRoom(roomID: string, uid: UID) {
+    async getRoom(roomID: string, uid: string) {
         const room = await RoomBaseModel.findOne(
             {
                 _id: roomID,
@@ -47,7 +46,7 @@ class RoomModel {
         return room;
     }
 
-    async getRoomHasUser(uid: UID) {
+    async getRoomHasUser(uid: string) {
         const rooms = await RoomBaseModel.find(
             {
                 participants: {
@@ -67,7 +66,7 @@ class RoomModel {
     //     return rooms;
     // }
 
-    async updateRoom(roomID: string, uid: UID, name?: string) {
+    async updateRoom(roomID: string, uid: string, name?: string) {
         const result = await RoomBaseModel.updateOne(
             {
                 _id: roomID,

@@ -5,18 +5,9 @@ export const cookieSecureOption: CookieOptions = {
     secure: true // Not allowed reading from http
 }
 
-// Set with fixed age
-export function withAge(age: number): CookieOptions {
-    if (age === undefined) return withSession();
+export function withAge(age: number | undefined): CookieOptions {
     return {
         ...cookieSecureOption,
         maxAge: age
-    }
-}
-
-// Expire when client shutdown: Eg. Close browser,...
-export function withSession(): CookieOptions {
-    return {
-        ...cookieSecureOption,
     }
 }

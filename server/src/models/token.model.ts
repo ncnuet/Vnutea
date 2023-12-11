@@ -1,5 +1,5 @@
 import { redis } from "@/configs/redis";
-import { IUserRole, UID } from "@/types/auth";
+import { IUserRole } from "@/types/auth";
 import { NameType, getKey } from "@/utils/redis_name";
 
 class TokenModel {
@@ -22,8 +22,8 @@ class TokenModel {
      * @param refreshToken 
      * @returns 
      */
-    async getRefreshToken(refreshToken: string): Promise<UID> {
-        return <UID>await redis.json.get(getKey(refreshToken, NameType.TOKEN))
+    async getRefreshToken(refreshToken: string): Promise<string> {
+        return <string>await redis.json.get(getKey(refreshToken, NameType.TOKEN))
     }
 
     /**

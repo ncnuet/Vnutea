@@ -1,4 +1,4 @@
-import { IUserRole } from "@/types/auth";
+import { EUserRole } from "@/types/auth";
 import { InputError } from "@/types/controller";
 import BaseValidator from "./base.validator";
 
@@ -11,45 +11,41 @@ export interface ILogin {
 export interface ICreateUser {
     username: string
     name: string,
-    role: IUserRole,
+    role: EUserRole,
     major: string
 }
 export default class AuthValidator extends BaseValidator {
-    private static validateUsername(username: string) {
-        if (!username || username.length < 3 || username.length > 50) {
-            throw new InputError("Username có độ dài từ 3 đến 50 ký tự", "username");
-        }
-        return true
+    private static checkUsername(username: string, und?: boolean) {
+        if (username){
+            if (username.length < 3 || username.length > 50) {
+                throw new InputError("Username có độ dài từ 3 đến 50 ký tự", "username");
+            }
+        } else if (!und) throw new InputError("Must include username", "username");
     }
 
-    private static validateName(name: string) {
-        if (!name || name.length < 3) {
-            throw new InputError("Invalid name", "name");
-        }
+    private static checkName(name: string, und?: boolean){
+        if (name){
+            if (!name || name.length < 5) {
+                throw new InputError("Invalid name", "name");
+            }
+        } else if (!und) throw new InputError("Must include name", "name");
     }
 
-    private static validatePassword(password: string) {
+    private static checkPassword(password: string) {
         if (!password || password.length < 8 || password.length > 50) {
             throw new InputError("Mật khẩu có độ dài từ 8 đến 50 ký tự", "password");
         }
-        return true
-    }
-
-    private validatePhone(phone: string) {
-        if (!phone || phone.length !== 10 || !phone.startsWith("0")) {
-            throw new InputError("Invalid phone number", "phone");
-        }
-        return true;
     }
 
     static validateLogin(data: ILogin) {
-        AuthValidator.validateUsername(data.username)
-        AuthValidator.validatePassword(data.password)
+        AuthValidator.checkUsername(data.username)
+        AuthValidator.checkPassword(data.password)
     }
 
     static validateCreate(data: ICreateUser) {
-        AuthValidator.validateUsername(data.username);
-        AuthValidator.validateName(data.name);
-        BaseValidator.validateRole(data.role)
+        AuthValidator.checkUsername(data.username);
+        AuthValidator.checkName(data.name);
+        this.checkRole(data.role)
+        this.checkMajor(data.major);
     }
 }

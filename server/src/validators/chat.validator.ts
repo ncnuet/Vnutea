@@ -1,10 +1,9 @@
 import { MESSAGE_TYPES } from "@/models/schema/message.schema"
-import { UID } from "@/types/auth"
 import { InputError } from "@/types/controller";
 
 export interface ICreateRoom {
     name?: string
-    participants: Array<UID>
+    participants: Array<string>
 }
 
 export interface IDeleteRoom {

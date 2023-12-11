@@ -1,9 +1,8 @@
-import { UID } from "@/types/auth";
 import { MESSAGE_TYPES } from "./schema/message.schema";
 import { MessageBaseModel } from "./base/message.base";
 
 class ChatModel {
-    async createMessage(roomID: string, uid: UID, message: string, type: MESSAGE_TYPES = MESSAGE_TYPES.TEXT) {
+    async createMessage(roomID: string, uid: string, message: string, type: MESSAGE_TYPES = MESSAGE_TYPES.TEXT) {
         await MessageBaseModel.create({
             roomID, message, createdBy: uid, type,
             seenBy: { uid }
