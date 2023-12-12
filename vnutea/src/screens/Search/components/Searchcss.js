@@ -222,6 +222,9 @@ export const styles = StyleSheet.create({
     btnRecentSearchs: {
         paddingHorizontal: 0.01 * windowWidth,
         paddingVertical: 0.004 * windowHeight,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     textRecentSearchs: {
         color: myBoldGray,

@@ -26,6 +26,7 @@ import {Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import IconFontisto from 'react-native-vector-icons/Fontisto';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
+import IconAntDesign from 'react-native-vector-icons/AntDesign';
 
 import {styles} from './Searchcss.js';
 
@@ -50,6 +51,64 @@ const ReduceString = (myString) => {
     return res;
 }
 
+
+const renderTopSearchItem = ({ item }) => {
+    return (    
+        (
+            <TouchableOpacity style={styles.topSearchsItem} 
+             onPress={() => {
+                //Xu ly truy cap lap tuc
+             }}
+            >   
+            <View style={styles.searchItemAvtWrapper}>
+                <View style={styles.avtGv}>
+                    <Image style={styles.avtStyle} source={item.image}/>
+                </View>
+                <View style={styles.rateWrapper}>
+                    {/* <FontAwesomeIcon icon={faStar} /> */}
+                    <IconAntDesign name="star" size={(0.012 * windowHeight + 0.012 * windowWidth)} color="#19253D" />
+                    <Text> {item.star} </Text>
+                </View>
+            </View>
+
+            <View style={styles.searchItemDesWrapper}>
+                {/* ten, vai tro va cam xuc */}
+                <View style={styles.searchItemMain}>
+
+                    <View style={styles.searchItemTextWrapper}>
+                        <View style={styles.searchItemName}>
+                            <Text style={styles.searchNameText}>
+                                {item.name}
+                            </Text>
+                        </View>
+                        <View style={styles.searchItemJob}>
+                            <Text style={styles.searchJobText}>
+                                {item.position}
+                            </Text>
+                        </View>
+                    </View>
+
+                    <View style={styles.searchHeartWrapper}>
+                        {/* <FontAwesomeIcon icon={faHeart} style={{color: "#F64545"}} size={0.032 * windowHeight}/> */}
+                    </View>
+                </View>
+
+                {/* Cac the thanh tuu danh gia */}
+                <View style={styles.searchItemTag}>
+                    <Text style={styles.searchTagText}>
+                        G.V Xuất sắc nhất T8
+                    </Text>
+                    <Text style={[styles.searchTagText, styles.colorTagText2]}>
+                        Được yêu thích nhất
+                    </Text>
+                </View>
+            </View>
+                 
+            </TouchableOpacity>
+        )
+    )
+}
+
 // @ts-check
 export default function Search(
     { navigation }
@@ -60,10 +119,10 @@ export default function Search(
 
     //Fake du lieu lich su tim kiem gan day
     const fakeRecentSearchsList = [
-        {id: "-1", title: "Le phe da5"},
-        {id: "0", title: "Le phe do1"},
-        {id: "1", title: "Lam sao de khong hoc van duoc A+"},
-        {id: "2", title: "A+"},
+        {id: "-1", title: "Le phe do1"},
+        {id: "0", title: "Do Duc doong"},
+        {id: "1", title: "Lap trinh guong doi tuong"},
+        {id: "2", title: "A+ qua da pepsi oi"},
         {id: "3", title: "Le phe da"},
         {id: "4", title: "Le phe da2"},
         {id: "5", title: "Le phe da2"},
@@ -73,33 +132,88 @@ export default function Search(
     const fakeTopSearchsList = [
         {
             id: 1,
-            name: "Thầy Lê Phê Pha",
+            name: "Lê Phê Đô",
             position: "Tiến sĩ, Trưởng khoa",
-
+            star: 4.8,
+            image: require('../assets/avtlpd.png'),
+            tagList: [
+                {
+                    tagColor: '#4BBEFA',
+                    tagText: 'G.V Xuất sắc nhất T8',
+                },
+                {
+                    tagColor: '#14D950',
+                    tagText: 'Được yêu thích nhất',
+                }
+            ],
         },
         {
             id: 2,
-            name: "Thầy Lê Phê Pha",
-            position: "Tiến sĩ, Trưởng khoa",
-
+            name: "Đỗ Đức Đông",
+            position: "Giáo sư",
+            star: 5,
+            image: require('../assets/avtddd.jpg'),
+            tagList: [
+                {
+                    tagColor: '#4BBEFA',
+                    tagText: 'G.V Xuất sắc nhất T8',
+                },
+                {
+                    tagColor: '#14D950',
+                    tagText: 'Được yêu thích nhất',
+                }
+            ],
         },
         {
             id: 3,
-            name: "Thầy Lê Phê Pha",
-            position: "Tiến sĩ, Trưởng khoa",
-
+            name: "Phạm Hồng Minh",
+            position: "Giảng viên, kỹ sư phần mềm",
+            star: 4.9,
+            image: require('../assets/avtphm.jpeg'),
+            tagList: [
+                {
+                    tagColor: '#4BBEFA',
+                    tagText: 'G.V Xuất sắc nhất T8',
+                },
+                {
+                    tagColor: '#14D950',
+                    tagText: 'Được yêu thích nhất',
+                }
+            ],
         },
         {
             id: 4,
-            name: "Thầy Lê Phê Pha",
-            position: "Tiến sĩ, Trưởng khoa",
-
+            name: "Đỗ Tuấn Nghĩa",
+            position: "Phó hiệu trưởng, trưởng khoa",
+            star: 4.8,
+            image: require('../assets/avtdtn.jpg'),
+            tagList: [
+                {
+                    tagColor: '#4BBEFA',
+                    tagText: 'G.V Xuất sắc nhất T8',
+                },
+                {
+                    tagColor: '#14D950',
+                    tagText: 'Được yêu thích nhất',
+                }
+            ],
         },
         {
             id: 5,
-            name: "Thầy Lê Phê Pha",
-            position: "Tiến sĩ, Trưởng khoa",
-
+            name: "Bàn Văn Hiếu",
+            position: "Hiệu trưởng, trưởng ban",
+            star: 4.6,
+            image: require('../assets/avtlmh.jpg'),
+            tagList: [
+                {
+                    tagColor: '#4BBEFA',
+                    tagText: 'G.V Xuất sắc nhất T8',
+                },
+                {
+                    tagColor: '#14D950',
+                    tagText: 'Được yêu thích nhất',
+                }
+            ],
         }
     ]
 
@@ -290,7 +404,7 @@ export default function Search(
 
                 {/* Muc hien thi danh sach tim kiem gan day */}
                 <View style={styles.recentSearchsListWrapper}>
-                  <ScrollView contentContainerStyle={{ flexDirection:'row', flexWrap:'wrap'}} style={{height: 0.08 * windowHeight}} >
+                  <ScrollView contentContainerStyle={{ flexDirection:'row', flexWrap:'wrap'}} style={{height: 0.1 * windowHeight}} >
                     {
                         fakeRecentSearchsList.map(item => (
                             <View key={item.key} style={styles.itemRecentSearchs}>
@@ -299,9 +413,9 @@ export default function Search(
                                     //Xu ly tim kiem luon
                                  }}
                                 >
-                                    {/* <FontAwesomeIcon icon={faMagnifyingGlass} color={myBoldGray} size={0.02 * windowHeight}/> */}
+                                    <Icon name="search" size={(0.014 * windowHeight + 0.014 * windowWidth)} color={myBoldGray} />
+                                    <Text style={styles.textRecentSearchs}>{ReduceString(item.title)}</Text>
                                 </TouchableOpacity>
-                                <Text style={styles.textRecentSearchs}>{ReduceString(item.title)}</Text>
                             </View>
                         ))
                     }
@@ -332,57 +446,7 @@ export default function Search(
                     <FlatList 
                         data={fakeTopSearchsList}
                         keyExtractor={(item) => item.id.toString()}
-                        renderItem={({item}) => (
-                            <TouchableOpacity style={styles.topSearchsItem} 
-                             onPress={() => {
-                                //Xu ly truy cap lap tuc
-                             }}
-                            >   
-                            <View style={styles.searchItemAvtWrapper}>
-                                <View style={styles.avtGv}>
-                                    {/* <Image style={styles.avtStyle} source={require('../assets/avtgv.png')}/> */}
-                                </View>
-                                <View style={styles.rateWrapper}>
-                                    {/* <FontAwesomeIcon icon={faStar} /> */}
-                                    <Text> 4.8 </Text>
-                                </View>
-                            </View>
-
-                            <View style={styles.searchItemDesWrapper}>
-                                {/* ten, vai tro va cam xuc */}
-                                <View style={styles.searchItemMain}>
-
-                                    <View style={styles.searchItemTextWrapper}>
-                                        <View style={styles.searchItemName}>
-                                            <Text style={styles.searchNameText}>
-                                                Thầy Lê Phê Đô
-                                            </Text>
-                                        </View>
-                                        <View style={styles.searchItemJob}>
-                                            <Text style={styles.searchJobText}>
-                                                Tiến sĩ, trưởng khoa
-                                            </Text>
-                                        </View>
-                                    </View>
-
-                                    <View style={styles.searchHeartWrapper}>
-                                        {/* <FontAwesomeIcon icon={faHeart} style={{color: "#F64545"}} size={0.032 * windowHeight}/> */}
-                                    </View>
-                                </View>
-
-                                {/* Cac the thanh tuu danh gia */}
-                                <View style={styles.searchItemTag}>
-                                    <Text style={styles.searchTagText}>
-                                        G.V Xuất sắc nhất T8
-                                    </Text>
-                                    <Text style={[styles.searchTagText, styles.colorTagText2]}>
-                                        Được yêu thích nhất
-                                    </Text>
-                                </View>
-                            </View>
-                                 
-                            </TouchableOpacity>
-                        )}
+                        renderItem={renderTopSearchItem}
                      />
                      <View style={styles.paddingBottomItem}>
 
