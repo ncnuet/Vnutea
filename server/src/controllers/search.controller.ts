@@ -1,3 +1,5 @@
+import DepartmentModel from "@/models/department.model";
+import LabModel from "@/models/lab.model";
 import TeacherModel from "@/models/teacher.model";
 import { Request, Response } from "@/types/controller";
 import handleError from "@/utils/handle_error";
@@ -8,8 +10,19 @@ export default class SearchController {
         const data = req.query;
 
         handleError(res, async () => {
-            const users = await TeacherModel.search(data.query);
-            res.status(200).json({ message: "success", data: { query: data.query, users } })
+            const [users, labs, departments] = await Promise.all([
+                TeacherModel.search(data.query),
+                LabModel.search(data.query),
+                DepartmentModel.search(data.query)
+            ])
+
+            res.status(200).json({
+                message: "success",
+                data: {
+                    query: data.query,
+                    users, labs, departments
+                }
+            })
         })
     }
 }
