@@ -1,6 +1,7 @@
 
 import { EUserRole } from '@/types/auth';
 import { ObjectId, Schema } from 'mongoose';
+import { FavoriteSchema, IFavourite } from './favourite.schema';
 
 export interface IUser {
     username: string;
@@ -9,6 +10,8 @@ export interface IUser {
     version: number;
     email: string;
     creator: string;
+    name: string;
+    favorites: IFavourite[]
 }
 
 export interface IUserSchema
@@ -24,6 +27,8 @@ const UserSchema = new Schema<IUserSchema>({
     version: { type: Number, required: true },
     email: { type: String, unique: true, index: true },
     creator: { type: Schema.Types.ObjectId },
+    name: { type: String, required: true },
+    favorites: { type: [FavoriteSchema], required: true },
 });
 
 export default UserSchema;

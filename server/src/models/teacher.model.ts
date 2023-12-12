@@ -60,7 +60,7 @@ export default class TeacherModel {
     }
 
     static async get(ids: string[]) {
-        const result = await TeacherBaseModel.find({ _id: { $in: ids } }).exec();
+        const result = await TeacherBaseModel.find({ user: { $in: ids } }).exec();
         return result;
     }
 }

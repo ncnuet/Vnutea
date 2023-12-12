@@ -1,6 +1,8 @@
 import { ICreateUser } from "@/validators/user.validator";
 import { UserBaseModel } from "./base/user.base";
 import * as bcrypt from "bcryptjs";
+import { IAddFavourite } from "@/validators/me.validator";
+import { response } from "express";
 
 export default class UserModel {
     static async validateUID(uids: string[]): Promise<boolean> {
@@ -15,7 +17,7 @@ export default class UserModel {
     static async getUsers(uids: string[]) {
         const user = await UserBaseModel.find(
             { _id: { $in: uids } },
-            { email: true, username: true, phone: true, _id: true, role: 1 })
+            { email: true, username: true, _id: true, role: 1, name: 1 })
             .exec()
 
         if (!user) return undefined;
@@ -27,11 +29,12 @@ export default class UserModel {
     }
 
     static async create(creator: string, user: ICreateUser) {
-        const { username, role } = user;
+        const { username, role, name } = user;
         const _user = await UserBaseModel.create(
             {
-                username, role, creator,
+                username, role, creator, name,
                 version: 0,
+                favorites: [],
                 email: username + "@vnu.edu.vn",
                 password: await bcrypt.hash("123456789", 10),
             }
@@ -44,5 +47,30 @@ export default class UserModel {
         const response = await UserBaseModel.deleteOne({ _id: id });
 
         return response.acknowledged;
+    }
+
+    static async addFavorite(id: string, data: IAddFavourite) {
+        const response = await UserBaseModel.updateOne(
+            { _id: id },
+            {
+                $push: {
+                    favorites: {
+                        name: data.name,
+                        ref: data.ref,
+                        type: data.type
+                    }
+                }
+            });
+
+        return response.acknowledged;
+    }
+
+    static async getFavourites(id: string) {
+        const response = await UserBaseModel.findOne(
+            { _id: id },
+            { favorites: 1 }
+        ).exec();
+            
+        return response ? response.favorites : [];
     }
 }
