@@ -5,7 +5,7 @@ import {createMaterialBottomTabNavigator} from '@react-navigation/material-botto
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {RootStackParamList, StudentTabParamList} from './types/routing';
 import {HomeStackNavigator} from './ContactStackNavigator';
-import StudentScreen from './screens/StudentHome/StudentScreen';
+import Settings from './screens/StudentHome/Settings';
 import SplashScreen from 'react-native-splash-screen';
 import Onboarding from './screens/Onboarding';
 import Login from './screens/Login';
@@ -13,6 +13,7 @@ import Signup from './screens/Signup';
 import Icon from 'react-native-vector-icons/Octicons';
 import Search from './screens/Search/components/Search';
 import {SearchStackNavigator} from './screens/Search';
+import Profile from './screens/Profile';
 import {Text, View} from 'react-native';
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -38,8 +39,15 @@ function MainRootApp() {
         }}
       />
       <TabApp.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          tabBarIcon: () => <Icon name="rocket" size={16} color="#19253D" />,
+        }}
+      />
+      <TabApp.Screen
         name="Setting"
-        component={StudentScreen}
+        component={Settings}
         options={{
           tabBarIcon: () => <Icon name="settings" size={16} color="#19253D" />,
         }}

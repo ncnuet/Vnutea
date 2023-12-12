@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,17 +12,58 @@ import {
   Alert,
 } from 'react-native';
 import Logo from '@/components/Logo';
+import {AuthContext} from '@/context/AuthContext';
+import Spinner from 'react-native-loading-spinner-overlay';
+import {BASE_URL} from '@/context/config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import axios from 'axios';
 
 export default function Login({navigation}) {
+  const [userInfo, setUserInfo] = useState({});
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [remember, setRemember] = useState('');
 
-  function nextHome() {
+  const login = () => {
     if (username !== '' && password !== '') {
-      navigation.replace('MainRootApp');
+      // setIsLoading(true);
+
+      axios
+        .post(`${BASE_URL}/auth/login`, {
+          username: username,
+          password: password,
+          remember: true,
+        })
+        .then(res => {
+          let userInfo = res.data;
+          console.log(userInfo);
+          setUserInfo(userInfo);
+          AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
+          navigation.replace('MainRootApp');
+          // setIsLoading(false);
+        })
+        .catch(() => {
+          Alert.alert('Invalid email or password', '', [
+            // The "Yes" button
+            // Does nothing but dismiss the dialog when tapped
+            {
+              text: 'Yes',
+            },
+          ]);
+          return console.log(`Login error ${e}`);
+          // setIsLoading(false);
+        });
     } else {
+      return Alert.alert('Enter email or password', '', [
+        // The "Yes" button
+        // Does nothing but dismiss the dialog when tapped
+        {
+          text: 'Yes',
+        },
+      ]);
     }
-  }
+  };
 
   function nextSignup() {
     navigation.push('Signup');
@@ -30,6 +71,7 @@ export default function Login({navigation}) {
 
   return (
     <View style={styles.container}>
+      {/* <Spinner visible={isLoading} /> */}
       <View style={styles.whiteSheet} />
       <SafeAreaView style={styles.form}>
         <Logo />
@@ -54,12 +96,13 @@ export default function Login({navigation}) {
           value={password}
           onChangeText={text => setPassword(text)}
         />
-        <TouchableOpacity style={styles.button} onPress={nextHome}>
+        <TouchableOpacity title="Login" style={styles.button} onPress={login}>
           <Text style={{fontWeight: 'bold', color: '#fff', fontSize: 20}}>
             {' '}
             Log In
           </Text>
         </TouchableOpacity>
+        {/* <Button title="Login" onPress={login} /> */}
         <View
           style={{
             marginTop: 20,
@@ -70,7 +113,7 @@ export default function Login({navigation}) {
           <Text style={{color: 'gray', fontWeight: '600', fontSize: 14}}>
             Don't have an account?{' '}
           </Text>
-          <TouchableOpacity onPress={nextSignup}>
+          <TouchableOpacity>
             <Text style={{color: '#92D5E6', fontWeight: '600', fontSize: 14}}>
               {' '}
               Sign Up

@@ -8,6 +8,7 @@ export type StudentTabParamList = {
   Home: undefined;
   Setting: undefined;
   Search: undefined;
+  Profile: undefined;
 };
 
 export type StudentStackParamList = {
