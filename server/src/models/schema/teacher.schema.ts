@@ -38,7 +38,8 @@ const TeacherSchema = new Schema<ITeacherSchema>({
     details: { type: [DetailSchema] },
     image: { type: String },
     creator: { type: Schema.Types.ObjectId, required: true },
-    user: { type: Schema.Types.ObjectId, required: true }
+    user: { type: Schema.Types.ObjectId, required: true },
+    // rating: {type: Number}
 })
 
 // @ts-ignore
