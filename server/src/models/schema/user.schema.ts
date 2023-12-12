@@ -8,17 +8,13 @@ export interface IUser {
     role: EUserRole;
     version: number;
     email: string;
-    name: string;
-    major: string;
-    teacher_profile: string;
     creator: string;
 }
 
 export interface IUserSchema
-    extends Omit<IUser, "creator" | "teacher_profile" | "major"> {
+    extends Omit<IUser, "creator" | "teacher_profile" | "department"> {
     creator: ObjectId;
-    teacher_profile: ObjectId;
-    major: ObjectId;
+    department: ObjectId;
 }
 
 const UserSchema = new Schema<IUserSchema>({
@@ -27,9 +23,6 @@ const UserSchema = new Schema<IUserSchema>({
     role: { type: String, required: true },
     version: { type: Number, required: true },
     email: { type: String, unique: true, index: true },
-    name: { type: String, required: true },
-    major: { type: Schema.Types.ObjectId, required: true },
-    teacher_profile: { type: Schema.Types.ObjectId },
     creator: { type: Schema.Types.ObjectId },
 });
 

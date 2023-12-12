@@ -5,7 +5,7 @@ import OutstandingValidator, { ICreateOutstanding } from "@/validators/outstandi
 import cloudinary from "@/configs/cloudinary";
 import fileUpload from "express-fileupload";
 import { EOutstandingType } from "@/models/schema/outstanding.schema";
-import userModel from "@/models/user.model";
+import UserModel from "@/models/user.model";
 import { EUserRole } from "@/types/auth";
 import DepartmentModel from "@/models/department.model";
 import LabModel from "@/models/lab.model";
@@ -13,7 +13,7 @@ export default class OutstandingController {
     private static async precheck(data: ICreateOutstanding) {
         switch (data.type) {
             case EOutstandingType.TEACHER:
-                const teacher = await userModel.getUsers([data.ref]);
+                const teacher = await UserModel.getUsers([data.ref]);
                 if (teacher.length === 0) throw new InputError("Invalid ref id", "ref")
                 if (teacher[0].role !== EUserRole.TEACHER) throw new InputError("Invalid role ref", "ref")
                 break;
