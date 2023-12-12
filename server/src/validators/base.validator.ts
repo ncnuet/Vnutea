@@ -57,8 +57,6 @@ export default abstract class BaseValidator {
     }
 
     protected static checkContact(contact: IContact, und?: boolean) {
-        console.log(Array.isArray(contact.phones), contact.phones, contact, typeof contact);
-
         if (contact) {
             if (!contact.phones || !Array.isArray(contact.phones))
                 throw new InputError("Contact phones must be an array", "contact.phones");

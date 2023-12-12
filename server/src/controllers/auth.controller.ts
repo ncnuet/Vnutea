@@ -2,11 +2,19 @@ import { InputError, Request, Response } from "@/types/controller"
 import { withAge } from '@/configs/cookie';
 import { generateToken } from '@/utils/generate';
 import handleError from '@/utils/handle_error';
-import AuthValidator, { ICreateUser, ILogin } from "@/validators/auth.validator";
+import AuthValidator, { ILogin } from "@/validators/auth.validator";
 import authModel from '@/models/auth.model';
 import tokenModel from "@/models/token.model";
 import { EUserRole } from "@/types/auth";
+import TeacherModel from "@/models/teacher.model";
+import StudentModel from "@/models/student.model";
+import UserModel from "@/models/user.model";
+import StudentValidator, { ICreateStudent } from "@/validators/student.validator";
+import TeacherValidator, { ICreateTeacher } from "@/validators/teacher.validator";
+import UserValidator, { ICreateUser } from "@/validators/user.validator";
 import DepartmentModel from "@/models/department.model";
+
+type ICreate = ICreateUser & (ICreateStudent | ICreateTeacher);
 
 function setToken(res: Response, remember: boolean, accessToken: string, refreshToken?: string) {
     refreshToken && res.cookie("refresh_token", refreshToken, withAge(86400 * 1000))
@@ -18,10 +26,10 @@ function setToken(res: Response, remember: boolean, accessToken: string, refresh
 }
 
 export default class AuthController {
-    private static async precheck(data: ICreateUser){
-        if (data.major){
-            const departments = await DepartmentModel.get([data.major]);
-            if (departments.length === 0) throw new InputError("Invalid department id", "major");
+    private static async precheck(data: ICreate) {
+        if (data.department) {
+            const departments = await DepartmentModel.get([data.department]);
+            if (departments.length === 0) throw new InputError("Invalid department id", "department");
         }
     }
 
@@ -60,24 +68,37 @@ export default class AuthController {
     }
 
     static async create(req: Request, res: Response) {
-        const data = <ICreateUser>req.body;
+        const data = <ICreate>req.body;
         const user = res.locals.user;
 
         handleError(res, async () => {
-            AuthValidator.validateCreate(data);
-            AuthController.precheck(data);
-            // TODO: create profile
-            const profile_id: string = data.role === EUserRole.TEACHER
-                ? void 0
-                : null;
+            UserValidator.validateCreate(data);
+            await AuthController.precheck(data);
 
-            const user_id = await authModel.create(
-                user.uid, profile_id, {
+            const user_id = await UserModel.create(
+                user.uid, {
                 username: data.username,
-                name: data.name,
                 role: data.role,
-                major: data.major
             });
+
+            var profile_id = null
+            if (data.role === EUserRole.STUDENT) {
+                StudentValidator.validateCreate({ ...data, user: user_id } as ICreateStudent);
+                profile_id = await StudentModel.create({
+                    creator: user.uid,
+                    department: data.department,
+                    name: data.name,
+                    user: user_id,
+                });
+            } else if (data.role === EUserRole.TEACHER) {
+                TeacherValidator.validateCreate({ ...data, user: user_id } as ICreateTeacher)
+                profile_id = await TeacherModel.create({
+                    creator: user.uid,
+                    department: data.department,
+                    name: data.name,
+                    user: user_id,
+                });
+            }
 
             res.json({
                 message: "Created successfully",
@@ -85,7 +106,7 @@ export default class AuthController {
                     id: user_id,
                     password: "123456789",
                     role: data.role,
-                    teacher_profile: profile_id
+                    profile_id
                 }
             });
         })
@@ -95,11 +116,13 @@ export default class AuthController {
         const id = req.params.id;
 
         handleError(res, async () => {
-            AuthValidator.validateDelete({ id });
+            UserValidator.validateDelete({ id });
 
-            const user_ok = await authModel.delete(id);
+            const ack_user = await UserModel.delete(id);
+            const ack_profile = await TeacherModel.delete(id) && await StudentModel.delete(id);
+
             res.status(200).json({
-                message: user_ok ? "Delete successfully" : "Unable to delete",
+                message: ack_user && ack_profile ? "Delete successfully" : "Unable to delete",
                 data: { id }
             })
         })

@@ -1,5 +1,3 @@
-import { ICreateDepartment } from "@/validators/department.validator";
-import { DepartmentBaseModel } from "./base/department.base";
 import { ICreateLab } from "@/validators/lab.validator";
 import { LabBaseModel } from "./base/lab.base";
 

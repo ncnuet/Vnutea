@@ -1,7 +1,6 @@
-import * as bcrypt from "bcryptjs";
 import { UserBaseModel } from "./base/user.base";
 import { IQueryableUser, IUserWithoutVersion } from "@/types/auth";
-import { ICreateUser } from "@/validators/auth.validator";
+import * as bcrypt from "bcryptjs";
 
 class AuthModel {
     async findUserByPassword(_username: string, _password: string): Promise<IUserWithoutVersion> {
@@ -35,27 +34,6 @@ class AuthModel {
         const { username, _id, email } = user;
 
         return { username, uid: _id.toString(), email };
-    }
-
-    async create(creator: string, profile: string, user: ICreateUser) {
-        const { username, name, major, role } = user;
-        const _user = await UserBaseModel.create(
-            {
-                username, name, role, major, creator,
-                version: 0,
-                teacher_profile: profile,
-                email: username + "@vnu.edu.vn",
-                password: await bcrypt.hash("123456789", 10),
-            }
-        )
-
-        return _user._id;
-    }
-
-    async delete(id: string){
-        const response = await UserBaseModel.deleteOne({_id: id});
-
-        return response.acknowledged;
     }
 }
 
