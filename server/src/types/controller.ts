@@ -12,7 +12,7 @@ export interface IResponseData {
 }
 
 export type Response<T = IResponseData, N = ILocalData> = _Response<T, N>
-export type Request = _Request;
+export type Request<T = any> = _Request<any, any, any, T>;
 export type NextFunction = _NextFunction
 
 export class InputError extends Error {

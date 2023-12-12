@@ -26,6 +26,25 @@ export default class LabModel {
         return result.acknowledged;
     }
 
+    static async search(query: string) {
+        const departments = await LabBaseModel.search(
+            {
+                match: {
+                    name: {
+                        query: query,
+                        fuzziness: "auto",
+                        fuzzy_transpositions: true,
+                    }
+                }
+            },
+            {
+                hydrate: true,
+                hydrateOptions: { select: "name _id" }
+            })
+
+        return departments.body.hits.hydrated;
+    }
+
     static async get(ids: string[]) {
         const result = await LabBaseModel.find({ _id: { $in: ids } }).exec();
         return result;

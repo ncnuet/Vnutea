@@ -1,6 +1,5 @@
 import { Document, ObjectId, Schema } from "mongoose";
 import { UserBaseModel } from "../base/user.base";
-import mongoosastic, { MongoosasticDocument } from "mongoosastic"
 
 export enum EOutstandingType {
     TEACHER = "teacher",
@@ -15,7 +14,7 @@ export interface IOutstanding {
 }
 
 export interface IOutstandingSchema
-    extends Omit<IOutstanding, "ref" | "creator">, Document, MongoosasticDocument {
+    extends Omit<IOutstanding, "ref" | "creator">, Document {
     ref: ObjectId;
     creator: ObjectId;
 }
@@ -29,7 +28,4 @@ const OutstandingSchema = new Schema<IOutstandingSchema>({
     timestamps: true,
 })
 
-// @ts-ignore
-OutstandingSchema.plugin(mongoosastic)
-
-export default OutstandingSchema;
+export { OutstandingSchema };

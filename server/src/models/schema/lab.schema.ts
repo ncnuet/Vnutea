@@ -1,6 +1,7 @@
-import { Schema, ObjectId } from "mongoose";
+import { Schema, ObjectId, Document } from "mongoose";
 import { ContactSchema, IContact } from "./contact.schema";
 import { DetailSchema, IDetail } from "./detail.schema";
+import mongoosastic, { MongoosasticDocument } from "mongoosastic";
 
 export interface ILab {
     name: string;
@@ -14,14 +15,14 @@ export interface ILab {
 }
 
 export interface ILabSchema
-    extends Omit<ILab, "dean" | "department" | "creator"> {
+    extends Omit<ILab, "dean" | "department" | "creator">, MongoosasticDocument, Document {
     dean: ObjectId;
     creator: ObjectId;
     department: ObjectId;
 }
 
-export const LabSchema = new Schema<ILabSchema>({
-    name: { type: String, required: true },
+ const LabSchema = new Schema<ILabSchema>({
+    name: { type: String, required: true, es_index: true },
     dean: { type: Schema.Types.ObjectId, required: true },
     description: { type: String },
     contact: { type: ContactSchema, required: true },
@@ -30,3 +31,8 @@ export const LabSchema = new Schema<ILabSchema>({
     creator: { type: Schema.Types.ObjectId, required: true },
     department: { type: Schema.Types.ObjectId, required: true },
 })
+
+// @ts-ignore
+LabSchema.plugin(mongoosastic);
+
+export { LabSchema }

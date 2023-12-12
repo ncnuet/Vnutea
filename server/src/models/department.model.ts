@@ -19,6 +19,25 @@ export default class DepartmentModel {
         return result.acknowledged;
     }
 
+    static async search(query: string) {
+        const departments = await DepartmentBaseModel.search(
+            {
+                match: {
+                    name: {
+                        query: query,
+                        fuzziness: "auto",
+                        fuzzy_transpositions: true,
+                    }
+                }
+            },
+            {
+                hydrate: true,
+                hydrateOptions: { select: "name _id" }
+            })
+
+        return departments.body.hits.hydrated;
+    }
+
     static async get(ids: string[]) {
         const result = await DepartmentBaseModel.find({ _id: { $in: ids } }).exec();
         return result;
