@@ -2,36 +2,48 @@ import { EvaluationBaseModel } from "./base/evaluation.base";
 import { ICreateEvaluation, IUpdateEvaluation } from "@/validators/evaluation.validator";
 
 export default class EvaluationModel {
-    static async create(data: ICreateEvaluation) {
-        const { creator, classID, criteria } = data;
+    static async create(participants: string[], data: ICreateEvaluation) {
+        const { creator, classID } = data;
 
-        const response = await EvaluationBaseModel.create(
-            { creator, classID, criteria }
-        );
+        const response = await EvaluationBaseModel.insertMany(
+            participants.map(student => ({
+                classID, creator,
+                participant: student,
+                criteria: [],
+                isDone: false,
+                isOpen: false
+            })))
 
-        return response._id;
+        return response.map(res => res._id);
     }
 
-    static async delete(id: string, creator: string) {
-        const result = await EvaluationBaseModel.deleteOne(
-            { _id: id, creator: creator }
+    static async delete(participants: string[], classID: string) {
+        const result = await EvaluationBaseModel.deleteMany(
+            {
+                participant: { $in: participants },
+                classID: classID
+            },
         ).exec();
 
         return result.acknowledged;
     }
 
-    static async update(id: string, creator: string, data: IUpdateEvaluation) {
-        const { criteria } = data;
-
+    static async update(data: IUpdateEvaluation) {
+        const { criteria, classID, participant } = data;
+        
         const response = await EvaluationBaseModel.updateOne(
-            { id: id, creator: creator },
-            { criteria: criteria })
+            { classID: classID, participant: participant },
+            {
+                criteria: criteria,
+                isDone: true
+            }
+        )
 
         return response.acknowledged;
     }
 
-    static async get(ids: string[]) {
-        const result = await EvaluationBaseModel.find({ _id: { $in: ids } }).exec();
-        return result;
-    }
+    // static async get(ids: string[]) {
+    //     const result = await EvaluationBaseModel.find({ _id: { $in: ids } }).exec();
+    //     return result;
+    // }
 }

@@ -16,12 +16,20 @@ export interface ICriteria {
 
 export interface IEvaluation {
     creator: string;
+    participant: string;
     classID: string;
     criteria: ICriteria[];
+    isDone: boolean;
+    isOpen: boolean;
 }
 
 export interface ICriteriaSchema extends ICriteria { }
-export interface IEvaluationSchema extends Modify<IEvaluation, { creator: ObjectId, classID: ObjectId }> { }
+export interface IEvaluationSchema
+    extends Omit<IEvaluation, "creator" | "participant" | "classID"> {
+    creator: ObjectId,
+    classID: ObjectId,
+    participant: ObjectId,
+}
 
 export const CriteriaSchema = new Schema<ICriteriaSchema>({
     name: { type: String, required: true },
@@ -30,6 +38,9 @@ export const CriteriaSchema = new Schema<ICriteriaSchema>({
 
 export const EvaluationSchema = new Schema<IEvaluationSchema>({
     creator: { type: Schema.Types.ObjectId, required: true },
+    participant: { type: Schema.Types.ObjectId, required: true },
     classID: { type: Schema.Types.ObjectId, required: true },
     criteria: { type: [CriteriaSchema], required: true },
+    isDone: { type: Schema.Types.Boolean, required: true },
+    isOpen: { type: Schema.Types.Boolean, required: true }
 })

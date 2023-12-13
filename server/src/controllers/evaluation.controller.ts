@@ -1,78 +1,34 @@
+import ClassModel from "@/models/class.model";
+import EvaluationModel from "@/models/evaluation.model";
 import { InputError, Request, Response } from "@/types/controller";
 import handleError from "@/utils/handle_error";
-import cloudinary from "@/configs/cloudinary";
-import fileUpload from "express-fileupload";
-import userModel from "@/models/user.model";
-import { EUserRole } from "@/types/auth";
-import DepartmentModel from "@/models/department.model";
-import LabValidator, { ICreateLab } from "@/validators/lab.validator";
-import LabModel from "@/models/lab.model";
-
+import EvaluationValidator, { IUpdateEvaluation } from "@/validators/evaluation.validator";
 export default class EvaluationController {
-    private static async precheck(data: ICreateLab) {
-        if (data.dean) {
-            const users = await userModel.getUsers([data.dean]);
-            if (users.length === 0) throw new InputError("Invalid dean id", "dean");
-            if (users[0].role !== EUserRole.TEACHER) throw new InputError("Invalid role of dean", "dean");
-        }
-
-        if (data.department) {
-            const departments = await DepartmentModel.get([data.department]);
-            if (departments.length === 0) throw new InputError("Invalid department id", "department");
+    private static async precheck(data: IUpdateEvaluation) {
+        if (data.classID) {
+            const classes = await ClassModel.get([data.classID]);
+            if (classes.length === 0) throw new InputError("Invalid classID update", "classID")
         }
     }
 
-    public static async create(req: Request, res: Response) {
+    static async update(req: Request, res: Response) {
         const user = res.locals.user;
-        const data = <ICreateLab>req.body;
+        const classID = req.params.clid;
+        const data = <IUpdateEvaluation>req.body;
 
         handleError(res, async () => {
-            LabValidator.validateCreate({ ...data, image: file ? "true" : void 0 });
-            await EvaluationController.precheck(data);
+            EvaluationValidator.validateUpdate({...data, classID});
+            await EvaluationController.precheck({...data, classID});
 
-            const uploadFile = <fileUpload.UploadedFile>file.image;
-            const result = await cloudinary.uploader.upload(uploadFile.tempFilePath, {
-                public_id: uploadFile.name,
-                resource_type: "auto",
-                folder: "uploaded",
-                use_filename: true,
-                unique_filename: false,
-            });
+            const ack = await EvaluationModel.update({
+                classID: classID,
+                participant: user.uid,
+                criteria: data.criteria
+            })
 
-            if (result.secure_url) {
-                const id = await LabModel.create({
-                    image: result.secure_url,
-                    dean: data.dean,
-                    contact: data.contact,
-                    name: data.name,
-                    description: data.description,
-                    details: data.details,
-                    creator: user.uid,
-                    department: data.department
-                })
-                res.status(200).send({ message: "Success", data: { id } })
-            } else {
-                res.status(500).send({ message: "Unable to upload image" })
-            }
-        })
-    }
-
-    static async update(req: Request, res: Response){
-        
-    }
-
-    static async delete(req: Request, res: Response) {
-        const id = req.params.id;
-
-        handleError(res, async () => {
-            LabValidator.validateDelete({ id });
-            const ack = await LabModel.delete(id);
-
-            res.status(200).send(
-                {
-                    message: ack ? "Deleted successfully" : "Unable to delete",
-                    data: { id }
-                })
+            res.status(200).json({
+                message: "success",
+            })
         })
     }
 }

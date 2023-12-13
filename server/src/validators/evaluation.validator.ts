@@ -2,16 +2,11 @@ import { InputError } from "@/types/controller";
 import BaseValidator from "./base.validator";
 import { ESatisfactionLevel, ICriteria, IEvaluation } from "@/models/schema/evaluation.schema";
 
-export interface ICreateEvaluation extends IEvaluation { }
+export interface ICreateEvaluation
+    extends Pick<IEvaluation, "classID" | "creator"> { }
 
-export interface IUpdateEvaluation {
-    id: string;
-}
-
-export interface IUpdateEvaluation {
-    id: string;
-    criteria: ICriteria[]
-}
+export interface IUpdateEvaluation
+    extends Pick<IEvaluation, "classID" | "participant" | "criteria"> { }
 
 export default class EvaluationValidator extends BaseValidator {
     static checkCriteria(criteria: ICriteria[], und?: boolean) {
@@ -32,15 +27,6 @@ export default class EvaluationValidator extends BaseValidator {
             if (!Object.values(ESatisfactionLevel).includes(level))
                 throw new InputError("Invalid satisfaction level", "level")
         } else if (!und) throw new InputError("Must include satisfaction level", "level")
-    }
-
-    static validateCreate(data: ICreateEvaluation) {
-        this.checkId(data.classID);
-        this.checkCriteria(data.criteria);
-    }
-
-    static validateDelete(data: IUpdateEvaluation) {
-        this.checkId(data.id);
     }
 
     static validateUpdate(data: IUpdateEvaluation) {

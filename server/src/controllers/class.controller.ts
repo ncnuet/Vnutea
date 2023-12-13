@@ -5,6 +5,7 @@ import ClassModel from "@/models/class.model";
 import StudentModel from "@/models/student.model";
 import TeacherModel from "@/models/teacher.model";
 import CommentValidator, { ICreateComment } from "@/validators/comment.validator";
+import EvaluationModel from "@/models/evaluation.model";
 
 export default class ClassController {
     private static async precheck(data: ICreateClass) {
@@ -21,14 +22,12 @@ export default class ClassController {
     public static async create(req: Request, res: Response) {
         const user = res.locals.user;
         const data = <ICreateClass>req.body;
-        console.log(req.body);
-
 
         handleError(res, async () => {
             ClassValidator.validateCreate(data);
             await ClassController.precheck(data);
 
-            const id = await ClassModel.create({
+            const class_id = await ClassModel.create({
                 classID: data.classID,
                 creator: user.uid,
                 description: data.description,
@@ -37,12 +36,16 @@ export default class ClassController {
                 teacher: data.teacher
             })
 
-            const teacher_ack = await TeacherModel.addClass(data.teacher, id);
-            const student_ack = await StudentModel.addClass(data.students, id);
+            const teacher_ack = await TeacherModel.addClass(data.teacher, class_id);
+            const student_ack = await StudentModel.addClass(data.students, class_id);
+            const evaluation_ack = await EvaluationModel.create(data.students, {
+                classID: class_id,
+                creator: user.uid
+            })
 
             res.status(200).json({
                 message: "Created successfully",
-                data: { id }
+                data: { id: class_id }
             });
         })
     }
@@ -56,6 +59,7 @@ export default class ClassController {
             const ack = await ClassModel.delete(id);
             const student_ack = await StudentModel.deleteClass(students.map(s => s.toString()), id);
             const teacher_ack = await TeacherModel.deleteClass(teacher.toString(), id);
+            const evaluation_ack = await EvaluationModel.delete(students.map(s => s.toString()), id)
 
             res.status(200).send(
                 {
