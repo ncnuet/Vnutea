@@ -24,14 +24,14 @@ export default class TeacherValidator extends BaseValidator {
     }
 
     static validateCreate(data: ICreateTeacher) {
+        this.checkId(data.user, false, "user");
         this.checkName(data.name);
-        this.checkId(data.user);
-        this.checkId(data.lab, true);
-        this.checkId(data.department, true);
-        this.checkAwards(data.awards, true);
+        this.checkId(data.department, true, "department");
+        this.checkId(data.lab, true, "lab");
+        this.checkAwards(data.awards, true); //TODO: check
         this.checkContact(data.contact, true)
         this.checkDetail(data.details, true);
-        this.checkFile(data.image, true);
+        this.checkFile(data.image, true, "image");
     }
 
     static validateUpdate(data: IUpdateTeacher) {

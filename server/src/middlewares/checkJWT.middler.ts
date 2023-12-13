@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "@/types/controller";
 import * as jwt from "jsonwebtoken";
 import config from "@/configs/env";
 import { checkRWT } from "./checkRWT.middler";
-import tokenModel from "@/models/token.model";
+import TokenModel from "@/models/token.model";
 import { IUser } from "@/types/auth";
 
 interface ICheckJWT {
@@ -18,7 +18,7 @@ export async function checkJWT(this: ICheckJWT | void, req: Request, res: Respon
 
     try {
         const user = <IUser>jwt.verify(token, config.JWT_KEY);
-        const version = await tokenModel.getVersion(user.uid);
+        const version = await TokenModel.getVersion(user.uid);
 
         if (version && version !== user.version) return res.sendStatus(401);
         res.locals.user = user;
