@@ -11,6 +11,9 @@ import Onboarding from './screens/Onboarding';
 import Icon from 'react-native-vector-icons/Octicons';
 import Search from './screens/Search/components/Search';
 import { SearchStackNavigator } from './screens/Search';
+import { FavTeacherNavigator } from './screens/FavTeacher';
+import { ChatStackNavigator } from './screens/NewChat';
+
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 const TabApp = createMaterialBottomTabNavigator<StudentTabParamList>();
 
@@ -31,9 +34,12 @@ function MainRootApp() {
         component={StudentScreen} />
       <TabApp.Screen
         name="Search"
-        // component={Search} 
         component={SearchStackNavigator}
-        />
+      />
+      <TabApp.Screen
+        name="Chat"
+        component={ChatStackNavigator}
+      />
     </TabApp.Navigator>
   )
 }
