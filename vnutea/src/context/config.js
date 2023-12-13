@@ -1,1 +1,4 @@
-export const BASE_URL = 'http://10.0.2.2:8000/v1';
+import Config from "react-native-config";
+
+export const BASE_URL = Config.HOST;
+console.log(BASE_URL);

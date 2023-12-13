@@ -5,10 +5,11 @@ export type RootStackParamList = {
 };
 
 export type StudentTabParamList = {
-  Home: undefined;
+  HomeStack: undefined;
   Setting: undefined;
   Search: undefined;
   Profile: undefined;
+  Chat: undefined;
 };
 
 export type StudentStackParamList = {

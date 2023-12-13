@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, { useContext, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,14 +12,14 @@ import {
   Alert,
 } from 'react-native';
 import Logo from '@/components/Logo';
-import {AuthContext} from '@/context/AuthContext';
+import { AuthContext } from '@/context/AuthContext';
 import Spinner from 'react-native-loading-spinner-overlay';
-import {BASE_URL} from '@/context/config';
+import { BASE_URL } from '@/context/config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import axios from 'axios';
 
-export default function Login({navigation}) {
+export default function Login({ navigation }) {
   const [userInfo, setUserInfo] = useState({});
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -28,7 +28,7 @@ export default function Login({navigation}) {
   const login = () => {
     if (username !== '' && password !== '') {
       // setIsLoading(true);
-
+      
       axios
         .post(`${BASE_URL}/auth/login`, {
           username: username,
@@ -75,19 +75,30 @@ export default function Login({navigation}) {
       <View style={styles.whiteSheet} />
       <SafeAreaView style={styles.form}>
         <Logo />
-        <Text style={styles.title}>Welcome</Text>
+        <Text
+          style={styles.title}
+          className='font-montserrat'>
+          Welcome
+        </Text>
+
+        <Text className='mb-2 text-white'>Tên đăng nhập</Text>
         <TextInput
+          className='font-montserrat text-primary'
+          placeholderTextColor="gray"
           style={styles.input}
           placeholder="Enter email"
           autoCapitalize="none"
           keyboardType="email-address"
           textContentType="emailAddress"
-          // autoFocus={true}
           value={username}
           onChangeText={text => setUsername(text)}
         />
+
+        <Text className='mb-2 text-white'>Mật khẩu</Text>
         <TextInput
+          placeholderTextColor="gray"
           style={styles.input}
+          className='font-montserrat text-primary'
           placeholder="Enter password"
           autoCapitalize="none"
           autoCorrect={false}
@@ -96,30 +107,16 @@ export default function Login({navigation}) {
           value={password}
           onChangeText={text => setPassword(text)}
         />
-        <TouchableOpacity title="Login" style={styles.button} onPress={login}>
-          <Text style={{fontWeight: 'bold', color: '#fff', fontSize: 20}}>
+
+        <TouchableOpacity
+          title="Login"
+          style={styles.button}
+          onPress={login}>
+          <Text style={{ fontWeight: 'bold', color: '#fff', fontSize: 20 }}>
             {' '}
             Log In
           </Text>
         </TouchableOpacity>
-        {/* <Button title="Login" onPress={login} /> */}
-        <View
-          style={{
-            marginTop: 20,
-            flexDirection: 'row',
-            alignItems: 'center',
-            alignSelf: 'center',
-          }}>
-          <Text style={{color: 'gray', fontWeight: '600', fontSize: 14}}>
-            Don't have an account?{' '}
-          </Text>
-          <TouchableOpacity>
-            <Text style={{color: '#92D5E6', fontWeight: '600', fontSize: 14}}>
-              {' '}
-              Sign Up
-            </Text>
-          </TouchableOpacity>
-        </View>
       </SafeAreaView>
       <StatusBar barStyle="light-content" />
     </View>
@@ -170,6 +167,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 40,
+    marginTop: 40
   },
 });
