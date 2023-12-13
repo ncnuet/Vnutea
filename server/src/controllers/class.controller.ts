@@ -27,6 +27,7 @@ export default class ClassController {
         handleError(res, async () => {
             ClassValidator.validateCreate(data);
             await ClassController.precheck(data);
+
             const id = await ClassModel.create({
                 classID: data.classID,
                 creator: user.uid,
@@ -35,6 +36,10 @@ export default class ClassController {
                 students: data.students,
                 teacher: data.teacher
             })
+
+            const teacher_ack = await TeacherModel.addClass(data.teacher, id);
+            const student_ack = await StudentModel.addClass(data.students, id);
+
             res.status(200).json({
                 message: "Created successfully",
                 data: { id }
@@ -47,7 +52,10 @@ export default class ClassController {
 
         handleError(res, async () => {
             ClassValidator.validateDelete({ id });
+            const { students, teacher } = (await ClassModel.get([id]))[0];
             const ack = await ClassModel.delete(id);
+            const student_ack = await StudentModel.deleteClass(students.map(s => s.toString()), id);
+            const teacher_ack = await TeacherModel.deleteClass(teacher.toString(), id);
 
             res.status(200).send(
                 {

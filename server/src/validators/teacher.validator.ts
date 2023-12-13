@@ -2,10 +2,10 @@ import { InputError } from "@/types/controller";
 import BaseValidator from "./base.validator";
 import { ITeacher } from "@/models/schema/teacher.schema";
 
-export interface ICreateTeacher extends ITeacher { }
+export interface ICreateTeacher extends Omit<ITeacher, "classes"> { }
 
 export interface IUpdateTeacher
-    extends Partial<Omit<ITeacher, "name" | "awards" | "creator" | "user">> {
+    extends Partial<Omit<ITeacher, "name" | "awards" | "creator" | "user" | "classes">> {
     id: string;
 }
 

@@ -1,7 +1,7 @@
 import BaseValidator from "./base.validator";
 import { IStudent } from "@/models/schema/student.schema";
 
-export interface ICreateStudent extends IStudent { }
+export interface ICreateStudent extends Omit<IStudent, "classes"> { }
 
 export interface IUpdateStudent
     extends Partial<Omit<IStudent, "creator">> {
@@ -20,7 +20,7 @@ export default class StudentValidator extends BaseValidator {
     }
 
     static validateUpdate(data: IUpdateStudent) {
-        
+
     }
 
     static validateDelete(data: IDeleteStudent) {

@@ -7,6 +7,7 @@ import LabRouter from './lab.route';
 import SearchRouter from './search.route';
 import MeRouter from './me.route';
 import ClassRouter from './class.route';
+import EvaluationRouter from './evaluation.route';
 
 const router = Router();
 
@@ -18,5 +19,6 @@ router.use("/lab", LabRouter)
 router.use("/search", SearchRouter)
 router.use("/class", ClassRouter)
 router.use("/me", MeRouter)
+router.use("/evaluation", EvaluationRouter)
 
 export default router;
