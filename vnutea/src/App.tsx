@@ -9,9 +9,10 @@ import SplashScreen from 'react-native-splash-screen';
 import Onboarding from './screens/Onboarding';
 import Login from './screens/Login';
 import Icon from 'react-native-vector-icons/Octicons';
-import { SearchStackNavigator } from './screens/Search';
-import { ChatStackNavigator } from './screens/NewChat';
+import {SearchStackNavigator} from './screens/Search';
+import {ChatStackNavigator} from './screens/NewChat';
 import Profile from './screens/Profile';
+import Settings from './screens/Settings';
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 const TabApp = createMaterialBottomTabNavigator<StudentTabParamList>();
@@ -20,7 +21,7 @@ function MainRootApp() {
   return (
     <TabApp.Navigator>
       <TabApp.Screen
-        name="HomeStack"
+        name="Home"
         component={HomeStackNavigator}
         options={{
           tabBarIcon: () => <Icon name="home" size={16} color="#19253D" />,
@@ -46,6 +47,17 @@ function MainRootApp() {
       <TabApp.Screen
         name="Chat"
         component={ChatStackNavigator}
+        options={{
+          tabBarIcon: () => <Icon name="chat" size={16} color="#19253D" />,
+        }}
+      />
+
+      <TabApp.Screen
+        name="Setting"
+        component={Settings}
+        options={{
+          tabBarIcon: () => <Icon name="settings" size={16} color="#19253D" />,
+        }}
       />
     </TabApp.Navigator>
   );
