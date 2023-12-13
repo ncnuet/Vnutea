@@ -14,6 +14,7 @@ export interface IUserWithoutVersion {
     username: string,
     uid: string
     role: IUserRole,
+    name: string
 }
 
 export type IQueryableUser = {

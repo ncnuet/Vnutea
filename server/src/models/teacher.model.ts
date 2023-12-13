@@ -40,8 +40,27 @@ export default class TeacherModel {
         return response.acknowledged;
     }
 
+    static async search(query: string) {
+        const users = await TeacherBaseModel.search(
+            {
+                match: {
+                    name: {
+                        query: query,
+                        fuzziness: "auto",
+                        fuzzy_transpositions: true,
+                    }
+                }
+            },
+            {
+                hydrate: true,
+                hydrateOptions: { select: "name _id" }
+            })
+
+        return users.body.hits.hydrated;
+    }
+
     static async get(ids: string[]) {
-        const result = await TeacherBaseModel.find({ _id: { $in: ids } }).exec();
+        const result = await TeacherBaseModel.find({ user: { $in: ids } }).exec();
         return result;
     }
 }

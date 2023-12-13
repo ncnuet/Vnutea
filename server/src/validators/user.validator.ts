@@ -8,7 +8,7 @@ export interface ILogin {
     remember?: boolean
 }
 
-export interface ICreateUser extends Pick<IUser, "username" | "role"> { }
+export interface ICreateUser extends Pick<IUser, "username" | "role" | "name"> { }
 
 export interface IDeleteUser {
     id: string
@@ -24,6 +24,7 @@ export default class UserValidator extends BaseValidator {
     }
 
     static validateCreate(data: ICreateUser) {
+        this.checkName(data.name);
         this.checkUsername(data.username);
         this.checkRole(data.role)
     }

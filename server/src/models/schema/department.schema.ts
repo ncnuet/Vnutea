@@ -1,6 +1,7 @@
-import { Schema, ObjectId } from "mongoose";
+import { Schema, ObjectId, Document } from "mongoose";
 import { ContactSchema, IContact } from "./contact.schema";
 import { DetailSchema, IDetail } from "./detail.schema";
+import mongoosastic, { MongoosasticDocument } from "mongoosastic";
 
 export interface IDepartment {
     name: string;
@@ -13,13 +14,13 @@ export interface IDepartment {
 }
 
 export interface IDepartmentSchema
-    extends Omit<IDepartment, "dean" | "creator"> {
+    extends Omit<IDepartment, "dean" | "creator">, Document, MongoosasticDocument {
     dean: ObjectId;
     creator: ObjectId
 }
 
-export const DepartmentSchema = new Schema<IDepartmentSchema>({
-    name: { type: String, required: true },
+ const DepartmentSchema = new Schema<IDepartmentSchema>({
+    name: { type: String, required: true, es_index: true },
     dean: { type: Schema.Types.ObjectId, required: true },
     description: { type: String },
     contact: { type: ContactSchema, required: true },
@@ -27,3 +28,8 @@ export const DepartmentSchema = new Schema<IDepartmentSchema>({
     image: { type: String, required: true },
     creator: { type: Schema.Types.ObjectId, required: true },
 })
+
+// @ts-ignore
+DepartmentSchema.plugin(mongoosastic);
+
+export { DepartmentSchema }

@@ -77,6 +77,7 @@ export default class AuthController {
 
             const user_id = await UserModel.create(
                 user.uid, {
+                name: data.name,
                 username: data.username,
                 role: data.role,
             });
