@@ -1,23 +1,47 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
+  Alert,
   Image,
-
 } from 'react-native';
-const url = 'https://pyxis.nymag.com/v1/imgs/51b/28a/622789406b8850203e2637d657d5a0e0c3-avatar-rerelease.1x.rsquare.w1400.jpg'
-const name = 'Trương Minh Đức'
-const id = '21020304'
-const StudentScreen = () => {
+const url =
+  'https://pyxis.nymag.com/v1/imgs/51b/28a/622789406b8850203e2637d657d5a0e0c3-avatar-rerelease.1x.rsquare.w1400.jpg';
+const name = 'Trương Minh Đức';
+const id = '21020304';
+
+const Settings = ({navigation}) => {
+  const [showBox, setShowBox] = useState(true);
+
+  const showConfirmLogout = () => {
+    return Alert.alert('Are your sure?', 'Logout', [
+      // The "Yes" button
+      {
+        text: 'Yes',
+        onPress: () => {
+          navigation.replace('Login');
+        },
+      },
+      // The "No" button
+      // Does nothing but dismiss the dialog when tapped
+      {
+        text: 'No',
+      },
+    ]);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.containerTop}>
         {/* <Image style={styles.matcuoi} source={require('./image/matcuoi.png')} /> */}
-        <Image style={styles.imagecontainerTop} source={require('./image/coc.png')} />
+        <Image
+          style={styles.imagecontainerTop}
+          source={require('./image/coc.png')}
+        />
         <Text style={styles.textvnu}>VNUTea</Text>
-        <Image style = {styles.avatarTop} source={{uri:url}} />
+        <Image style={styles.avatarTop} source={{uri: url}} />
         <Text style={styles.idStudent}>{id}</Text>
         <Text style={styles.nameStudent}>{name}</Text>
       </View>
@@ -36,13 +60,13 @@ const StudentScreen = () => {
         </TouchableOpacity>
       </View>
       <View style={styles.box}>
-      <TouchableOpacity style={styles.buttonBox}>
+        <TouchableOpacity style={styles.buttonBox} onPress={showConfirmLogout}>
           {/* <Image style={styles.imageBox} source={require('./image/logout.png')}/> */}
           <Text style={styles.textLogout}>Logout</Text>
         </TouchableOpacity>
       </View>
     </View>
-  )
+  );
 };
 
 const styles = StyleSheet.create({
@@ -110,7 +134,7 @@ const styles = StyleSheet.create({
   },
   box: {
     backgroundColor: '#F7F8F8',
-    borderRadius: 20, 
+    borderRadius: 20,
     margin: 20,
   },
   buttonBox: {
@@ -118,7 +142,7 @@ const styles = StyleSheet.create({
     height: 50,
     padding: 10,
   },
-  imageBox:{
+  imageBox: {
     position: 'absolute',
     left: 10,
     top: 10,
@@ -144,4 +168,4 @@ const styles = StyleSheet.create({
     wordWrap: 'break-word',
   },
 });
-export default StudentScreen;
+export default Settings;

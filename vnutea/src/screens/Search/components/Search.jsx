@@ -107,10 +107,10 @@ export default function Search(
     const handleSearchOnPress = () => {
         if (mySearch != '') {
             navigation.navigate('SearchResScreen'
-            ,{
-                searchValue: mySearch,
-                typeSearchValue: typeSearch,
-            }
+            // ,{
+            //     searchValue: mySearch,
+            //     typeSearchValue: typeSearch,
+            // }
             )
         }
     }
@@ -129,7 +129,7 @@ export default function Search(
         setTypeSearch('Facility');
     }
 
-    // console.log('rendering');
+    console.log('rendering');
 
     // Bên trong hàm component của bạn
     const btnOptionsStyle = useMemo(() => ({
