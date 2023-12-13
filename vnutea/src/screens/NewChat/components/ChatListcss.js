@@ -152,7 +152,7 @@ export const styles = StyleSheet.create({
         fontWeight: '500',
     },
     chatListWrapper: {
-        flex: 1,
+        // flex: 1,
         marginTop: 0.016 * windowHeight,
         marginBottom: 0.05 * windowHeight,
         width: '100%',
@@ -424,27 +424,28 @@ export const styles = StyleSheet.create({
         // backgroundColor: 'red',
         marginBottom: 0.012 * windowHeight,
     },
-    messageItemWrapper: {
-        marginTop: 0.02 * windowHeight,
-        flex: 1,
-        justifyContent: 'center',
-        alignContent: 'center',
-    },
-    messageItem: {
+
+    itemWrapper: {
         backgroundColor: '#fff',
+        paddingHorizontal: 0.03 * windowWidth,
+        marginHorizontal: 0.07 * windowWidth,
+        paddingVertical: 0.01 * windowHeight,
+        marginVertical: 0.01 * windowHeight,
+        alignSelf: 'flex-start',
+        maxWidth: 0.72 * windowWidth,
         borderRadius: 8,
-        marginLeft: 0.07 * windowWidth,
-        marginRight: 0.07 * windowHeight,
     },
-    messageText: {
-        marginTop: 0.0044 * windowHeight,
-        marginBottom: 0.0044  * windowHeight,
-        fontSize: 0.0132 * windowHeight + 0.0132 * windowWidth,
-        marginLeft: 0.02 * windowWidth,
-        marginRight: 0.02 * windowWidth,
+    itemRight: {
+        alignSelf: 'flex-end',
+        backgroundColor: mySpecBlue,
+    },
+    itemTextLeft: {
         color: mySpecBlue,
-        // flex: 1,
-        // backgroundColor: '#fff',
+        fontSize: 0.012 * windowHeight + 0.012 * windowWidth,
+    },
+    itemTextRight: {
+        color: '#fff',
+        fontSize: 0.012 * windowHeight + 0.012 * windowWidth,
     },
 
     allChatWrapper: {

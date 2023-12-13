@@ -36,7 +36,7 @@ const myMaxLength = 40;
 const mySpecBlue = '#19253D';
 
 export default function Chat({route, navigation}) {
-  const {name} = route.params;
+  const {name, avt} = route.params;
   const [status, setStatus] = useState(true);
   const [isTyping, setIsTyping] = useState(true);
 
@@ -52,7 +52,7 @@ export default function Chat({route, navigation}) {
     {
       id: 1,
       sender: 1,
-      mess: 'Ok hay gap mat nhe! 111111111111111111111111111111111111111',
+      mess: 'Ok hay gap mat nhe! . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ',
       type: 'text',
       time: '11:22',
     },
@@ -77,16 +77,66 @@ export default function Chat({route, navigation}) {
       type: 'text',
       time: '12:30',
     },
+    {
+      id: 5,
+      sender: 0,
+      mess: 'Dit me may cho bo may xin cai dia chi! Dit me may noi it thoi',
+      type: 'text',
+      time: '12:30',
+    },
+    {
+      id: 6,
+      sender: 0,
+      mess: 'Dit me may cho bo may xin cai dia chi! Dit me may noi it thoi',
+      type: 'text',
+      time: '12:30',
+    },
+    {
+      id: 7,
+      sender: 1,
+      mess: 'An noi kieu gi mat day the?',
+      type: 'text',
+      time: '12:30',
+    },
+    {
+      id: 8,
+      sender: 1,
+      mess: 'Mo coi bo me deo duoc day do tu te a?',
+      type: 'text',
+      time: '12:30',
+    },
+    {
+      id: 9,
+      sender: 0,
+      mess: 'Dit con me may!',
+      type: 'text',
+      time: '12:30',
+    },
+    {
+      id: 10,
+      sender: 1,
+      mess: 'Bo dit ca nha may luon day con lon!',
+      type: 'text',
+      time: '12:30',
+    },
   ]);
 
-  const renderMessageItem = ({item}) => (
-    <View style={styles.messageItemWrapper}>
-
-      <View style={styles.messageItem}>
-        <Text style={styles.messageText}>{item.mess}</Text>
-      </View>
-    </View>
-  );
+  const renderMessageItem = ({item}) => {
+    switch (item.sender) {
+      case 0:
+        return (
+          <View style={styles.itemWrapper}>
+            <Text style={styles.itemTextLeft}>{item.mess}</Text>
+          </View>
+        );
+      case 1:
+        return (
+          <View style={[styles.itemWrapper, styles.itemRight]}>
+            <Text style={styles.itemTextRight}>{item.mess}</Text>
+          </View>
+        );
+    }
+  };
 
   return (
     <View style={[styles.allWrapper, styles.allChatWrapper]}>
@@ -97,7 +147,11 @@ export default function Chat({route, navigation}) {
           source={require('../assets/Vector.png')}></Image>
 
         <View style={styles.headerWrapper}>
-          <TouchableOpacity style={styles.headerBtn}>
+          <TouchableOpacity style={styles.headerBtn}
+           onPress={() => {
+            navigation.pop();
+           }}
+          >
             <IconAntDesign
               name="arrowleft"
               size={0.02 * windowHeight + 0.02 * windowWidth}
@@ -109,7 +163,7 @@ export default function Chat({route, navigation}) {
             <View style={styles.headerAvtWrapper}>
               <Image
                 style={styles.headerAvt}
-                source={require('../assets/avtlpd.png')}></Image>
+                source={avt}></Image>
 
               {status == true && (
                 <View style={styles.headerStatusWrapper}>
@@ -138,9 +192,10 @@ export default function Chat({route, navigation}) {
         <View style={styles.chatMessListWrapper}>
           <FlatList
             data={dataChat}
-            keyExtractor={item => item.id.toString()}
-            renderItem={renderMessageItem}
-          />
+            renderItem={({item}) => renderMessageItem({item})}
+            inverted={true}
+            contentContainerStyle={{ flexDirection: 'column-reverse' }}
+          ></FlatList>
         </View>
         {/* Khung nhac nguoi khac dang go */}
         {isTyping == true && (
@@ -148,7 +203,7 @@ export default function Chat({route, navigation}) {
             <View style={styles.chatTypingAvtWrapper}>
               <Image
                 style={styles.chatTypingAvt}
-                source={require('../assets/avtlpd.png')}></Image>
+                source={avt}></Image>
             </View>
             <View style={styles.chatTypingTextWrapper}>
               <Text style={styles.chatTypingText}>

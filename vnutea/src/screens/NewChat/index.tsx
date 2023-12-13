@@ -8,6 +8,7 @@ type ChatStackParamList = {
     ChatScreen: {
         id: string;
         name: string;
+        avt: undefined;
     };
 }
 

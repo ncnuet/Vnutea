@@ -104,6 +104,7 @@ export default function ChatList({ navigation }) {
     navigation.navigate(
       'ChatScreen', {
         name: item.name,
+        avt: item.avt,
       }
     );
   }
@@ -183,7 +184,11 @@ export default function ChatList({ navigation }) {
           source={require('../assets/Vector.png')}></Image>
 
         <View style={styles.headerWrapper}>
-          <TouchableOpacity style={styles.headerBtn}>
+          <TouchableOpacity style={styles.headerBtn}
+            onPress={() => {
+              navigation.goBack(null);
+            }}
+          >
             <IconAntDesign
               name="arrowleft"
               size={0.02 * windowHeight + 0.02 * windowWidth}
@@ -196,62 +201,66 @@ export default function ChatList({ navigation }) {
         </View>
       </View>
 
-      {/* Search Input */}
-      <View style={styles.searchWrapper}>
-        <TouchableOpacity style={styles.searchBtn}>
-          <IconAntDesign
-            name="search1"
-            size={0.024 * windowHeight + 0.024 * windowWidth}
-            color={mySpecBlue}></IconAntDesign>
-        </TouchableOpacity>
-        <TextInput
-          style={styles.searchInputWrapper}
-          placeholder="Search"></TextInput>
-      </View>
+      <ScrollView>
 
-      {/* Khung hien thi cuoc hen */}
-      {isDated == true && (
-        <View style={styles.dateWrapper}>
-          <View style={styles.avtDateWrapper}>
-            <Image
-              style={styles.avtDate}
-              source={require('../assets/avtlpd.png')}></Image>
-          </View>
+        {/* Search Input */}
+        <View style={styles.searchWrapper}>
+          <TouchableOpacity style={styles.searchBtn}>
+            <IconAntDesign
+              name="search1"
+              size={0.024 * windowHeight + 0.024 * windowWidth}
+              color={mySpecBlue}></IconAntDesign>
+          </TouchableOpacity>
+          <TextInput
+            style={styles.searchInputWrapper}
+            placeholder="Search"></TextInput>
+        </View>
 
-          <View style={styles.labelDateWrapper}>
-            <View style={styles.textDateWrapper}>
-              <Text style={styles.textDate}>Bạn đang đặt lịch gặp thầy</Text>
-
-              {nameTeacherDate.map((name, index) => (
-                <Text key={index} style={styles.nameDate}>
-                  {' '}
-                  {name}
-                </Text>
-              ))}
-
-              <Text style={styles.textDate}>, hãy nhắn tin cho thầy nhé</Text>
+        {/* Khung hien thi cuoc hen */}
+        {isDated == true && (
+          <View style={styles.dateWrapper}>
+            <View style={styles.avtDateWrapper}>
+              <Image
+                style={styles.avtDate}
+                source={require('../assets/avtlpd.png')}></Image>
             </View>
 
-            <TouchableOpacity style={styles.btnDateWrapper}>
-              <Text style={styles.textBtn}>Nhắn tin cho thầy</Text>
-            </TouchableOpacity>
+            <View style={styles.labelDateWrapper}>
+              <View style={styles.textDateWrapper}>
+                <Text style={styles.textDate}>Bạn đang đặt lịch gặp thầy</Text>
+
+                {nameTeacherDate.map((name, index) => (
+                  <Text key={index} style={styles.nameDate}>
+                    {' '}
+                    {name}
+                  </Text>
+                ))}
+
+                <Text style={styles.textDate}>, hãy nhắn tin cho thầy nhé</Text>
+              </View>
+
+              <TouchableOpacity style={styles.btnDateWrapper}>
+                <Text style={styles.textBtn}>Nhắn tin cho thầy</Text>
+              </TouchableOpacity>
+            </View>
           </View>
+        )}
+
+        {/* Danh sach chat Label*/}
+        <View style={styles.chatListLabel}>
+          <Text style={styles.chatListTextLabel}>Chat</Text>
         </View>
-      )}
 
-      {/* Danh sach chat Label*/}
-      <View style={styles.chatListLabel}>
-        <Text style={styles.chatListTextLabel}>Chat</Text>
-      </View>
+        {/* Danh sach chat */}
+        <View style={styles.chatListWrapper}>
+          <FlatList
+            data={dataChatList}
+            keyExtractor={item => item.id.toString()}
+            renderItem={renderChatList}
+          />
+        </View>
+      </ScrollView>
 
-      {/* Danh sach chat */}
-      <View style={styles.chatListWrapper}>
-        <FlatList
-          data={dataChatList}
-          keyExtractor={item => item.id.toString()}
-          renderItem={renderChatList}
-        />
-      </View>
     </View>
   );
 }
