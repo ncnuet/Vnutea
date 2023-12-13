@@ -11,7 +11,8 @@ export default class TeacherModel {
         const response = await TeacherBaseModel.create(
             {
                 name, lab, department, description, awards,
-                details, contact, image, creator, user
+                details, contact, image, creator, user,
+                classes: []
             }
         );
 
@@ -57,6 +58,30 @@ export default class TeacherModel {
             })
 
         return users.body.hits.hydrated;
+    }
+
+    static async addClass(id: string, classID: string) {
+        const response = await TeacherBaseModel.updateOne(
+            { user: id },
+            {
+                $push: {
+                    classes: classID
+                }
+            })
+
+        return response.acknowledged;
+    }
+
+    static async deleteClass(id: string, classID: string) {
+        const response = await TeacherBaseModel.updateOne(
+            { user: id },
+            {
+                $pull: {
+                    classes: classID
+                }
+            })
+
+        return response.acknowledged;
     }
 
     static async get(ids: string[]) {

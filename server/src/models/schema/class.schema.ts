@@ -17,7 +17,7 @@ export interface IClassSchema
     extends Omit<IClass, "teacher" | "students" | "creator">, MongoosasticDocument, Document {
     teacher: ObjectId;
     creator: ObjectId;
-    students: ObjectId;
+    students: [ObjectId];
 }
 
 const ClassSchema = new Schema<IClassSchema>({

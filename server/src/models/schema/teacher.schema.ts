@@ -16,16 +16,17 @@ export interface ITeacher {
     details?: IDetail[],
     image?: string,
     creator: string,
-
+    classes: [string]
 }
 
 export interface ITeacherSchema
-    extends Omit<ITeacher, | "department" | "lab" | "awards" | "creator" | "user">, Document, MongoosasticDocument {
+    extends Omit<ITeacher, | "department" | "lab" | "awards" | "creator" | "user" | "classes">, Document, MongoosasticDocument {
     department?: ObjectId;
     lab?: ObjectId;
     awards: ObjectId[];
     creator: ObjectId;
     user: ObjectId;
+    classes: ObjectId[];
 }
 
 const TeacherSchema = new Schema<ITeacherSchema>({
@@ -39,7 +40,7 @@ const TeacherSchema = new Schema<ITeacherSchema>({
     image: { type: String },
     creator: { type: Schema.Types.ObjectId, required: true },
     user: { type: Schema.Types.ObjectId, required: true },
-    // rating: {type: Number}
+    classes: { type: [Schema.Types.ObjectId], required: true },
 })
 
 // @ts-ignore

@@ -27,7 +27,7 @@ export default class TeacherController {
 
             TeacherValidator.validateUpdate({ ...data, id, image: file ? "true" : void 0 });
             await TeacherController.precheck(data);
-            
+
             const uploadFile = <fileUpload.UploadedFile>file.image;
             const result = await cloudinary.uploader.upload(uploadFile.tempFilePath, {
                 public_id: uploadFile.name,
