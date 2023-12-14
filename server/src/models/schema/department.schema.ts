@@ -1,20 +1,35 @@
-import mongoose, { Schema, ObjectId } from "mongoose";
-import { ContactSchema, IContactSchema } from "./contact.schema";
-import { DetailSchema, IDetailSchema } from "./detail.schema";
-var ObjectId = mongoose.Types.ObjectId;
+import { Schema, ObjectId, Document } from "mongoose";
+import { ContactSchema, IContact } from "./contact.schema";
+import { DetailSchema, IDetail } from "./detail.schema";
+import mongoosastic, { MongoosasticDocument } from "mongoosastic";
 
-export interface IDepartmentSchema {
+export interface IDepartment {
     name: string;
-    dean: ObjectId;
+    dean: string;
     description: string;
-    contacts: IContactSchema,
-    details: IDetailSchema[]
+    contact: IContact,
+    details: IDetail[],
+    image: string
+    creator: string
 }
 
-export const DepartmentSchema = new Schema<IDepartmentSchema>({
-    name: { type: String, required: true },
-    dean: { type: ObjectId, required: true },
+export interface IDepartmentSchema
+    extends Omit<IDepartment, "dean" | "creator">, Document, MongoosasticDocument {
+    dean: ObjectId;
+    creator: ObjectId
+}
+
+ const DepartmentSchema = new Schema<IDepartmentSchema>({
+    name: { type: String, required: true, es_index: true },
+    dean: { type: Schema.Types.ObjectId, required: true },
     description: { type: String },
-    contacts: { type: ContactSchema, required: true },
-    details: { type: [DetailSchema], required: true }
+    contact: { type: ContactSchema, required: true },
+    details: { type: [DetailSchema], required: true },
+    image: { type: String, required: true },
+    creator: { type: Schema.Types.ObjectId, required: true },
 })
+
+// @ts-ignore
+DepartmentSchema.plugin(mongoosastic);
+
+export { DepartmentSchema }

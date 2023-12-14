@@ -1,17 +1,22 @@
-import { ILocalData, Request, Response } from "@/types/controller"
-import { withAge, withSession } from '@/configs/cookie';
-import { generateResetToken, generateToken } from '@/utils/generate';
+import { InputError, Request, Response } from "@/types/controller"
+import { EUserRole } from "@/types/auth";
+import { withAge } from '@/configs/cookie';
+import { generateToken } from '@/utils/generate';
 import handleError from '@/utils/handle_error';
-import AuthValidator, { ICreateUser, ILogin, IRequestReset, IResetPassword } from "@/validators/auth.validator";
-import authModel from '@/models/auth.model';
-import tokenModel from "@/models/token.model";
-import { sendForgetPasswordMail } from "@/utils/send_mail";
-import env from "@/configs/env";
-import { IUser } from "@/types/auth";
 
-interface IUserWithEpx extends IUser {
-    exp: number;
-}
+import AuthModel from '@/models/auth.model';
+import TokenModel from "@/models/token.model";
+import TeacherModel from "@/models/teacher.model";
+import StudentModel from "@/models/student.model";
+import UserModel from "@/models/user.model";
+import DepartmentModel from "@/models/department.model";
+
+import AuthValidator, { ILogin } from "@/validators/auth.validator";
+import StudentValidator, { ICreateStudent } from "@/validators/student.validator";
+import TeacherValidator, { ICreateTeacher } from "@/validators/teacher.validator";
+import UserValidator, { ICreateUser } from "@/validators/user.validator";
+
+type ICreate = ICreateUser & (ICreateStudent | ICreateTeacher);
 
 function setToken(res: Response, remember: boolean, accessToken: string, refreshToken?: string) {
     refreshToken && res.cookie("refresh_token", refreshToken, withAge(86400 * 1000))
@@ -23,23 +28,25 @@ function setToken(res: Response, remember: boolean, accessToken: string, refresh
 }
 
 export default class AuthController {
-    /**
-     * Verify account, return access token and refresh token if true.
-     * @param req 
-     * @param res 
-     */
+    private static async precheck(data: ICreate) {
+        if (data.department) {
+            const departments = await DepartmentModel.get([data.department]);
+            if (departments.length === 0) throw new InputError("Invalid department id", "department");
+        }
+    }
+
     static async login(req: Request, res: Response) {
         const data = <ILogin>req.body;
         console.log(data);
 
         await handleError(res, async () => {
             AuthValidator.validateLogin(data);
-            const user = await authModel.findUserByPassword(data.username, data.password);
+            const user = await AuthModel.findUserByPassword(data.username, data.password);
 
             if (user) {
-                const version = (await tokenModel.getVersion(user.uid)) || "0";
+                const version = (await TokenModel.getVersion(user.uid)) || "0";
                 const token = generateToken({ ...user, version, remember: data.remember }, true);
-                await tokenModel.insertRefreshToken(token.refreshToken, user.uid, user.role)
+                await TokenModel.insertRefreshToken(token.refreshToken, user.uid, user.role)
                 setToken(res, data.remember, token.accessToken, token.refreshToken);
             } else {
                 res.status(401).json({
@@ -50,98 +57,71 @@ export default class AuthController {
         })
     }
 
-    /**
-     * Logout
-     * @param req 
-     * @param res 
-     */
     static async logout(req: Request, res: Response) {
         const user = res.locals.user;
 
         await handleError(res, async () => {
-            tokenModel.deleteRefreshToken(user.uid);
-            tokenModel.updateVersion(user.uid);
+            TokenModel.deleteRefreshToken(user.uid);
+            TokenModel.updateVersion(user.uid);
             res.cookie("token", null, withAge(0));
             res.cookie("refresh_token", null, withAge(0));
             res.sendStatus(200);
         });
     }
 
-    /**
-     * Request reset password
-     * @param req 
-     * @param res 
-     */
-    static async requestReset(req: Request, res: Response) {
-        const data = <IRequestReset>req.body;
-        console.log(data);
-
-        await handleError(res, async () => {
-            AuthValidator.validateRequestReset(data);
-            const user = await authModel.findUserByInfo(data);
-            if (user) {
-                const { username, uid } = user;
-                const token = generateResetToken({
-                    username, uid,
-                    role: "admin",
-                    version: "0",
-                    remember: false
-                });
-
-                await sendForgetPasswordMail(user, token);
-
-                res.status(200).json({ message: "Email đã được gửi thành công tới " + user.email });
-            } else {
-                res.status(400).json({
-                    message: "Không tồn tại email",
-                    name: "email"
-                })
-            }
-        })
-    }
-
-    /**
-     * Verify link and redirect to front-end 
-     * @param req 
-     * @param res 
-     */
-    static async verifyReset(req: Request, res: Response<any, ILocalData<IUserWithEpx>>) {
-        const username = res.locals.user.username;
-        const timeExp = res.locals.user.exp * 1000;
-        const remaining = Math.floor((timeExp - new Date().getTime()) / 1000);
-
-        res
-            .cookie("token", req.query.token, withAge(180 * 1000))
-            .redirect(env.FRONTEND + "/resetpassword?ttl=" + remaining + "&user=" + username)
-    }
-
-    static async resetPassword(req: Request, res: Response) {
-        const data = <IResetPassword>req.body;
-
-        await handleError(res, async () => {
-            AuthValidator.validateReset(data);
-            const user = <IUser>res.locals.user;
-
-            await authModel.updatePassword(user.uid, data.password)
-            res.json({ message: "Password changed successfully" });
-        })
-    }
-
     static async create(req: Request, res: Response) {
-        const data = <ICreateUser>req.body;
+        const data = <ICreate>req.body;
         const user = res.locals.user;
 
         handleError(res, async () => {
-            AuthValidator.validateCreate(data);
+            UserValidator.validateCreate(data);
+            await AuthController.precheck(data);
+            const { creator, name, username, role, department } = { ...data, creator: user.uid };
 
-            await authModel.createUser({
-                username:  data.username,
-                name: data.name,
-                initiator: user.uid,
-                major: data.major,
-                role: data.role
+            const user_id = await UserModel.create({
+                name, username, role, creator
             });
-            res.json({ message: "User created successfully" },)
+
+            var profile_id = null
+            if (data.role === EUserRole.STUDENT) {
+                StudentValidator.validateCreate({ ...data, user: user_id } as ICreateStudent);
+                profile_id = await StudentModel.create({
+                    creator, name, department,
+                    user: user_id,
+                });
+            } else if (data.role === EUserRole.TEACHER) {
+                TeacherValidator.validateCreate({ ...data, user: user_id } as ICreateTeacher)
+                profile_id = await TeacherModel.create({
+                    creator, name, department,
+                    user: user_id,
+                });
+            }
+
+            res.json({
+                message: "Created successfully",
+                data: {
+                    id: user_id,
+                    password: "123456789",
+                    role: data.role,
+                    profile_id
+                }
+            });
+        })
+    }
+
+    static async delete(req: Request, res: Response) {
+        const id = req.params.id;
+
+        handleError(res, async () => {
+            UserValidator.validateDelete({ id });
+
+            const ack_user = await UserModel.delete(id);
+            const ack_profile = await TeacherModel.delete(id) && await StudentModel.delete(id);
+
+            res.status(200).json({
+                message: ack_user && ack_profile ? "Delete successfully" : "Unable to delete",
+                data: { id }
+            })
         })
     }
 }

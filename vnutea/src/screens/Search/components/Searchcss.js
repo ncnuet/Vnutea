@@ -12,6 +12,7 @@ const myMaxLength = 40;
 export const styles = StyleSheet.create({
     container: {
         backgroundColor: "#19253D",
+        backgroundColor: "#fff",
         flex: 1,
     },
     emptyTop: {
@@ -222,6 +223,9 @@ export const styles = StyleSheet.create({
     btnRecentSearchs: {
         paddingHorizontal: 0.01 * windowWidth,
         paddingVertical: 0.004 * windowHeight,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     textRecentSearchs: {
         color: myBoldGray,
@@ -305,12 +309,13 @@ export const styles = StyleSheet.create({
         flexDirection: "column",
     },
     searchHeartWrapper: {
+        paddingTop: 0.01 * windowHeight,
         width: "20%",
         height: "100%",
         // borderWidth: 1,
         // borderColor: "black",
         display: "flex",
-        justifyContent: "center",
+        justifyContent: "flex-start",
         alignItems: "center",
         flexDirection: "column",
     },

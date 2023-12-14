@@ -1,25 +1,27 @@
+import { MessageModel } from "@/models/message.model";
 import RoomModel from "@/models/room.model";
 import UserModel from "@/models/user.model";
-import { Request, Response } from "@/types/controller";
+import { InputError, Request, Response } from "@/types/controller";
 import handleError from "@/utils/handle_error";
-import chatValidator, { ICreateRoom } from "@/validators/chat.validator";
+import { ChatValidator, ICreateRoom } from "@/validators/chat.validator";
 
-class RoomController {
-    async createRoom(req: Request, res: Response) {
+export class RoomController {
+    static async checkUser(userID: string[]) {
+        if (userID) {
+            const users = await UserModel.getUsers(userID);
+            if (users.length === 0) throw new InputError("Invalid user id", "participants")
+        }
+    }
+
+    static async createRoom(req: Request, res: Response) {
         const user = res.locals.user;
         const data = <ICreateRoom>req.body;
 
-        handleError(res, async () => {
-            // Validate input data
-            chatValidator.validateCreateRoom(data);
-            if (!await UserModel.validateUID(data.participants)) {
-                res.status(400).json({
-                    message: "Invalid participant IDs"
-                })
-                return;
-            }
 
-            // If existed, return the existed room, otherwise return new room
+        handleError(res, async () => {
+            ChatValidator.validateCreateRoom(data);
+            await RoomController.checkUser(data.participants);
+
             const availableRoomID = await RoomModel.findByParticipants(data.participants);
 
             if (availableRoomID) {
@@ -44,13 +46,13 @@ class RoomController {
         })
     }
 
-    async deleteRoom(req: Request, res: Response) {
+    static async deleteRoom(req: Request, res: Response) {
         const user = res.locals.user;
         const roomID = req.params.roomID;
 
         // TODO: also delete messages
         handleError(res, async () => {
-            chatValidator.validateDeleteRoom({ roomID });
+            ChatValidator.validateDeleteRoom({ roomID });
             if (!await RoomModel.deleteRoom(roomID, user.uid)) {
                 res.status(400).json({
                     message: "You have not permission to delete this room",
@@ -65,42 +67,39 @@ class RoomController {
         });
     }
 
-    async getRoomByID(req: Request, res: Response) {
+    static async getRoomByID(req: Request, res: Response) {
         const user = res.locals.user;
         const roomID = req.params.roomID;
 
         handleError(res, async () => {
-            chatValidator.validateGetRoom({ roomID })
+            ChatValidator.validateGetRoom({ roomID })
             const room = await RoomModel.getRoom(roomID, user.uid);
-            // TODO: check room invalid
-            // const messages = await chatModel.getConversation(data.roomID, data.limit, data.page);
+            const messages = room && await MessageModel.getConversation(roomID);
 
-            res.json({ message: "success", data: { room } });
+            res.json({ message: "success", data: { room, messages } });
         })
     }
 
-    // async getAllRooms(req: Request, res: Response) {
-    //     const user = res.locals.user;
+    static async getAllRooms(req: Request, res: Response) {
+        const user = res.locals.user;
 
-    //     handleError(res, async () => {
-    //         const rooms = await roomModel.getAllRooms(user.uid);
+        handleError(res, async () => {
+            const rooms = await RoomModel.getAllRooms(user.uid);
 
-    //         res.json({ message: "success", data: rooms });
-    //     })
-    // }
+            res.json({ message: "success", data: rooms });
+        })
+    }
 
-    async updateRoomName(req: Request, res: Response) {
+    static async updateRoomName(req: Request, res: Response) {
         const user = res.locals.user;
         const { name } = req.body;
         const roomID = req.params.roomID;
 
         handleError(res, async () => {
-            chatValidator.validateUpdateRoom({ roomID })
+            ChatValidator.validateUpdateRoom({ roomID })
             const _roomID = await RoomModel.updateRoom(roomID, user.uid, name);
 
             res.json({ message: "success", data: _roomID });
         })
     }
 }
-
-export default new RoomController();

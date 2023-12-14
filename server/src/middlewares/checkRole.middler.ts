@@ -1,9 +1,12 @@
 import { IUserRole } from "@/types/auth";
 import { NextFunction, Request, Response } from "@/types/controller";
 
-export default async function checkRole(this: IUserRole, req: Request, res: Response, next: NextFunction) {
-    const ref_role = this ? this : "admin";
+interface ICheckRole {
+    role: IUserRole[]
+}
 
-    if (res.locals.user.role === ref_role) next();
-    else res.sendStatus(401);
+export async function checkRole(this: ICheckRole, req: Request, res: Response, next: NextFunction) {
+    const { role } = res.locals.user;
+    if (!role || !this.role.includes(role)) return res.sendStatus(401);
+    next();
 }

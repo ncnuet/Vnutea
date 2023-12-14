@@ -1,0 +1,202 @@
+import { StyleSheet } from "react-native";
+import {Dimensions} from 'react-native';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+const myBlue = '#0672F7';
+const myWidth = '86%'; 
+const myGray ='#E5EBF2';
+const myBoldGray = '#9EA1A5';
+const myMaxLength = 40;
+const mySpecBlue = '#19253D';
+
+export const styles = StyleSheet.create({
+    topBar: {
+        backgroundColor: '#FFC700',
+        width: '100%',
+        height: 0.18 * windowHeight,
+        borderBottomLeftRadius: 20,
+        borderBottomRightRadius: 20,
+        alignItems: 'center',
+    },
+    topWrapper: {
+        marginTop: 0.08 * windowHeight,
+        width: '80%',
+        height: 0.06 * windowHeight,
+        // backgroundColor: 'red',
+        flexDirection: 'row',
+    },
+    topBtn: {
+        backgroundColor: '#FFE175',
+        borderRadius: 100,
+        height: '100%',
+        aspectRatio: 1,
+        marginRight: 0.05 * windowWidth,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    topTextWrapper: {
+        // backgroundColor: '#FFE175',
+        height: '100%',
+        width: 0.6 * windowWidth,
+        justifyContent: 'center',
+    },
+    topText: {
+        fontSize: 0.0164 * windowHeight + 0.0164 * windowWidth,
+        color: mySpecBlue,
+        fontWeight: '500',
+    },
+    topSearchsItem: {
+        marginVertical: 0.008 * windowHeight,
+        marginLeft: 0.07 * windowWidth,
+        marginRight: 0.07 * windowWidth,
+        width: myWidth,
+        height: 0.11 * windowHeight,
+        borderRadius: 12,
+        borderWidth: 1,
+        borderColor: "#ECEBE0",
+        flexDirection: "row",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-around"
+    },
+    searchItemAvtWrapper: {
+        width: "24%",
+        height: "90%",
+        // borderWidth: 1,
+        // borderColor: "red",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "flex-start",
+        alignItems: "center",
+    },
+    avtGv: {
+        width: "70%",
+        height: "70%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        // borderWidth: 1,
+        // borderColor: "green",
+    },
+    avtStyle: {
+        width: "94%",
+        height: "94%",
+        resizeMode: "cover",
+        borderRadius: 10,
+    },
+    rateWrapper: {
+        width: "70%",
+        height: "25%",
+        // borderWidth: 1,
+        // borderColor: "green",
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    searchItemDesWrapper: {
+        width: "70%",
+        height: "90%",
+        // borderWidth: 1,
+        // borderColor: "red",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "space-between",
+    },
+    searchItemMain: {
+        width: "100%",
+        height: "65%",
+        // borderWidth: 1,
+        // borderColor: "green",
+        display: "flex",
+        justifyContent: "flex-start",
+        flexDirection: "row",
+    },
+    searchItemTextWrapper: {
+        width: "80%",
+        height: "100%",
+        // borderWidth: 1,
+        // borderColor: "black",
+        display: "flex",
+        justifyContent: "flex-start",
+        flexDirection: "column",
+    },
+    searchItemName: {
+        width: "100%",
+        height: "60%",
+        display: "flex",
+        alignItems: "flex-start",
+        justifyContent: "center",
+        // borderWidth: 1,
+        // borderColor: "red",
+        fontSize: 0.0164 * windowHeight + 0.0164 * windowWidth,
+    },
+    searchNameText: {
+        fontWeight: "bold",
+        fontSize: 0.0164 * windowHeight + 0.0164 * windowWidth,
+    },
+    searchItemJob: {
+        width: "100%",
+        height: "40%",
+        display: "flex",
+        alignItems: "flex-start",
+        justifyContent: "flex-start",
+        // borderWidth: 1,
+        // borderColor: "red",
+    },
+    searchJobText: {
+        fontSize: 0.0104 * windowHeight + 0.0104 * windowWidth,
+        color: myBoldGray,
+    },
+    searchHeartWrapper: {
+        paddingTop: 0.01 * windowHeight,
+        width: "20%",
+        height: "100%",
+        // borderWidth: 1,
+        // borderColor: "black",
+        display: "flex",
+        justifyContent: "flex-start",
+        alignItems: "center",
+        flexDirection: "column",
+    },
+    searchItemTag: {
+        width: "100%",
+        height: "30%",
+        // borderWidth: 1,
+        // borderColor: "green",
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    searchTagText: {
+        // height: "90%",
+        fontSize: 0.0092 * windowHeight + 0.0092 * windowWidth,
+        // fontWeight: "bold",
+        color: "white",
+        backgroundColor: "#4BBEFA",
+        paddingHorizontal: 0.01 * windowWidth,
+        marginHorizontal: 0.005 * windowWidth,
+        borderRadius: 5,
+        paddingBottom: 1,
+    },
+    colorTagText2: {
+        backgroundColor: "#14D950",
+    },
+    topSearchsListWrapper: {
+        width: '100%',
+        height: 0.664 * windowHeight,
+        marginTop: 0.012 * windowHeight,
+        // marginLeft: 0.07 * windowWidth,
+        // marginRight: 0.07 * windowWidth,
+        // borderWidth: 1,
+    },
+    allListWrapper: {
+        marginTop: 0.03 * windowHeight,
+        width: '100%',
+        height: 0.664* windowHeight,
+        borderWidth: 1,
+    }
+})

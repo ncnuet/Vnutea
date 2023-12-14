@@ -1,28 +1,34 @@
 
-import { IUserRole } from '@/types/auth';
-import mongoose, { ObjectId, Schema } from 'mongoose';
-var ObjectId = mongoose.Types.ObjectId;
+import { EUserRole } from '@/types/auth';
+import { ObjectId, Schema } from 'mongoose';
+import { FavoriteSchema, IFavourite } from './favourite.schema';
 
-export interface IUserSchema {
+export interface IUser {
     username: string;
     password: string;
-    role: IUserRole;
+    role: EUserRole;
     version: number;
     email: string;
+    creator: string;
     name: string;
-    major: string;
-    teacher_profile: ObjectId;
-    created_by: ObjectId;
+    favorites: IFavourite[]
 }
 
-export const UserSchema = new Schema<IUserSchema>({
+export interface IUserSchema
+    extends Omit<IUser, "creator" | "teacher_profile" | "department"> {
+    creator: ObjectId;
+    department: ObjectId;
+}
+
+const UserSchema = new Schema<IUserSchema>({
     username: { type: String, required: true, unique: true, index: true },
     password: { type: String, required: true },
     role: { type: String, required: true },
     version: { type: Number, required: true },
     email: { type: String, unique: true, index: true },
+    creator: { type: Schema.Types.ObjectId },
     name: { type: String, required: true },
-    major: { type: String, required: true },
-    teacher_profile: { type: ObjectId },
-    created_by: { type: ObjectId },
+    favorites: { type: [FavoriteSchema], required: true },
 });
+
+export default UserSchema;
