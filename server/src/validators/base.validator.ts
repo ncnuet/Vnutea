@@ -12,8 +12,8 @@ export default abstract class BaseValidator {
     protected static checkTypeEnum(type: object, data: any, und: boolean, key: string, message: string = key) {
         this.checkUnd(data, und, key, message);
 
-        if (!Object.values(type).includes(type))
-            throw new InputError("Invalid " + message, key);
+        if (!Object.values(type).includes(data))
+            throw new InputError("Invalid " + message, key, data);
     }
 
     protected static checkArray(data: any, und: boolean, key: string, message: string = key) {

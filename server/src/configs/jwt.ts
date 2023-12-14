@@ -10,3 +10,6 @@ export const JWTRefreshOpt: jwt.SignOptions = {
 export const JWTResetOpt: jwt.SignOptions = {
     expiresIn: env.ENV === "dev" ? "180s" : "300s"
 }
+export const JWTChatOpt: jwt.SignOptions = {
+    expiresIn: env.ENV === "dev" ? "3600s" : "86400s"
+}
