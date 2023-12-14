@@ -37,8 +37,9 @@ const mySpecBlue = '#19253D';
 
 export default function Chat({route, navigation}) {
   const {name, avt} = route.params;
+  const [messText, setMessText] = useState('');
   const [status, setStatus] = useState(true);
-  const [isTyping, setIsTyping] = useState(true);
+  const [isTyping, setIsTyping] = useState(false);
 
   //Fake data
   const [dataChat, setDataChat] = useState([
@@ -138,6 +139,32 @@ export default function Chat({route, navigation}) {
     }
   };
 
+  const handleOnChangeText = (text) => {
+    setMessText(text);
+  }
+
+  const handleOnSubmitText = () => {
+    //Call API
+    const newId = dataChat.length;
+    const newSender = 1;
+    const newType = 'text';
+    const newMess = messText;
+    // const newTime = ...;
+
+    const newChat = {
+      id: newId,
+      sender: newSender,
+      mess: newMess,
+      type: newType,
+      time: '00000',
+    };
+
+    const newDataChat = [...dataChat, newChat];
+    setDataChat(newDataChat);
+    console.log(dataChat);
+    setMessText('');
+  }
+
   return (
     <View style={[styles.allWrapper, styles.allChatWrapper]}>
       {/* Header  */}
@@ -225,7 +252,11 @@ export default function Chat({route, navigation}) {
             <View style={styles.chatInputTextWrapper}>
               <TextInput
                 style={styles.chatInputText}
-                placeholder="Nhập văn bản"></TextInput>
+                placeholder="Nhập văn bản"
+                value={messText}
+                onChangeText={(text) => handleOnChangeText(text)}
+                onSubmitEditing={handleOnSubmitText}
+              ></TextInput>
 
               <TouchableOpacity style={styles.chatEmojiWrapper}>
                 <IconMC

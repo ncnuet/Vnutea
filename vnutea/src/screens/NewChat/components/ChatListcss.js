@@ -330,7 +330,7 @@ export const styles = StyleSheet.create({
         fontSize: 0.01 * windowHeight + 0.01 * windowWidth,
     },
     chatAllWrapper: {
-        marginTop: 0.02 * windowHeight,
+        marginTop: 0.012 * windowHeight,
         flex: 1,
         // backgroundColor: '#F3F5F3',
         flexDirection: 'column',
