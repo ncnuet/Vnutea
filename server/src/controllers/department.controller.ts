@@ -24,7 +24,7 @@ export default class DepartmentController {
         handleError(res, async () => {
             data.contact = typeof data.contact === "string" ? JSON.parse(data.contact) : data.contact;
             data.details = typeof data.details === "string" ? JSON.parse(data.details) : data.details;
-            
+
             DepartmentValidator.validateCreate({ ...data, image: file ? "true" : void 0 });
             await DepartmentController.precheck(data);
 
@@ -66,6 +66,19 @@ export default class DepartmentController {
                     message: ack ? "Deleted successfully" : "Unable to delete",
                     data: { id }
                 })
+        })
+    }
+
+    static async getAllDepartmentsName(req: Request, res: Response) {
+        handleError(res, async () => {
+            const departments = await DepartmentModel.getAllName();
+
+            res.status(200).json({
+                message: "success",
+                data: {
+                    departments
+                }
+            })
         })
     }
 }

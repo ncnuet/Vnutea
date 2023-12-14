@@ -1,8 +1,8 @@
-import { InputError } from "@/types/controller";
 import BaseValidator from "./base.validator";
 import { ITeacher } from "@/models/schema/teacher.schema";
+import { IAward } from "@/models/schema/award.schema";
 
-export interface ICreateTeacher extends Omit<ITeacher, "classes"> { }
+export interface ICreateTeacher extends Omit<ITeacher, "classes" | "position"> { }
 
 export interface IUpdateTeacher
     extends Partial<Omit<ITeacher, "name" | "awards" | "creator" | "user" | "classes">> {
@@ -13,14 +13,13 @@ export interface IDeleteTeacher {
     id: string;
 }
 
-export default class TeacherValidator extends BaseValidator {
-    private static checkAwards(awards: string[], und?: boolean) {
-        if (awards) {
-            if (!Array.isArray(awards))
-                throw new InputError("Awards must be an array", "awards");
-            awards.forEach((award) => this.checkId(award));
+export interface IGetByDepartment {
+    departments: string[];
+}
 
-        } else if (!und) throw new InputError("Must include a list of awards", "awards")
+export default class TeacherValidator extends BaseValidator {
+    private static checkAwards(awards: IAward[], und?: boolean) {
+        this.checkArray(awards, und, "awards");
     }
 
     static validateCreate(data: ICreateTeacher) {
@@ -45,5 +44,10 @@ export default class TeacherValidator extends BaseValidator {
 
     static validateDelete(data: IDeleteTeacher) {
         this.checkId(data.id);
+    }
+
+    static validateGetByDepartment(data: IGetByDepartment) {
+        this.checkArray(data.departments, false, "departments");
+        data.departments.forEach(dep => this.checkId(dep))
     }
 }

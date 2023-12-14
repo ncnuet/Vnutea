@@ -4,7 +4,8 @@ import cloudinary from "@/configs/cloudinary";
 import fileUpload from "express-fileupload";
 import LabModel from "@/models/lab.model";
 import TeacherModel from "@/models/teacher.model";
-import TeacherValidator, { ICreateTeacher, IUpdateTeacher } from "@/validators/teacher.validator";
+import TeacherValidator, { ICreateTeacher, IGetByDepartment, IUpdateTeacher } from "@/validators/teacher.validator";
+import UserModel from "@/models/user.model";
 
 export default class TeacherController {
     private static async precheck(data: ICreateTeacher | IUpdateTeacher) {
@@ -48,5 +49,27 @@ export default class TeacherController {
                 res.status(200).send({ message: "Unable to upload image" })
             }
         });
+    }
+
+    static async getByDepartment(req: Request, res: Response) {
+        const data = <IGetByDepartment>req.body;
+        const user = res.locals.user;
+
+        handleError(res, async () => {
+            const [teacher, favorites] = await Promise.all([
+                TeacherModel.getByDepartment(data.departments),
+                UserModel.getFavourites(user.uid)
+            ]);
+
+            res.status(200).json({
+                message: "success",
+                data: {
+                    teacher: teacher.map(teacher => ({
+                        ...teacher,
+                        liked: favorites.some(fa => fa.ref)
+                    }))
+                }
+            })
+        })
     }
 }
