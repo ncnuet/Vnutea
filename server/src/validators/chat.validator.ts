@@ -1,9 +1,9 @@
-import { MESSAGE_TYPES } from "@/models/schema/message.schema"
-import { InputError } from "@/types/controller";
+import { EMessageType, IMessage } from "@/models/schema/message.schema"
+import BaseValidator from "./base.validator";
 
 export interface ICreateRoom {
     name?: string
-    participants: Array<string>
+    participants: string[]
 }
 
 export interface IDeleteRoom {
@@ -21,50 +21,32 @@ export interface IUpdateRoom {
     name?: string
 }
 
-export interface ICreateMessage {
-    roomID: string,
-    message?: string,
-    type: MESSAGE_TYPES
-}
+export interface ICreateMessage extends Omit<IMessage, "seenBy" | "creator"> { }
 
 // export interface IDeleteMessage {
 //     messageID: string
 // }
 
-class ChatValidator {
-    private validateRoomID(roomID: string) {
-        if (!roomID) {
-            throw new InputError("Must provide roomID", "participants");
-        }
-        return true;
+export class ChatValidator extends BaseValidator {
+    static validateCreateRoom(data: ICreateRoom) {
+        this.checkArray(data.participants, false, "participants");
     }
 
-    validateCreateRoom(data: ICreateRoom) {
-        if (!data.participants) {
-            throw new InputError("Must provide participants", "participants");
-        } else if (!Array.isArray(data.participants)) {
-            throw new InputError("Participants must be an array", "participants");
-        } else {
-            // data.participants.map(uid => CommonValidator.validateUID(uid))
-        }
+    static validateDeleteRoom(data: IDeleteRoom) {
+        this.checkId(data.roomID, false, "roomID")
     }
 
-    validateDeleteRoom(data: IDeleteRoom) {
-        this.validateRoomID(data.roomID)
+    static validateGetRoom(data: IGetRoomByID) {
+        this.checkId(data.roomID, false, "roomID")
     }
 
-    validateGetRoom(data: IGetRoomByID) {
-        this.validateRoomID(data.roomID)
+    static validateUpdateRoom(data: IGetRoomByID) {
+        this.checkId(data.roomID, false, "roomID")
     }
 
-    validateUpdateRoom(data: IGetRoomByID) {
-        this.validateRoomID(data.roomID)
-    }
-
-    validateCreateMessage(data: ICreateMessage) {
-        this.validateRoomID(data.roomID)
-        if (!Object.values(MESSAGE_TYPES).includes(data.type))
-            throw new Error("Invalid message type", { cause: "type" });
+    static validateCreateMessage(data: ICreateMessage) {
+        this.checkId(data.roomID, false, "roomID")
+        this.checkTypeEnum(EMessageType, data.type, true, "type", "message type");
     }
 
     // validateDeleteMessage(data: IDeleteMessage) {
@@ -72,5 +54,3 @@ class ChatValidator {
     //         throw new Error("messageID must not be empty", { cause: "messageID" });
     // }
 }
-
-export default new ChatValidator();

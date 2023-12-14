@@ -7,5 +7,6 @@ const DepartmentRouter = Router();
 
 DepartmentRouter.post("/", [checkJWT, checkRole.bind({ role: ["admin"] })], DepartmentController.create);
 DepartmentRouter.delete("/:id", [checkJWT, checkRole.bind({ role: ["admin"] })], DepartmentController.delete);
+DepartmentRouter.get("/name", [checkJWT], DepartmentController.getAllDepartmentsName);
 
 export default DepartmentRouter;

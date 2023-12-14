@@ -1,4 +1,3 @@
-import { InputError } from "@/types/controller";
 import BaseValidator from "./base.validator";
 import { IDepartment } from "@/models/schema/department.schema";
 

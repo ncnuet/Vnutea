@@ -2,13 +2,13 @@ import { InputError } from "@/types/controller";
 import BaseValidator from "./base.validator";
 import { IUser } from "@/models/schema/user.schema";
 
-export interface ILogin {
-    username: string,
-    password: string
+export interface ILogin
+    extends Pick<IUser, "username" | "password"> {
     remember?: boolean
 }
 
-export interface ICreateUser extends Pick<IUser, "username" | "role" | "name"> { }
+export interface ICreateUser
+    extends Pick<IUser, "username" | "role" | "name" | "creator"> { }
 
 export interface IDeleteUser {
     id: string

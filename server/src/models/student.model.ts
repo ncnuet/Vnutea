@@ -9,7 +9,8 @@ export default class StudentModel {
 
         const response = await StudentBaseModel.create(
             {
-                name, user, department, creator
+                name, user, department, creator,
+                classes: []
             }
         );
 
@@ -41,5 +42,29 @@ export default class StudentModel {
     static async get(ids: string[]) {
         const result = await StudentBaseModel.find({ user: { $in: ids } }).exec();
         return result;
+    }
+
+    static async addClass(ids: string[], classID: string) {
+        const response = await StudentBaseModel.updateMany(
+            { user: { $in: ids } },
+            {
+                $push: {
+                    classes: classID
+                }
+            })
+
+        return response.acknowledged;
+    }
+
+    static async deleteClass(ids: string[], classID: string) {
+        const response = await StudentBaseModel.updateMany(
+            { user: { $in: ids } },
+            {
+                $pull: {
+                    classes: classID
+                }
+            })
+
+        return response.acknowledged;
     }
 }

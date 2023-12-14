@@ -12,6 +12,9 @@ import config from './configs/env';
 import * as database from '@/configs/database';
 import * as redis from './configs/redis';
 import * as mailer from "@/utils/send_mail";
+import { checkJWTForIO } from './middlewares/checkJWT.middler';
+import { MySocket } from './types/controller';
+import { initSocket } from './socket';
 // Initialize application
 const app = express();
 const port = config.PORT;
@@ -31,22 +34,25 @@ app.use(
   })
 );
 
-app.use(cors.default({
-  origin: config.CORS_ORIGIN,
-  credentials: true,
-  methods: ['GET', 'PUT', 'POST', 'DELETE'],
-  optionsSuccessStatus: 200
-}))
+// app.use(cors.default({
+//   // origin: config.CORS_ORIGIN,
+//   origin: "*",
+//   credentials: true,
+//   methods: ['GET', 'PUT', 'POST', 'DELETE'],
+//   optionsSuccessStatus: 200
+// }))
 
 // Initialize routes
 route(app);
 
-const io = new Server(server);
-
-io.on('connection', (socket) => {
-  console.log('a user connected');
-  socket.emit('test', 'Hello Testing event!');
+const io = new Server(server, {
+  cors: {
+    origin: "*"
+  }
 });
+
+io.use(checkJWTForIO)
+initSocket(io);
 
 if (require.main === module) {
   server.listen(port, async () => {

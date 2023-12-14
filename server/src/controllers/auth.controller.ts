@@ -1,18 +1,20 @@
 import { InputError, Request, Response } from "@/types/controller"
+import { EUserRole } from "@/types/auth";
 import { withAge } from '@/configs/cookie';
 import { generateToken } from '@/utils/generate';
 import handleError from '@/utils/handle_error';
-import AuthValidator, { ILogin } from "@/validators/auth.validator";
-import authModel from '@/models/auth.model';
-import tokenModel from "@/models/token.model";
-import { EUserRole } from "@/types/auth";
+
+import AuthModel from '@/models/auth.model';
+import TokenModel from "@/models/token.model";
 import TeacherModel from "@/models/teacher.model";
 import StudentModel from "@/models/student.model";
 import UserModel from "@/models/user.model";
+import DepartmentModel from "@/models/department.model";
+
+import AuthValidator, { ILogin } from "@/validators/auth.validator";
 import StudentValidator, { ICreateStudent } from "@/validators/student.validator";
 import TeacherValidator, { ICreateTeacher } from "@/validators/teacher.validator";
 import UserValidator, { ICreateUser } from "@/validators/user.validator";
-import DepartmentModel from "@/models/department.model";
 
 type ICreate = ICreateUser & (ICreateStudent | ICreateTeacher);
 
@@ -39,12 +41,12 @@ export default class AuthController {
 
         await handleError(res, async () => {
             AuthValidator.validateLogin(data);
-            const user = await authModel.findUserByPassword(data.username, data.password);
+            const user = await AuthModel.findUserByPassword(data.username, data.password);
 
             if (user) {
-                const version = (await tokenModel.getVersion(user.uid)) || "0";
+                const version = (await TokenModel.getVersion(user.uid)) || "0";
                 const token = generateToken({ ...user, version, remember: data.remember }, true);
-                await tokenModel.insertRefreshToken(token.refreshToken, user.uid, user.role)
+                await TokenModel.insertRefreshToken(token.refreshToken, user.uid, user.role)
                 setToken(res, data.remember, token.accessToken, token.refreshToken);
             } else {
                 res.status(401).json({
@@ -59,8 +61,8 @@ export default class AuthController {
         const user = res.locals.user;
 
         await handleError(res, async () => {
-            tokenModel.deleteRefreshToken(user.uid);
-            tokenModel.updateVersion(user.uid);
+            TokenModel.deleteRefreshToken(user.uid);
+            TokenModel.updateVersion(user.uid);
             res.cookie("token", null, withAge(0));
             res.cookie("refresh_token", null, withAge(0));
             res.sendStatus(200);
@@ -74,29 +76,23 @@ export default class AuthController {
         handleError(res, async () => {
             UserValidator.validateCreate(data);
             await AuthController.precheck(data);
+            const { creator, name, username, role, department } = { ...data, creator: user.uid };
 
-            const user_id = await UserModel.create(
-                user.uid, {
-                name: data.name,
-                username: data.username,
-                role: data.role,
+            const user_id = await UserModel.create({
+                name, username, role, creator
             });
 
             var profile_id = null
             if (data.role === EUserRole.STUDENT) {
                 StudentValidator.validateCreate({ ...data, user: user_id } as ICreateStudent);
                 profile_id = await StudentModel.create({
-                    creator: user.uid,
-                    department: data.department,
-                    name: data.name,
+                    creator, name, department,
                     user: user_id,
                 });
             } else if (data.role === EUserRole.TEACHER) {
                 TeacherValidator.validateCreate({ ...data, user: user_id } as ICreateTeacher)
                 profile_id = await TeacherModel.create({
-                    creator: user.uid,
-                    department: data.department,
-                    name: data.name,
+                    creator, name, department,
                     user: user_id,
                 });
             }

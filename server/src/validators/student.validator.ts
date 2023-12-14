@@ -1,7 +1,8 @@
+import { DepartmentBaseModel } from "@/models/base/department.base";
 import BaseValidator from "./base.validator";
 import { IStudent } from "@/models/schema/student.schema";
 
-export interface ICreateStudent extends IStudent { }
+export interface ICreateStudent extends Omit<IStudent, "classes"> { }
 
 export interface IUpdateStudent
     extends Partial<Omit<IStudent, "creator">> {
@@ -14,13 +15,13 @@ export interface IDeleteStudent {
 
 export default class StudentValidator extends BaseValidator {
     static validateCreate(data: ICreateStudent) {
-        this.checkId(data.user);
-        this.checkId(data.department);
+        this.checkId(data.user, false, "user");
+        this.checkId(data.department, false, "department");
         this.checkName(data.name);
     }
 
     static validateUpdate(data: IUpdateStudent) {
-        
+
     }
 
     static validateDelete(data: IDeleteStudent) {
