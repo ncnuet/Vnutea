@@ -64,18 +64,9 @@ function Section({ children, title }: SectionProps): JSX.Element {
 }
 
 function HomeScreen(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = "bg-neutral-300 dark:bg-slate-900"
-
   return (
-    <SafeAreaView className={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        className={backgroundStyle}>
+    <View className="bg-neutral-300">
+      <ScrollView contentInsetAdjustmentBehavior="automatic">
         <Header />
         <View className="bg-white dark:bg-black">
           <Section title="Step One">
@@ -94,7 +85,7 @@ function HomeScreen(): JSX.Element {
           <LearnMoreLinks />
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
