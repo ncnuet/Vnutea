@@ -13,6 +13,7 @@ export async function checkJWT(this: ICheckJWT | void, req: Request, res: Respon
     const token = this && this.tokenOn === "query"
         ? <string>req.query.token
         : <string>req.cookies.token;
+console.log(token);
 
     if (!token) return res.sendStatus(401);
 
