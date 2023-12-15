@@ -12,7 +12,8 @@ export default class TeacherModel {
             {
                 name, lab, department, description, awards,
                 details, contact, image, creator, user,
-                classes: []
+                classes: [],
+                position: ["Giảng viên"]
             }
         );
 
@@ -87,5 +88,23 @@ export default class TeacherModel {
     static async get(ids: string[]) {
         const result = await TeacherBaseModel.find({ user: { $in: ids } }).exec();
         return result;
+    }
+
+    static async getByDepartment(departments: string[]) {
+        const result = await TeacherBaseModel.find(
+            { department: { $in: departments } }
+        ).exec();
+
+        return result.map(teacher => ({
+            id: teacher._id,
+            name: teacher.name,
+            department: teacher.department,
+            awards: teacher.awards.map(award => ({
+                name: award.name,
+                color: award.color
+            })),
+            position: teacher.position,
+            image: teacher.image
+        }));
     }
 }

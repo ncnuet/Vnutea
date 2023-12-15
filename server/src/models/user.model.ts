@@ -2,7 +2,6 @@ import { ICreateUser } from "@/validators/user.validator";
 import { UserBaseModel } from "./base/user.base";
 import * as bcrypt from "bcryptjs";
 import { IAddFavourite } from "@/validators/me.validator";
-import { response } from "express";
 
 export default class UserModel {
     static async validateUID(uids: string[]): Promise<boolean> {
@@ -28,8 +27,8 @@ export default class UserModel {
         })
     }
 
-    static async create(creator: string, user: ICreateUser) {
-        const { username, role, name } = user;
+    static async create(user: ICreateUser) {
+        const { username, role, name, creator } = user;
         const _user = await UserBaseModel.create(
             {
                 username, role, creator, name,
@@ -70,7 +69,7 @@ export default class UserModel {
             { _id: id },
             { favorites: 1 }
         ).exec();
-            
+
         return response ? response.favorites : [];
     }
 }

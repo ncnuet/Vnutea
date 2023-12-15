@@ -42,4 +42,13 @@ export default class DepartmentModel {
         const result = await DepartmentBaseModel.find({ _id: { $in: ids } }).exec();
         return result;
     }
+
+    static async getAllName() {
+        const result = await DepartmentBaseModel.find().exec();
+        
+        return result.map(dep => ({
+            name: dep.name,
+            id: dep._id
+        }))
+    }
 }

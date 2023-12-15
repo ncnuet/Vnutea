@@ -8,6 +8,7 @@ import SearchRouter from './search.route';
 import MeRouter from './me.route';
 import ClassRouter from './class.route';
 import EvaluationRouter from './evaluation.route';
+import TeacherRouter from './teacher.route';
 
 const router = Router();
 
@@ -20,5 +21,7 @@ router.use("/search", SearchRouter)
 router.use("/class", ClassRouter)
 router.use("/me", MeRouter)
 router.use("/evaluation", EvaluationRouter)
+router.use("/teacher", TeacherRouter)
+
 
 export default router;

@@ -1,10 +1,12 @@
 import { InputError, Request, Response } from "@/types/controller";
 import handleError from "@/utils/handle_error";
+
 import ClassValidator, { ICreateClass } from "@/validators/class.validator";
+import CommentValidator, { ICreateComment } from "@/validators/comment.validator";
+
 import ClassModel from "@/models/class.model";
 import StudentModel from "@/models/student.model";
 import TeacherModel from "@/models/teacher.model";
-import CommentValidator, { ICreateComment } from "@/validators/comment.validator";
 import EvaluationModel from "@/models/evaluation.model";
 
 export default class ClassController {

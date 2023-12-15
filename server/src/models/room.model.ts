@@ -19,7 +19,8 @@ class RoomModel {
         participants.push(initiator)
 
         const room = await RoomBaseModel.create({
-            name, initiator, participants,
+            initiator, participants,
+            name: name || "New chat",
             room_type: (participants.length > 2) ? "group" : "P2P"
         })
 
@@ -35,36 +36,19 @@ class RoomModel {
         const room = await RoomBaseModel.findOne(
             {
                 _id: roomID,
-                participants: {
-                    $elemMatch: {
-                        $eq: new ObjectId(uid)
-                    }
-                }
+                participants: { $in: [uid] }
             })
             .exec()
 
         return room;
     }
 
-    async getRoomHasUser(uid: string) {
+    async getAllRooms(uid: string) {
         const rooms = await RoomBaseModel.find(
-            {
-                participants: {
-                    $elemMatch: {
-                        $eq: new ObjectId(uid)
-                    }
-                }
-            })
-            .exec()
+            { participants: { $in: [uid] } });
 
         return rooms;
     }
-
-    // async getAllRooms(uid: UID): Promise<IGetRoomResult[]> {
-    //     const rooms = await roomSchema.find<IGetRoomResult>({ uids: { $in: [uid] } });
-
-    //     return rooms;
-    // }
 
     async updateRoom(roomID: string, uid: string, name?: string) {
         const result = await RoomBaseModel.updateOne(
