@@ -1,4 +1,4 @@
-import { InputError, Request, Response } from "@/types/controller";
+import { Request, Response } from "@/types/controller";
 import { ICreateStudent, IUpdateStudent } from "@/validators/student.validator";
 
 export default class StudentController {

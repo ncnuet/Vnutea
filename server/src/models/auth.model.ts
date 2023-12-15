@@ -2,8 +2,8 @@ import { UserBaseModel } from "./base/user.base";
 import { IQueryableUser, IUserWithoutVersion } from "@/types/auth";
 import * as bcrypt from "bcryptjs";
 
-class AuthModel {
-    async findUserByPassword(_username: string, _password: string): Promise<IUserWithoutVersion> {
+export default class AuthModel {
+    static async findUserByPassword(_username: string, _password: string): Promise<IUserWithoutVersion> {
         const user = await UserBaseModel.findOne(
             { username: _username },
             { _id: 1, role: 1, username: 1, password: 1, name: 1 })
@@ -18,7 +18,7 @@ class AuthModel {
             : undefined
     }
 
-    async findUserByInfo(info: IQueryableUser): Promise<IQueryableUser> {
+    static async findUserByInfo(info: IQueryableUser): Promise<IQueryableUser> {
         const user = await UserBaseModel.findOne(
             {
                 $or: [
@@ -36,5 +36,3 @@ class AuthModel {
         return { username, uid: _id.toString(), email };
     }
 }
-
-export default new AuthModel()

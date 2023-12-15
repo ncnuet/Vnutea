@@ -1,8 +1,8 @@
 import { CookieOptions } from "express";
 
 export const cookieSecureOption: CookieOptions = {
-    httpOnly: true, // Not allowed reading from JS
-    secure: true // Not allowed reading from http
+    httpOnly: true, 
+    secure: true
 }
 
 export function withAge(age: number | undefined): CookieOptions {

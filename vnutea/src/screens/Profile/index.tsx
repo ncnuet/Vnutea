@@ -45,26 +45,8 @@ const Settings = ({navigation}) => {
         <Text style={styles.idStudent}>{id}</Text>
         <Text style={styles.nameStudent}>{name}</Text>
       </View>
-      <View style={styles.box}>
-        <TouchableOpacity style={styles.buttonBox}>
-          {/* <Image style={styles.imageBox} source={require('./image/crown2.png')}/> */}
-          <Text style={styles.textBox}>Đánh giá môn học</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonBox}>
-          {/* <Image style={styles.imageBox} source={require('./image/suitcase.png')}/> */}
-          <Text style={styles.textBox}>Lớp học của tôi</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonBox}>
-          {/* <Image style={styles.imageBox} source={require('./image/heart.png')}/> */}
-          <Text style={styles.textBox}>Lớp học của tôi</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.box}>
-        <TouchableOpacity style={styles.buttonBox} onPress={showConfirmLogout}>
-          {/* <Image style={styles.imageBox} source={require('./image/logout.png')}/> */}
-          <Text style={styles.textLogout}>Logout</Text>
-        </TouchableOpacity>
-      </View>
+      <View style={styles.box}></View>
+      <View style={styles.box}></View>
     </View>
   );
 };
