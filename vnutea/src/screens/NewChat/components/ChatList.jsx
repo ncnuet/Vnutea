@@ -27,6 +27,7 @@ import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import {styles} from './ChatListcss.js';
 import axios from 'axios';
 import {BASE_URL} from '@/context/config.js';
+import CookieManager from '@react-native-cookies/cookies';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -102,15 +103,25 @@ export default function ChatList({navigation}) {
   const [dataChatList, setDataChatList] = useState(fakeDataChatList);
 
   useEffect(() => {
-    console.log("Zoo");
+    console.log('Zoo');
     async function getData() {
       try {
-        console.log();
+        // const a = await CookieManager.get("http://192.168.43.213")
+        // console.log(a);
         const response = await axios.get(BASE_URL + '/chat/', {
           withCredentials: true,
         });
         if (response.status === 200) {
           console.log(response.data.data);
+          const tmp = response.data.data.map(item => ({
+            id: item._id,
+            name: item.name,
+            avt: require('../assets/avtlpd.png'),
+            mess: 'okey, Đừng đến trễ nhé',
+            newMess: 10000,
+            time: new Date(item.updatedAt).getHours(),
+          }));
+          setDataChatList(tmp);
         }
       } catch (error) {
         console.log(error.message);
@@ -129,6 +140,7 @@ export default function ChatList({navigation}) {
     navigation.navigate('ChatScreen', {
       name: item.name,
       avt: item.avt,
+      roomId: item.id,
     });
   };
 
