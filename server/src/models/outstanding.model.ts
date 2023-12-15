@@ -23,4 +23,9 @@ export default class OutstandingModel {
         const result = await OutstandingBaseModel.find().exec();
         return result;
     }
+
+    static async getAll() {
+        const result = await OutstandingBaseModel.find().exec();
+        return result;
+    }
 }

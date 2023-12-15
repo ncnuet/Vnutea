@@ -19,8 +19,8 @@ export default abstract class BaseValidator {
     protected static checkArray(data: any, und: boolean, key: string, message: string = key) {
         this.checkUnd(data, und, key, message);
 
-        if (!Array.isArray(data))
-            throw new InputError(message + "must be an array", key);
+        if (data && !Array.isArray(data))
+            throw new InputError(message + " must be an array", key);
     }
 
     protected static checkName(name: string, und?: boolean, key: string = "name", message: string = key) {
@@ -33,7 +33,7 @@ export default abstract class BaseValidator {
     protected static checkId(id: string, und?: boolean, key: string = "id", message: string = key) {
         this.checkUnd(id, und, key, message);
 
-        if (id.length != 24)
+        if (id && id.length != 24)
             throw new InputError("Invalid " + message, key);
     }
 
@@ -71,26 +71,30 @@ export default abstract class BaseValidator {
     protected static checkContact(contact: IContact, und?: boolean) {
         this.checkUnd(contact, und, "contact");
 
-        if (!contact.phones || !Array.isArray(contact.phones))
-            throw new InputError("Contact phones must be an array", "contact.phones");
-        if (!contact.emails || !Array.isArray(contact.emails))
-            throw new InputError("Contact emails must be an array", "contact.emails");
-        if (contact.social && !Array.isArray(contact.social))
-            throw new InputError("Contact social must be an array", "contact.social");
+        if (contact) {
+            if (!contact.phones || !Array.isArray(contact.phones))
+                throw new InputError("Contact phones must be an array", "contact.phones");
+            if (!contact.emails || !Array.isArray(contact.emails))
+                throw new InputError("Contact emails must be an array", "contact.emails");
+            if (contact.social && !Array.isArray(contact.social))
+                throw new InputError("Contact social must be an array", "contact.social");
 
-        contact.phones.forEach(phone => this.checkPhone(phone, false, "contact.phones", "phone"))
-        contact.emails.forEach(email => this.checkEmail(email, false, "contact.emails", "email"))
-        contact.social && contact.social.forEach(social => this.checkLink(social, false, "contact.social", "social"))
+            contact.phones.forEach(phone => this.checkPhone(phone, false, "contact.phones", "phone"))
+            contact.emails.forEach(email => this.checkEmail(email, false, "contact.emails", "email"))
+            contact.social && contact.social.forEach(social => this.checkLink(social, false, "contact.social", "social"))
+        }
     }
 
     protected static checkDetail(detail: IDetail[], und?: boolean) {
         this.checkArray(detail, und, "detail");
 
-        detail.forEach(section => {
-            this.checkName(section.title, false, "detail[].title", "title");
-            this.checkArray(section.content, false, "detail[].content", "content");
-            section.content.forEach(content => this.checkName(content, false, "detail[].content", "content"));
-        })
+        if (detail) {
+            detail.forEach(section => {
+                this.checkName(section.title, false, "detail[].title", "title");
+                this.checkArray(section.content, false, "detail[].content", "content");
+                section.content.forEach(content => this.checkName(content, false, "detail[].content", "content"));
+            })
+        }
     }
 
 }
