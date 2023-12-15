@@ -131,14 +131,12 @@ export default function Chat({route, navigation}) {
     async function getData() {
       console.log(roomId, BASE_URL);
       try {
-        // const a = await CookieManager.get('http://192.168.43.213');
-        // console.log('cookies: ', a);
         const res = await axios.get(BASE_URL + '/chat/' + roomId, {
           withCredentials: true,
         });
 
         if (res.status === 200) {
-          console.log('success: ', res.data.data);
+          console.log('Chat data: ', res.data.data);
         }
       } catch (error) {
         console.log('error: ', error.message);

@@ -111,7 +111,7 @@ export default function ChatList({navigation}) {
           withCredentials: true,
         });
         if (response.status === 200) {
-          console.log('success: ',response.data.data);
+          // console.log('success: ',response.data.data);
           const tmp = response.data.data.map(item => ({
             id: item._id,
             name: item.name,
