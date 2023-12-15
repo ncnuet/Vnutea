@@ -19,7 +19,6 @@ import React, {
 import {ImageBackground} from 'react-native';
 import {Dimensions} from 'react-native';
 
-
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import IconFontisto from 'react-native-vector-icons/Fontisto';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -29,6 +28,7 @@ import IconMC from 'react-native-vector-icons/MaterialCommunityIcons';
 import {styles} from './ChatListcss.js';
 import axios from 'axios';
 import {BASE_URL} from '@/context/config.js';
+import CookieManager from '@react-native-cookies/cookies';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -130,12 +130,18 @@ export default function Chat({route, navigation}) {
   useEffect(() => {
     async function getData() {
       console.log(roomId, BASE_URL);
-      const res = await axios.get(BASE_URL + '/chat/' + roomId, {
-        withCredentials: true,
-      });
+      try {
+        // const a = await CookieManager.get('http://192.168.43.213');
+        // console.log('cookies: ', a);
+        const res = await axios.get(BASE_URL + '/chat/' + roomId, {
+          withCredentials: true,
+        });
 
-      if (res.status === 200) {
-        console.log(res.data.data);
+        if (res.status === 200) {
+          console.log('success: ', res.data.data);
+        }
+      } catch (error) {
+        console.log('error: ', error.message);
       }
     }
 
@@ -181,7 +187,6 @@ export default function Chat({route, navigation}) {
 
     const newDataChat = [...dataChat, newChat];
     setDataChat(newDataChat);
-    // console.log(dataChat);
     setMessText('');
   };
 

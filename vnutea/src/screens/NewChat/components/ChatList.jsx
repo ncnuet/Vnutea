@@ -103,16 +103,15 @@ export default function ChatList({navigation}) {
   const [dataChatList, setDataChatList] = useState(fakeDataChatList);
 
   useEffect(() => {
-    console.log('Zoo');
     async function getData() {
       try {
-        // const a = await CookieManager.get("http://192.168.43.213")
-        // console.log(a);
+        // const a = await CookieManager.get("http://192.168.43.213");
+        // console.log('cookies: ',a);
         const response = await axios.get(BASE_URL + '/chat/', {
           withCredentials: true,
         });
         if (response.status === 200) {
-          console.log(response.data.data);
+          console.log('success: ',response.data.data);
           const tmp = response.data.data.map(item => ({
             id: item._id,
             name: item.name,
@@ -124,12 +123,12 @@ export default function ChatList({navigation}) {
           setDataChatList(tmp);
         }
       } catch (error) {
-        console.log(error.message);
+        console.log('BigError: ',error.message);
       }
     }
 
     getData();
-  }, []);
+  },[]);
 
   //Fake data
   const [isDated, setIsDated] = useState(true);
@@ -152,12 +151,9 @@ export default function ChatList({navigation}) {
 
   //Rut gon mess
   const adjustMess = mess => {
-    // console.log(mess,' ',maxMessLength,' ',mess.length);
     if (mess.length > maxMessLength) {
-      // console.log('ok');
       let newMess = mess.substr(0, maxMessLength - 4);
       newMess = newMess + '...';
-      // console.log(newMess);
       return newMess;
     }
     return mess;
