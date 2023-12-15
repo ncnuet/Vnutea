@@ -1,7 +1,7 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import HomeScreen from '@/screens/StudentHome/HomeScreen';
+import HomeScreen from '@/screens/HomeScreen';
 import ChatScreen from '@/screens/StudentHome/chat/chat';
 
 import messanger from '@/screens/StudentHome/chat/messanger';

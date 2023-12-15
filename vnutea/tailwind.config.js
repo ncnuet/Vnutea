@@ -6,6 +6,8 @@ module.exports = {
       colors: {
         "primary": "#19253D",
         "secondary": "#D9E8ED",
+        "blue-sea": "#92D5E6",
+        "green-patel": "#ACDFB2"
       },
       fontFamily: {
         'montserrat': ['Montserrat'],

@@ -13,7 +13,7 @@ import {
   FlatList,
 } from 'react-native';
 import TaskChat from './taskChat';
-import AppointmentChat from '../ComponentHomeScreen/appointmentChat';
+import AppointmentChat from '../../HomeScreen/HomeScreen/appointmentChat';
 const DataMessanger = [
   {
     id: '1',
