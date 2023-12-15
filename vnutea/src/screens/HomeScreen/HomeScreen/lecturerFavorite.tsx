@@ -2,7 +2,6 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import Icon from "react-native-vector-icons/Ionicons"
 import {
-  StyleSheet,
   Text,
   View,
   FlatList,
@@ -11,30 +10,6 @@ import {
   Alert,
 } from 'react-native';
 import axios from '@/service/axios';
-
-const DATA = [
-  {
-    id: '1',
-    name: 'Lê Phê Đô',
-    position: 'Truong nhom',
-    department: 'Công nghệ thông tin',
-    url: 'https://pyxis.nymag.com/v1/imgs/51b/28a/622789406b8850203e2637d657d5a0e0c3-avatar-rerelease.1x.rsquare.w1400.jpg',
-  },
-  {
-    id: '2',
-    name: 'Le Phe Do',
-    position: 'Truong nhom',
-    department: 'Công nghệ thông tin',
-    url: 'https://www.bluristorante.com/wp-content/uploads/2019/03/9-Traditional-Italian-Food-Dishes-You-Will-Love-1080x700.jpg'
-  },
-  {
-    id: '3',
-    name: 'Le Phe Do',
-    position: 'Truong nhom',
-    department: 'Công nghệ thông tin',
-    url: 'https://pyxis.nymag.com/v1/imgs/51b/28a/622789406b8850203e2637d657d5a0e0c3-avatar-rerelease.1x.rsquare.w1400.jpg',
-  }
-];
 
 interface IProp {
   name: string;
