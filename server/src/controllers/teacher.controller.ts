@@ -51,13 +51,12 @@ export default class TeacherController {
         });
     }
 
-    static async getByDepartment(req: Request, res: Response) {
-        const data = <IGetByDepartment>req.body;
+    static async getAll(req: Request, res: Response) {
         const user = res.locals.user;
 
         handleError(res, async () => {
             const [teacher, favorites] = await Promise.all([
-                TeacherModel.getByDepartment(data.departments),
+                TeacherModel.getAll(),
                 UserModel.getFavourites(user.uid)
             ]);
 

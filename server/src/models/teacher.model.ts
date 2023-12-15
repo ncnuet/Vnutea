@@ -107,4 +107,14 @@ export default class TeacherModel {
             image: teacher.image
         }));
     }
+
+    static async getAll() {
+        const result = await TeacherBaseModel.find({}).exec();
+        return result.map(teacher=>({
+            id: teacher._id,
+            name: teacher.name,
+            awards: teacher.awards,
+            department: teacher.department
+        }));
+    }
 }

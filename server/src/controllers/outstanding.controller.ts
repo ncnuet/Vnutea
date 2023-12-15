@@ -9,6 +9,7 @@ import UserModel from "@/models/user.model";
 import { EUserRole } from "@/types/auth";
 import DepartmentModel from "@/models/department.model";
 import LabModel from "@/models/lab.model";
+import TeacherModel from "@/models/teacher.model";
 export default class OutstandingController {
     private static async precheck(data: ICreateOutstanding) {
         switch (data.type) {
@@ -73,6 +74,21 @@ export default class OutstandingController {
                     message: ack ? "Deleted successfully" : "Unable to delete",
                     data: { id }
                 })
+        })
+    }
+
+    static async getAll(req: Request, res: Response) {
+        handleError(res, async () => {
+            const outstanding = await OutstandingModel.getAll();
+            const teacherIDs = outstanding.map(out => out.ref.toString());
+            const teachers = await TeacherModel.get(teacherIDs);
+
+            res.status(200).json({
+                message: "success",
+                data: {
+                    outstanding: teachers
+                }
+            })
         })
     }
 }

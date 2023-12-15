@@ -7,5 +7,7 @@ const OutstandingRouter: Router = Router();
 
 OutstandingRouter.post("/", [checkJWT, checkRole.bind({ role: ["admin"] })], OutstandingController.create);
 OutstandingRouter.delete("/:id", [checkJWT, checkRole.bind({ role: ["admin"] })], OutstandingController.delete);
+OutstandingRouter.get("/", [checkJWT], OutstandingController.getAll);
+
 
 export default OutstandingRouter;

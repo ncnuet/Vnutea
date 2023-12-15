@@ -35,7 +35,8 @@ export default class MeController {
                 data: {
                     role: user.role,
                     username: user.username,
-                    name: user.name
+                    name: user.name,
+                    uid: user.uid
                 }
             })
         })

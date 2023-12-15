@@ -4,7 +4,8 @@ import { Router } from "express"
 
 const TeacherRouter = Router();
 
-TeacherRouter.post("/getByDep", [checkJWT], TeacherController.getByDepartment);
+// TeacherRouter.post("/getByDep", [checkJWT], TeacherController.getByDepartment);
+TeacherRouter.get("/", [checkJWT], TeacherController.getAll);
 
 
 export default TeacherRouter;
