@@ -391,9 +391,10 @@ export const styles = StyleSheet.create({
         height: '100%',
         aspectRatio: 1,
         borderRadius: 100,
-        backgroundColor: '#2B7EFF',
+        // backgroundColor: '#2B7EFF',
         justifyContent: 'center',
         alignItems: 'center',
+        // marginLeft: 0.02 * windowWidth,
     },
     chatInputTextWrapper: {
         height: '100%',
@@ -403,6 +404,7 @@ export const styles = StyleSheet.create({
         backgroundColor: '#E9ECEA',
         flexDirection: 'row',
         justifyContent: 'space-between',
+        marginLeft: 0.02 * windowWidth,
     },
     chatInputText: {
         height: '100%',

@@ -6,9 +6,10 @@ import {
   TextInput,
   ScrollView,
   FlatList,
+  LogBox,
 } from 'react-native';
 import {Dimensions, StyleSheet} from 'react-native';
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import IconFontisto from 'react-native-vector-icons/Fontisto';
@@ -36,6 +37,10 @@ const ReduceString = myString => {
 };
 
 export default function Search({route, navigation}) {
+  useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+  }, []);
+  
   const {searchValue, typeSearchValue} = route.params;
   // const searchValue = '1';
   // const typeSearchValue = '2';

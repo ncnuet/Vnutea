@@ -24,18 +24,20 @@ export default function Login({ navigation, route }: Props) {
   const [loading, setIsLoading] = useState(false);
   const [viewPassword, setViewPassword] = useState(false);
 
-  useEffect(() => {
-    async function checkLogin() {
-      setIsLoading(true)
-      const response = await axios.get("/me");
-      if (response.status === 200) {
-        const user = response.data.data;
-        console.log(user);
-        AsyncStorage.setItem("user", JSON.stringify(user));
-        navigation.replace("MainRootApp")
-      }
-      setIsLoading(false);
+  async function checkLogin() {
+    setIsLoading(true)
+    const response = await axios.get("/me");
+    if (response.status === 200) {
+      const user = response.data.data;
+      console.log(user);
+      await AsyncStorage.setItem("user", JSON.stringify(user));
+      navigation.replace("MainRootApp")
+      console.log('!!!: ', await AsyncStorage.getItem("user") );
     }
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
 
     if (route.params && !route.params.isLogout) checkLogin();
   }, [])
@@ -50,6 +52,7 @@ export default function Login({ navigation, route }: Props) {
 
         if (response.status === 200) {
           setIsLoading(false);
+          await checkLogin()
           navigation.replace('MainRootApp')
         } else {
           Alert.alert("Login failed");

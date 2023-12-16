@@ -6,6 +6,7 @@ import {
   TextInput,
   FlatList,
   ScrollView,
+  LogBox,
 } from 'react-native';
 import {Animated, StyleSheet, Button, SafeAreaView} from 'react-native';
 import React, {
@@ -24,12 +25,15 @@ import IconFontisto from 'react-native-vector-icons/Fontisto';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import IconMC from 'react-native-vector-icons/MaterialCommunityIcons';
+import IconIonicons from 'react-native-vector-icons/Ionicons';
 
 import {styles} from './ChatListcss.js';
 import axios from 'axios';
 import {BASE_URL} from '@/context/config.js';
 import CookieManager from '@react-native-cookies/cookies';
 import {socket} from '@/service/socket';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+// import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -41,6 +45,11 @@ const myMaxLength = 40;
 const mySpecBlue = '#19253D';
 
 export default function Chat({route, navigation}) {
+
+  useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+  }, []);
+  
   const {name, avt, roomId} = route.params;
   const [messText, setMessText] = useState('');
   const [status, setStatus] = useState(true);
@@ -70,96 +79,118 @@ export default function Chat({route, navigation}) {
 
   //Fake data
   const [dataChat, setDataChat] = useState([
-    {
-      id: 0,
-      sender: 0,
-      mess: 'Ok hay gap mat nhe!',
-      type: 'text',
-      time: '10:21',
-    },
-    {
-      id: 1,
-      sender: 1,
-      mess: 'Ok hay gap mat nhe! . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ',
-      type: 'text',
-      time: '11:22',
-    },
-    {
-      id: 2,
-      sender: 0,
-      mess: 'Ok hay gap mat nhe! 2',
-      type: 'text',
-      time: '12:13',
-    },
-    {
-      id: 3,
-      sender: 0,
-      mess: 'Ok hay gap mat nhe! 3',
-      type: 'text',
-      time: '12:15',
-    },
-    {
-      id: 4,
-      sender: 1,
-      mess: 'Ok hay gap mat nhe! 4',
-      type: 'text',
-      time: '12:30',
-    },
-    {
-      id: 5,
-      sender: 0,
-      mess: 'Dit me may cho bo may xin cai dia chi! Dit me may noi it thoi',
-      type: 'text',
-      time: '12:30',
-    },
-    {
-      id: 6,
-      sender: 0,
-      mess: 'Dit me may cho bo may xin cai dia chi! Dit me may noi it thoi',
-      type: 'text',
-      time: '12:30',
-    },
-    {
-      id: 7,
-      sender: 1,
-      mess: 'An noi kieu gi mat day the?',
-      type: 'text',
-      time: '12:30',
-    },
-    {
-      id: 8,
-      sender: 1,
-      mess: 'Mo coi bo me deo duoc day do tu te a?',
-      type: 'text',
-      time: '12:30',
-    },
-    {
-      id: 9,
-      sender: 0,
-      mess: 'Dit con me may!',
-      type: 'text',
-      time: '12:30',
-    },
-    {
-      id: 10,
-      sender: 1,
-      mess: 'Bo dit ca nha may luon day con lon!',
-      type: 'text',
-      time: '12:30',
-    },
+    // {
+    //   id: 0,
+    //   sender: 0,
+    //   mess: 'Ok hay gap mat nhe!',
+    //   type: 'text',
+    //   time: '10:21',
+    // },
+    // {
+    //   id: 1,
+    //   sender: 1,
+    //   mess: 'Ok hay gap mat nhe! . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ',
+    //   type: 'text',
+    //   time: '11:22',
+    // },
+    // {
+    //   id: 2,
+    //   sender: 0,
+    //   mess: 'Ok hay gap mat nhe! 2',
+    //   type: 'text',
+    //   time: '12:13',
+    // },
+    // {
+    //   id: 3,
+    //   sender: 0,
+    //   mess: 'Ok hay gap mat nhe! 3',
+    //   type: 'text',
+    //   time: '12:15',
+    // },
+    // {
+    //   id: 4,
+    //   sender: 1,
+    //   mess: 'Ok hay gap mat nhe! 4',
+    //   type: 'text',
+    //   time: '12:30',
+    // },
+    // {
+    //   id: 5,
+    //   sender: 0,
+    //   mess: 'Dit me may cho bo may xin cai dia chi! Dit me may noi it thoi',
+    //   type: 'text',
+    //   time: '12:30',
+    // },
+    // {
+    //   id: 6,
+    //   sender: 0,
+    //   mess: 'Dit me may cho bo may xin cai dia chi! Dit me may noi it thoi',
+    //   type: 'text',
+    //   time: '12:30',
+    // },
+    // {
+    //   id: 7,
+    //   sender: 1,
+    //   mess: 'An noi kieu gi mat day the?',
+    //   type: 'text',
+    //   time: '12:30',
+    // },
+    // {
+    //   id: 8,
+    //   sender: 1,
+    //   mess: 'Mo coi bo me deo duoc day do tu te a?',
+    //   type: 'text',
+    //   time: '12:30',
+    // },
+    // {
+    //   id: 9,
+    //   sender: 0,
+    //   mess: 'Dit con me may!',
+    //   type: 'text',
+    //   time: '12:30',
+    // },
+    // {
+    //   id: 10,
+    //   sender: 1,
+    //   mess: 'Bo dit ca nha may luon day con lon!',
+    //   type: 'text',
+    //   time: '12:30',
+    // },
   ]);
+
+  const initMess = (item, currId) => {
+    // console.log(item.creator, ' ', currId);
+    if (item.creator === currId) {
+      return {
+        id: item._id,
+        sender: 1,
+        mess: item.message,
+      };
+    } else
+      return {
+        id: item._id,
+        sender: 0,
+        mess: item.message,
+      };
+  };
 
   // Call API
   useEffect(() => {
     async function getData() {
-      console.log(roomId, BASE_URL);
+      const myCC = await AsyncStorage.getItem('user');
+      const currId = JSON.parse(myCC).uid;
+
       try {
         const res = await axios.get(BASE_URL + '/chat/' + roomId, {
           withCredentials: true,
         });
 
         if (res.status === 200) {
-          console.log('Chat data: ', res.data.data);
+          const tmp = res.data.data.messages.map(item => {
+            return initMess(item, currId);
+          });
+          console.log(tmp);
+          setDataChat(tmp.reverse());
         }
       } catch (error) {
         console.log('error: ', error.message);
@@ -191,6 +222,10 @@ export default function Chat({route, navigation}) {
   };
 
   const handleOnSubmitText = () => {
+    if (!messText) {
+      return;
+    }
+
     //Call API
     const newId = dataChat.length;
     const newSender = 1;
@@ -291,12 +326,12 @@ export default function Chat({route, navigation}) {
         {/* Chat input */}
         <View style={styles.chatBoxWrapper}>
           <View style={styles.chatInputWrapper}>
-            <TouchableOpacity style={styles.chatAddBtnWrapper}>
+            {/* <TouchableOpacity style={styles.chatAddBtnWrapper}>
               <IconAntDesign
                 name="plus"
                 size={0.02 * windowHeight + 0.02 * windowWidth}
                 color="#fff"></IconAntDesign>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             <View style={styles.chatInputTextWrapper}>
               <TextInput
@@ -312,6 +347,15 @@ export default function Chat({route, navigation}) {
                   size={0.024 * windowHeight + 0.024 * windowWidth}></IconMC>
               </TouchableOpacity>
             </View>
+
+            <TouchableOpacity
+              style={styles.chatAddBtnWrapper}
+              onPress={handleOnSubmitText}>
+              <IconIonicons
+                name="send"
+                size={0.02 * windowHeight + 0.02 * windowWidth}
+                color={mySpecBlue}></IconIonicons>
+            </TouchableOpacity>
           </View>
         </View>
       </View>

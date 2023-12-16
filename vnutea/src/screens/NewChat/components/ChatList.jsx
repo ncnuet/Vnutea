@@ -7,6 +7,7 @@ import {
   FlatList,
   ScrollView,
   Alert,
+  LogBox,
 } from 'react-native';
 import {Animated, StyleSheet, Button, SafeAreaView} from 'react-native';
 import React, {
@@ -102,6 +103,11 @@ const fakeDataChatList = [
 ];
 
 export default function ChatList({navigation}) {
+
+  useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+  }, []);
+
   const handelConnect = async () => {
     console.log('Lo');
 
@@ -118,21 +124,51 @@ export default function ChatList({navigation}) {
     // socket.on("chat", ())
   };
 
+  // Lay du lieu chat cuoi cung
+  async function getDataChat(roomId) {
+    var resVal;
+    try {
+      const res = await axios.get(BASE_URL + '/chat/' + roomId, {
+        withCredentials: true,
+      });
+
+      if (res.status === 200) {
+        resVal = res.data.data.messages[0].message;
+      }
+    } catch (error) {
+      console.log('error: ', error.message);
+      resVal = 'error';
+    }
+    return resVal;
+  }
+
+  const initChatItem = async item => {
+    try {
+      const lastMess = await getDataChat(item._id);
+
+      return {
+        id: item._id,
+        name: item.name,
+        avt: require('../assets/avtlpd.png'),
+        mess: lastMess,
+        newMess: 1,
+        time: '1m',
+      };
+    } catch (error) {
+      console.error('Error in initChatItem:', error);
+      // Xử lý lỗi nếu cần thiết
+    }
+  };
+
   async function getData() {
     try {
       const response = await axios.get(BASE_URL + '/chat/', {
         withCredentials: true,
       });
       if (response.status === 200) {
-        // console.log('success: ',response.data.data);
-        const tmp = response.data.data.map(item => ({
-          id: item._id,
-          name: item.name,
-          avt: require('../assets/avtlpd.png'),
-          mess: 'okey, Đừng đến trễ nhé',
-          newMess: 10000,
-          time: new Date(item.updatedAt).getHours(),
-        }));
+        const tmp = await Promise.all(
+          response.data.data.map(item => initChatItem(item)),
+        );
         setDataChatList(tmp);
       }
     } catch (error) {

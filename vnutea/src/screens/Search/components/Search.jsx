@@ -6,6 +6,7 @@ import {
   TextInput,
   FlatList,
   ScrollView,
+  LogBox,
 } from 'react-native';
 import {Animated, StyleSheet, Button, SafeAreaView} from 'react-native';
 import React, {
@@ -14,6 +15,7 @@ import React, {
   useState,
   useSyncExternalStore,
   useMemo,
+  useEffect,
 } from 'react';
 import {ImageBackground} from 'react-native';
 import {Dimensions} from 'react-native';
@@ -48,6 +50,10 @@ const ReduceString = myString => {
 
 // @ts-check
 export default function Search({navigation}) {
+  useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+  }, []);
+
   const [typeSearch, setTypeSearch] = useState('Teachers');
   const [mySearch, setMySearch] = useState('');
   const [likeList, setLikeList] = useState([

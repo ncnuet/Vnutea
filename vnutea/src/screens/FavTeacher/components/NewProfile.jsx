@@ -54,6 +54,11 @@ export default function NewProfile({navigation}) {
     navigation.navigate('ClassListScreen');
   };
 
+  // Logout
+  const handleLogoutOnPress = () => {
+    navigation.replace('Login');
+  };
+
   return (
     <View style={{backgroundColor: '#fff', flex: 1}}>
       {/* Top bar */}
@@ -139,7 +144,9 @@ export default function NewProfile({navigation}) {
       </View>
 
       {/* Nut logout */}
-      <TouchableOpacity style={styles.logoutBtnWrapper}>
+      <TouchableOpacity
+        style={styles.logoutBtnWrapper}
+        onPress={handleLogoutOnPress}>
         <View style={styles.midBtnIcon}>
           <IconMCI
             name="exit-to-app"
