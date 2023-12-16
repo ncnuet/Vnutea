@@ -269,7 +269,7 @@ export default function RateClass({route, navigation}) {
             renderItem={({item}) => renderReactList({item})}></FlatList>
         </View>
 
-        {/* Nut luu nhan xet */}
+        {/* Nut luu nhan xet */}  
         <TouchableOpacity style={styles.btnSubmit} onPress={handleSaveRate}>
           <Text style={styles.btnSubmitText}>Lưu nhận xét</Text>
         </TouchableOpacity>
