@@ -72,7 +72,7 @@ export const styles = StyleSheet.create({
     },
     reactBoxContainer: {
         // backgroundColor: 'red',
-        height: 0.71 * windowHeight,
+        // height: 0.71 * windowHeight,
         marginTop: 0.02 * windowHeight,
     },
     itemContainer: {
@@ -170,9 +170,10 @@ export const styles = StyleSheet.create({
 
     btnSubmit: {
         width: 0.86 * windowWidth,
-        position: 'absolute',
-        bottom: 0.038 * windowHeight,
-        left: 0.07 * windowWidth,
+        // position: 'absolute',
+        // bottom: 0.038 * windowHeight,
+        marginTop: 0.02 * windowHeight,
+        marginLeft: 0.07 * windowWidth,
         height: 0.064 * windowHeight,
         backgroundColor: '#FFC700',
         justifyContent: 'center',

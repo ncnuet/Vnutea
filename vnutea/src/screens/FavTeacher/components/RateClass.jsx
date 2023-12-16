@@ -43,23 +43,43 @@ export default function RateClass({route,navigation}) {
   const [nameSubject, setNameSubject] = useState(codeClass);
   // const [reactOpen, setReactOpen] = useState([false, false, false]);
   const [openNum, setOpenNum] = useState(-1);
-  const [reactNum, setReactNum] = useState([5, 5, 5]);
+  const [reactNum, setReactNum] = useState([5, 5, 5, 5, 5, 5, 5]);
 
   const fakeDataList = [
     {
       id: 0,
-      name: 'Chất lượng giáo trình',
-      des: 'Giáo trình được cung cấp bởi giảng viên có đáp ứng được nhu cầu kiến thức hay không',
+      name: 'Chất lượng giảng dạy',
+      des: 'Sự rõ ràng trong cách giảng bài và sự tận tâm, nhiệt huyết của giáo viên',
     },
     {
       id: 1,
-      name: 'Chất lượng giáo trình',
-      des: 'Giáo trình được cung cấp bởi giảng viên có đáp ứng được nhu cầu kiến thức hay không',
+      name: 'Nội dung học phần',
+      des: 'Sự liên quan đến nội dung thực tế và độ khó với cấp độ học sinh',
     },
     {
       id: 2,
-      name: 'Chất lượng giáo trình',
-      des: 'Giáo trình được cung cấp bởi giảng viên có đáp ứng được nhu cầu kiến thức hay không',
+      name: 'Tài liệu học tập',
+      des: 'Chất lượng và tính chất hữu ích của giáo trình và sự hiệu quả của slide bài giảng, tài liệu tham khảo',
+    },
+    {
+      id: 3,
+      name: 'Môi trường học tập',
+      des: 'Sự thoải mái, sắp xếp của phòng học và mức độ tập trung và yên tĩnh trong lớp',
+    },
+    {
+      id: 4,
+      name: 'Phương pháp đánh giá',
+      des: 'Sự công bằng trong cách chấm điểm, độ minh bạch và giải thích rõ ràng về các bài kiểm tra',
+    },
+    {
+      id: 5,
+      name: 'Công nghệ và tư duy sáng tạo',
+      des: 'Sự tích hợp của công nghệ trong quá trình giảng dạy và sự sáng tạo của giáo viên',
+    },
+    {
+      id: 6,
+      name: 'Tính chất công bằng',
+      des: 'Sự đối xử công bằng với các học sinh và sự linh hoạt để đáp ứng đa dạng trong lớp',
     },
   ];
 
@@ -236,19 +256,22 @@ export default function RateClass({route,navigation}) {
         </View>
       </View>
       {/* Body */}
+      <ScrollView>
 
-      {/* Danh sach danh gia */}
-      <View style={styles.reactBoxContainer}>
-        <FlatList
-          data={fakeDataList}
-          keyExtractor={item => item.id.toString()}
-          renderItem={({item}) => renderReactList({item})}></FlatList>
-      </View>
+        {/* Danh sach danh gia */}
+        <View style={styles.reactBoxContainer}>
+          <FlatList
+            data={fakeDataList}
+            keyExtractor={item => item.id.toString()}
+            renderItem={({item}) => renderReactList({item})}></FlatList>
+        </View>
 
-      {/* Nut luu nhan xet */}
-      <TouchableOpacity style={styles.btnSubmit}>
-        <Text style={styles.btnSubmitText}>Lưu nhận xét</Text>
-      </TouchableOpacity>
+        {/* Nut luu nhan xet */}
+        <TouchableOpacity style={styles.btnSubmit}>
+          <Text style={styles.btnSubmitText}>Lưu nhận xét</Text>
+        </TouchableOpacity>
+      </ScrollView>
+
     </View>
   );
 }
