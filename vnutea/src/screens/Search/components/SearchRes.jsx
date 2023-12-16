@@ -224,7 +224,7 @@ export default function Search({route, navigation}) {
           <View style={styles.searchItemTag}>
             <FlatList
               data={item.tagList}
-              keyExtractor={tag => tag.tagText}
+              keyExtractor={tag => tag.tagText.toString()}
               renderItem={renderTagItem}
               horizontal={true}
             />
