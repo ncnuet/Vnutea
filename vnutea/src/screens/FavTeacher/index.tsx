@@ -1,17 +1,23 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+import NewProfile from "./components/NewProfile";
 import FavTeacher from "./components/FavTeacher";
+import RateClass from "./components/RateClass";
 
-type FavTeacherParamList = {
+type ProfileParamList = {
+    NewProfileScreen: undefined;
     FavTeacherScreen: undefined;
+    RateClassScreen: undefined;
 }
 
-const StackFavTeacher = createNativeStackNavigator<FavTeacherParamList>();
+const StackProfile = createNativeStackNavigator<ProfileParamList>();
 
-export const FavTeacherNavigator = () => {
+export const ProfileNavigator = () => {
     return (
-        <StackFavTeacher.Navigator screenOptions={ {headerShown: false}} >
-            <StackFavTeacher.Screen name="FavTeacherScreen" component={FavTeacher}></StackFavTeacher.Screen>
-        </StackFavTeacher.Navigator>
+        <StackProfile.Navigator screenOptions={ {headerShown: false}} >
+            <StackProfile.Screen name="NewProfileScreen" component={NewProfile}></StackProfile.Screen>
+            <StackProfile.Screen name="FavTeacherScreen" component={FavTeacher}></StackProfile.Screen>
+            <StackProfile.Screen name="RateClassScreen" component={RateClass}></StackProfile.Screen>
+        </StackProfile.Navigator>
     )
 }

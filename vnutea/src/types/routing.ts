@@ -19,6 +19,9 @@ export type StudentStackParamList = {
   };
   ContactScreen: undefined;
   ClassScreen: undefined;
+  LabScreen: undefined;
+  DepartmentScreen: undefined;
+  TeacherList: undefined;
 };
 
 export type MyStackParamList = {

@@ -11,6 +11,11 @@ const myMaxLength = 40;
 const mySpecBlue = '#19253D';
 
 export const styles = StyleSheet.create({
+    headerImg: {
+        position: 'absolute',
+        right: 0.12 * windowWidth,
+        bottom: 0,
+    },
     topBar: {
         backgroundColor: '#FFC700',
         width: '100%',

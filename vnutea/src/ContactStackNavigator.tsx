@@ -6,6 +6,8 @@ import Lecturer from '@/screens/Lecturer/Lecturer';
 import ContactLecturer from '@/screens/Lecturer/ContactLecturer';
 import Class from "@/screens/Class/Class"
 import { StudentStackParamList } from './types/routing';
+import Lab from './screens/Lab/Lab';
+import ListTeacher from './components/ListTeacher';
 
 const StackHome = createNativeStackNavigator<StudentStackParamList>();
 
@@ -16,6 +18,9 @@ export const HomeStackNavigator = () => {
       <StackHome.Screen name='LecturerScreen' component={Lecturer} initialParams={{ id: "0" }} />
       <StackHome.Screen name='ContactScreen' component={ContactLecturer} />
       <StackHome.Screen name='ClassScreen' component={Class} />
+      <StackHome.Screen name='LabScreen' component={Lab} />
+      <StackHome.Screen name='TeacherList' component={ListTeacher} />
+
     </StackHome.Navigator>
   );
 }

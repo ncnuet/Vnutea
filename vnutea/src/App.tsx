@@ -11,6 +11,7 @@ import Login from './screens/Login';
 import Icon from 'react-native-vector-icons/Octicons';
 import { SearchStackNavigator } from './screens/Search';
 import { ChatStackNavigator } from './screens/NewChat';
+import { ProfileNavigator } from './screens/FavTeacher';
 import Profile from './screens/Profile';
 import Settings from './screens/Settings';
 
@@ -38,11 +39,11 @@ function MainRootApp() {
 
       <TabApp.Screen
         name="Profile"
-        component={Profile}
+        component={ProfileNavigator}
         options={{
           tabBarIcon: () => <Icon name="rocket" size={16} color="#19253D" />,
         }}
-      />
+      /> 
 
       <TabApp.Screen
         name="Chat"

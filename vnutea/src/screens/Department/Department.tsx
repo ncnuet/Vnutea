@@ -16,14 +16,13 @@ import { Linking } from 'react-native';
 import DynamicHeader from "@/components/DynamicHeader";
 import { StudentStackParamList } from '@/types/routing';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import Evaluation from './evaluation';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import Info from '@/components/Infor';
 
-interface Props extends NativeStackScreenProps<StudentStackParamList, 'ClassScreen'> {
+interface Props extends NativeStackScreenProps<StudentStackParamList, 'DepartmentScreen'> {
 
 };
 
-export default function Class({ navigation, route }: Props) {
+export default function DepartmentScreen({ navigation, route }: Props) {
     let scrollOffsetY = useRef(new Animated.Value(0)).current;
     const [refreshing, setRefreshing] = useState(false)
 
@@ -54,8 +53,8 @@ export default function Class({ navigation, route }: Props) {
                 <View className='p-7'>
                     <View className='flex flex-row'>
                         <View className='flex-grow'>
-                            <Text className='text-xl text-blue-500 font-lato font-semibold'>Lớp học</Text>
-                            <Text className='text-primary text-3xl font-montserrat font-extrabold'>An toàn thông tin cho sin vien cong nghệ</Text>
+                            <Text className='text-xl text-blue-500 font-lato font-semibold'>Phòng nghiên cứu</Text>
+                            <Text className='text-primary text-3xl font-montserrat font-extrabold'>An toàn mạng</Text>
                         </View>
 
                         <View className='flex flex-row gap-2'>
@@ -68,19 +67,9 @@ export default function Class({ navigation, route }: Props) {
                         Giảng viên bộ bôn toán đại cương, đã có hơn 30 năm đứng trên cương vị giảng dạy với bề dày thành tích đáng tự hào
                     </Text>
 
-                    <FlatList
-                        className='mt-2'
-                        horizontal
-                        data={[1]}
-                        renderItem={() =>
-                            <Text
-                                className='text-primary font-lato text-sm bg-green-patel w-fit rounded-full px-2 mr-3'>Đã tốt nghiệp</Text>}
-                        keyExtractor={item => item.toString()}
-                    />
-
                     <View className='flex flex-row gap-3 py-4'>
                         <TouchableOpacity
-                            onPress={() => { Linking.openURL("tel:0123456789") }}
+                            onPress={() => { navigation.navigate("TeacherList") }}
                             className='bg-blue-400 p-2 rounded-2xl'>
                             <Icon name='briefcase-outline' color="white" size={30} />
                         </TouchableOpacity>
@@ -97,7 +86,8 @@ export default function Class({ navigation, route }: Props) {
                     </View>
                 </View>
 
-                <Evaluation />
+                <Info />
+                <View className='h-24' />
             </ScrollView>
         </KeyboardAvoidingView>
     )

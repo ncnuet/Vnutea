@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import ListDepartment from "./ListDepartment";
-import TaskLecturer from "./TaskLecturer";
+import TaskLecturer from "@/components/TaskLecturer";
 import { useState } from "react";
 import { Department, Teacher } from "@/types";
 

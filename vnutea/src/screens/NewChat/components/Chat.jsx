@@ -14,6 +14,7 @@ import React, {
   useState,
   useSyncExternalStore,
   useMemo,
+  useEffect,
 } from 'react';
 import {ImageBackground} from 'react-native';
 import {Dimensions} from 'react-native';
@@ -25,6 +26,9 @@ import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import IconMC from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {styles} from './ChatListcss.js';
+import axios from 'axios';
+import {BASE_URL} from '@/context/config.js';
+import CookieManager from '@react-native-cookies/cookies';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -36,9 +40,10 @@ const myMaxLength = 40;
 const mySpecBlue = '#19253D';
 
 export default function Chat({route, navigation}) {
-  const {name} = route.params;
+  const {name, avt, roomId} = route.params;
+  const [messText, setMessText] = useState('');
   const [status, setStatus] = useState(true);
-  const [isTyping, setIsTyping] = useState(true);
+  const [isTyping, setIsTyping] = useState(false);
 
   //Fake data
   const [dataChat, setDataChat] = useState([
@@ -52,7 +57,7 @@ export default function Chat({route, navigation}) {
     {
       id: 1,
       sender: 1,
-      mess: 'Ok hay gap mat nhe! 111111111111111111111111111111111111111',
+      mess: 'Ok hay gap mat nhe! . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ',
       type: 'text',
       time: '11:22',
     },
@@ -77,16 +82,111 @@ export default function Chat({route, navigation}) {
       type: 'text',
       time: '12:30',
     },
+    {
+      id: 5,
+      sender: 0,
+      mess: 'Dit me may cho bo may xin cai dia chi! Dit me may noi it thoi',
+      type: 'text',
+      time: '12:30',
+    },
+    {
+      id: 6,
+      sender: 0,
+      mess: 'Dit me may cho bo may xin cai dia chi! Dit me may noi it thoi',
+      type: 'text',
+      time: '12:30',
+    },
+    {
+      id: 7,
+      sender: 1,
+      mess: 'An noi kieu gi mat day the?',
+      type: 'text',
+      time: '12:30',
+    },
+    {
+      id: 8,
+      sender: 1,
+      mess: 'Mo coi bo me deo duoc day do tu te a?',
+      type: 'text',
+      time: '12:30',
+    },
+    {
+      id: 9,
+      sender: 0,
+      mess: 'Dit con me may!',
+      type: 'text',
+      time: '12:30',
+    },
+    {
+      id: 10,
+      sender: 1,
+      mess: 'Bo dit ca nha may luon day con lon!',
+      type: 'text',
+      time: '12:30',
+    },
   ]);
 
-  const renderMessageItem = ({item}) => (
-    <View style={styles.messageItemWrapper}>
+  // Call API
+  useEffect(() => {
+    async function getData() {
+      console.log(roomId, BASE_URL);
+      try {
+        const res = await axios.get(BASE_URL + '/chat/' + roomId, {
+          withCredentials: true,
+        });
 
-      <View style={styles.messageItem}>
-        <Text style={styles.messageText}>{item.mess}</Text>
-      </View>
-    </View>
-  );
+        if (res.status === 200) {
+          console.log('Chat data: ', res.data.data);
+        }
+      } catch (error) {
+        console.log('error: ', error.message);
+      }
+    }
+
+    getData();
+  }, [roomId]);
+
+  const renderMessageItem = ({item}) => {
+    switch (item.sender) {
+      case 0:
+        return (
+          <View style={styles.itemWrapper}>
+            <Text style={styles.itemTextLeft}>{item.mess}</Text>
+          </View>
+        );
+      case 1:
+        return (
+          <View style={[styles.itemWrapper, styles.itemRight]}>
+            <Text style={styles.itemTextRight}>{item.mess}</Text>
+          </View>
+        );
+    }
+  };
+
+  const handleOnChangeText = text => {
+    setMessText(text);
+  };
+
+  const handleOnSubmitText = () => {
+    //Call API 
+    const newId = dataChat.length;
+    const newSender = 1;
+    const newType = 'text';
+    const newMess = messText;
+    // const newTime = ...;
+
+    const newChat = {
+      id: newId,
+      sender: newSender,
+      mess: newMess,
+      type: newType,
+      time: '00000',
+    };
+
+    const newDataChat = [...dataChat, newChat];
+    setDataChat(newDataChat);
+    setMessText('');
+  };
 
   return (
     <View style={[styles.allWrapper, styles.allChatWrapper]}>
@@ -97,7 +197,11 @@ export default function Chat({route, navigation}) {
           source={require('../assets/Vector.png')}></Image>
 
         <View style={styles.headerWrapper}>
-          <TouchableOpacity style={styles.headerBtn}>
+          <TouchableOpacity
+            style={styles.headerBtn}
+            onPress={() => {
+              navigation.pop();
+            }}>
             <IconAntDesign
               name="arrowleft"
               size={0.02 * windowHeight + 0.02 * windowWidth}
@@ -107,9 +211,7 @@ export default function Chat({route, navigation}) {
           {/* info */}
           <View style={styles.headerInfoWrapper}>
             <View style={styles.headerAvtWrapper}>
-              <Image
-                style={styles.headerAvt}
-                source={require('../assets/avtlpd.png')}></Image>
+              <Image style={styles.headerAvt} source={avt}></Image>
 
               {status == true && (
                 <View style={styles.headerStatusWrapper}>
@@ -138,17 +240,17 @@ export default function Chat({route, navigation}) {
         <View style={styles.chatMessListWrapper}>
           <FlatList
             data={dataChat}
-            keyExtractor={item => item.id.toString()}
-            renderItem={renderMessageItem}
-          />
+            renderItem={({item}) => renderMessageItem({item})}
+            inverted={true}
+            contentContainerStyle={{
+              flexDirection: 'column-reverse',
+            }}></FlatList>
         </View>
         {/* Khung nhac nguoi khac dang go */}
         {isTyping == true && (
           <View style={styles.chatTypingWrapper}>
             <View style={styles.chatTypingAvtWrapper}>
-              <Image
-                style={styles.chatTypingAvt}
-                source={require('../assets/avtlpd.png')}></Image>
+              <Image style={styles.chatTypingAvt} source={avt}></Image>
             </View>
             <View style={styles.chatTypingTextWrapper}>
               <Text style={styles.chatTypingText}>
@@ -170,7 +272,10 @@ export default function Chat({route, navigation}) {
             <View style={styles.chatInputTextWrapper}>
               <TextInput
                 style={styles.chatInputText}
-                placeholder="Nhập văn bản"></TextInput>
+                placeholder="Nhập văn bản"
+                value={messText}
+                onChangeText={text => handleOnChangeText(text)}
+                onSubmitEditing={handleOnSubmitText}></TextInput>
 
               <TouchableOpacity style={styles.chatEmojiWrapper}>
                 <IconMC

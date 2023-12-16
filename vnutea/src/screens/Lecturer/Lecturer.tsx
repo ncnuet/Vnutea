@@ -15,6 +15,7 @@ import { Linking } from 'react-native';
 import DynamicHeader from '@/components/DynamicHeader';
 import { StudentStackParamList } from '@/types/routing';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import Info from '@/components/Infor';
 
 interface Props extends NativeStackScreenProps<StudentStackParamList, 'LecturerScreen'> {
 
@@ -34,7 +35,7 @@ export default function Lecturer({ navigation, route }: Props) {
     }, []);
 
     return (
-        <View>
+        <View className=''>
             <DynamicHeader animHeaderValue={scrollOffsetY} teacher='Nghia' />
             <ScrollView
                 refreshControl={
@@ -102,6 +103,12 @@ export default function Lecturer({ navigation, route }: Props) {
                         </TouchableOpacity>
 
                         <TouchableOpacity
+                            onPress={() => { navigation.navigate("LabScreen") }}
+                            className='bg-primary p-2 rounded-2xl'>
+                            <Icon name='hardware-chip-outline' color="white" size={30} />
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
                             onPress={() => { navigation.navigate("ContactScreen") }}
                             className='bg-primary p-2 rounded-2xl'>
                             <Icon name='ellipsis-horizontal-outline' color="white" size={30} />
@@ -109,29 +116,7 @@ export default function Lecturer({ navigation, route }: Props) {
                     </View>
                 </View>
 
-                <View className='p-7 pt-0'>
-                    <Text
-                        className='font-montserrat font-semibold text-lg text-primary'>
-                        Current Management Positions
-                    </Text>
-
-                    <View className='bg-gray-200 p-4 rounded-2xl mt-2'>
-                        <FlatList
-                            data={[
-                                { key: 'Head, Department of Science, Technology and International Relations, VNU-UET.' },
-                                { key: 'Director, VNU Key Laboratory for Smart Integrated Systems (SISLAB).' },
-                                { key: 'Member & Secrectary of the Scientific & Academic Council of the VNU-UET' },
-                                { key: 'Senior Member of IEEE, IEEE CAS, IEEE SSCS (Chairman, SSCS Vietnam Chapter).' },
-                                { key: 'Member of the Executing Board of The Radio-Electronics Association of Vietnam (REV) (2009-2014, 2014-2019).' },
-                                { key: ' Member of IEICE (Chairman, IEICE Vietnam Section).' },
-                            ]}
-                            renderItem={({ item }) =>
-                                <Text className='text-primary mb-2 font-semibold font-lato'>
-                                    {`\u25CF ${item.key}`}
-                                </Text>}
-                        />
-                    </View>
-                </View>
+                <Info />
             </ScrollView>
         </View>)
 };
