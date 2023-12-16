@@ -1,15 +1,15 @@
-import { useNavigation } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import React from 'react';
 import Icon from "react-native-vector-icons/Ionicons"
 import {
   Text,
   View,
   FlatList,
   TouchableOpacity,
-  Image,
-  Alert,
+  Image
 } from 'react-native';
-import axios from '@/service/axios';
+import { StudentStackParamList } from '@/types/routing';
+import { Outstanding } from '@/types';
 
 interface IProp {
   name: string;
@@ -20,8 +20,16 @@ interface IProp {
 }
 
 function Item({ name, position, department, id, index }: IProp) {
+  const navigation = useNavigation<NavigationProp<StudentStackParamList>>()
+
+  function handlePress(id: string) {
+    console.log(id, id);
+    navigation.navigate("LecturerScreen", { id })
+  }
+
   return (
     <TouchableOpacity
+      onPress={() => { handlePress(id) }}
       className={
         'mx-2 rounded-3xl p-5 w-[80vw] pl-7 relative overflow-hidden ' +
         (index % 2 == 0 ? "bg-green-patel" : "bg-blue-sea")} >
@@ -55,36 +63,7 @@ function Item({ name, position, department, id, index }: IProp) {
   )
 };
 
-interface Outstanding {
-  name: string;
-  awards: {
-    name: string;
-  }[]
-  position: string[],
-  user: string;
-}
-
-export default function LecturerFavorite() {
-  const [outstanding, setOutstanding] = useState<Outstanding[]>([]);
-
-  useEffect(() => {
-    async function getData() {
-      try {
-        const response = await axios.get("/outstanding");
-        if (response.status === 200) {
-          console.log(response.data.data.outstanding);
-          setOutstanding(response.data.data.outstanding);
-        } else {
-          Alert.alert("Lỗi")
-        }
-      } catch (error) {
-        Alert.alert("Lỗi")
-      }
-    }
-
-    getData();
-  }, [])
-
+export default function OutstandingLecturer({ outstanding }: { outstanding: Outstanding[] }) {
   return (
     <View className='h-48 ml-3 mt-5'>
       <FlatList
@@ -94,7 +73,7 @@ export default function LecturerFavorite() {
           <Item
             name={item.name}
             position={item.position[0]}
-            department={item.awards[0] ? item.awards[0].name: "Giảng viên nổi bật"}
+            department={item.awards[0] ? item.awards[0].name : "Giảng viên nổi bật"}
             id={item.user}
             index={index}
           />)}

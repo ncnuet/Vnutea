@@ -2,62 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList, _Image, Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Octicons';
-const DATA = [
-    {
-        id: '1',
-        name: 'Lê Phê Đô',
-        position: 'Truong nhom',
-        department: 'Công nghệ thông tin',
-        star: '4.8',
-        url: 'https://pyxis.nymag.com/v1/imgs/51b/28a/622789406b8850203e2637d657d5a0e0c3-avatar-rerelease.1x.rsquare.w1400.jpg',
-        favorite: false,
-    },
-    {
-        id: '2',
-        name: 'Le Phe Do',
-        position: 'Truong nhom',
-        department: 'Công nghệ thông tin',
-        star: '4.2',
-        url: 'https://www.bluristorante.com/wp-content/uploads/2019/03/9-Traditional-Italian-Food-Dishes-You-Will-Love-1080x700.jpg',
-        favorite: false,
-    },
-    {
-        id: '3',
-        name: 'Le Phe Do',
-        position: 'Truong nhom',
-        department: 'Công nghệ thông tin',
-        star: '4.1',
-        url: 'https://pyxis.nymag.com/v1/imgs/51b/28a/622789406b8850203e2637d657d5a0e0c3-avatar-rerelease.1x.rsquare.w1400.jpg',
-        favorite: false,
-    },
-    {
-        id: '4',
-        name: 'Le Phe Do',
-        position: 'Truong nhom',
-        department: 'Công nghệ thông tin',
-        star: '4.0',
-        url: '',
-        favorite: true,
-    },
-    {
-        id: '5',
-        name: 'Le Phe Do',
-        position: 'Truong nhom',
-        department: 'Công nghệ thông tin',
-        star: '4.1',
-        url: 'https://pyxis.nymag.com/v1/imgs/51b/28a/622789406b8850203e2637d657d5a0e0c3-avatar-rerelease.1x.rsquare.w1400.jpg',
-        favorite: false,
-    },
-    {
-        id: '6',
-        name: 'Le Phe Do',
-        position: 'Truong nhom',
-        department: 'Công nghệ thông tin',
-        star: '4.0',
-        url: 'https://pyxis.nymag.com/v1/imgs/51b/28a/622789406b8850203e2637d657d5a0e0c3-avatar-rerelease.1x.rsquare.w1400.jpg',
-        favorite: false,
-    },
-];
+import { Department, Teacher } from '@/types';
 
 type ItemProps = { name: string, department: string, url: string, favorite: boolean };
 const Item = ({ name, department, url, favorite }: ItemProps) => {
@@ -98,22 +43,6 @@ const Item = ({ name, department, url, favorite }: ItemProps) => {
         </TouchableOpacity>
     )
 };
-
-interface Department {
-    name: string;
-    id: string;
-}
-
-interface Teacher {
-    name: string;
-    id: string;
-    award: {
-        name: string;
-        color: string;
-    },
-    liked: boolean;
-    department: string;
-}
 
 interface IProps {
     depName: Department[]

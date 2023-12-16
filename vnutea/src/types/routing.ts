@@ -14,9 +14,11 @@ export type StudentTabParamList = {
 
 export type StudentStackParamList = {
   HomeScreen: undefined;
-  ChatScreen: undefined;
-  Lecturer: undefined;
-  Student: undefined;
+  LecturerScreen: {
+    id: string
+  };
+  ContactScreen: undefined;
+  ClassScreen: undefined;
 };
 
 export type MyStackParamList = {

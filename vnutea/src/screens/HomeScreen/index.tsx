@@ -6,22 +6,84 @@ import {
   TouchableOpacity,
   Image,
   StatusBar,
-  LogBox,
+  RefreshControl,
+  Alert,
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Feather';
-import LecturerFavorite from './HomeScreen/lecturerFavorite';
-import TaskLecturer from './HomeScreen/TaskLecturer';
-import ListDepartment from './HomeScreen/ListDepartment';
+import OutstandingLecturer from './components/lecturerOuts';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { StudentStackParamList } from '@/types/routing';
-import TrendingSection from './HomeScreen/trending';
+import TrendingSection from './components/trending';
+import { Department, Outstanding, Teacher } from '@/types';
+import axios from '@/service/axios';
 
 type TProps = NativeStackScreenProps<StudentStackParamList, 'HomeScreen'>;
+const defaultDep = { name: "All", id: "0" }
+
 export default function HomeScreen({ navigation }: TProps) {
+  const [refreshing, setRefreshing] = useState(false);
+  const [outstanding, setOutstanding] = useState<Outstanding[]>([]);
+  const [departments, setDepartments] = useState<Department[]>([defaultDep]);
+  const [teachers, setTeachers] = useState<Teacher[]>([]);
+
+  async function getDepartments() {
+    try {
+      const response = await axios.get("/department/name");
+      if (response.status === 200) {
+        console.log(response.data.data.departments);
+        setDepartments([{ name: "All", id: "0" }, ...response.data.data.departments]);
+      } else {
+        Alert.alert("Lỗi");
+      }
+    } catch (error: any) {
+      console.log(error.message);
+      Alert.alert("Lỗi")
+    }
+  }
+
+  async function getTeacher() {
+    try {
+      const response = await axios.get("/teacher");
+      if (response.status === 200) {
+        console.log(response.data.data.teacher);
+        setTeachers(response.data.data.teacher);
+      } else {
+        Alert.alert("Lỗi");
+      }
+    } catch (error: any) {
+      console.log(error.message);
+      Alert.alert("Lỗi")
+    }
+  }
+
+  async function getOuts() {
+    try {
+      const response = await axios.get("/outstanding");
+      if (response.status === 200) {
+        console.log(response.data.data.outstanding);
+        setOutstanding(response.data.data.outstanding);
+      } else {
+        Alert.alert("Lỗi")
+      }
+    } catch (error) {
+      Alert.alert("Lỗi")
+    }
+  }
+
   useEffect(() => {
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+    getOuts();
+    getDepartments();
+    getTeacher();
   }, [])
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    Promise
+      .all([getOuts(), getDepartments(), getTeacher()])
+      .finally(() => setRefreshing(false))
+  }, []);
+
 
   return (
     <View className='h-full bg-secondary pt-10'>
@@ -35,10 +97,6 @@ export default function HomeScreen({ navigation }: TProps) {
         </View>
 
         <View className="flex flex-row gap-4">
-          <TouchableOpacity className="h-12 w-12 rounded-full bg-white flex justify-center items-center">
-            <Icon name="message-square" color="#19253D" size={24} />
-          </TouchableOpacity>
-
           <TouchableOpacity className="h-12 w-12 rounded-full">
             <Image
               style={{ width: '100%', height: '100%', borderRadius: 40 }}
@@ -50,10 +108,16 @@ export default function HomeScreen({ navigation }: TProps) {
         </View>
       </View>
 
-      <ScrollView nestedScrollEnabled>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh} />
+        }
+      >
         <Text className="font-montserrat text-primary text-lg font-semibold ml-5">Giảng viên nổi bật</Text>
-        <LecturerFavorite />
-        <TrendingSection />
+        <OutstandingLecturer outstanding={outstanding} />
+        <TrendingSection departments={departments} teachers={teachers} />
       </ScrollView>
     </View>
   );
