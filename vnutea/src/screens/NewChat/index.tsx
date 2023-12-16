@@ -6,8 +6,9 @@ import Chat from "./components/Chat";
 type ChatStackParamList = {
     ChatListScreen: undefined;
     ChatScreen: {
-        id: string;
+        roomId: string;
         name: string;
+        avt: undefined;
     };
 }
 

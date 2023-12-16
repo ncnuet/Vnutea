@@ -2,7 +2,7 @@ import * as jwt from "jsonwebtoken";
 import env from "@/configs/env"
 
 export const JWTTokenOpt: jwt.SignOptions = {
-    expiresIn: env.ENV === "dev" ? "10s" : "3600s"
+    expiresIn: env.ENV === "dev" ? "300s" : "3600s"
 }
 export const JWTRefreshOpt: jwt.SignOptions = {
     expiresIn: env.ENV === "dev" ? "3600s" : "86400s"
