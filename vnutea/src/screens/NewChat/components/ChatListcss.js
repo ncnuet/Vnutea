@@ -120,7 +120,7 @@ export const styles = StyleSheet.create({
         flexWrap: 'wrap',
     },
     textDate: {
-        fontSize: 0.0112 * windowHeight + 0.0112 * windowWidth,
+        fontSize: 0.0102 * windowHeight + 0.0102 * windowWidth,
         fontWeight: '500',
         color: '#000',
     },
