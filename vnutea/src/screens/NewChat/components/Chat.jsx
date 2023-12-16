@@ -47,7 +47,25 @@ export default function Chat({route, navigation}) {
   const [isTyping, setIsTyping] = useState(false);
 
   socket.on('chat', msg => {
-    console.log(msg);
+    console.log(msg, msg.message, msg.type);
+
+    const newId = dataChat.length;
+    const newSender = 0;
+    const newType = 'text';
+    const newMess = msg.content.message;
+    // const newTime = ...;
+
+    const newChat = {
+      id: newId,
+      sender: newSender,
+      mess: newMess,
+      type: newType,
+      time: '00000',
+    };
+
+    const newDataChat = [...dataChat, newChat];
+    setDataChat(newDataChat);
+    setMessText('');
   });
 
   //Fake data
