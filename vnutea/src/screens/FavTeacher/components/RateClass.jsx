@@ -38,8 +38,9 @@ const myBoldGray = '#9EA1A5';
 const myMaxLength = 40;
 const mySpecBlue = '#19253D';
 
-export default function RateClass({navigation}) {
-  const [nameSubject, setNameSubject] = useState('Mat104 1');
+export default function RateClass({route,navigation}) {
+  const {idClass, codeClass} = route.params;
+  const [nameSubject, setNameSubject] = useState(codeClass);
   // const [reactOpen, setReactOpen] = useState([false, false, false]);
   const [openNum, setOpenNum] = useState(-1);
   const [reactNum, setReactNum] = useState([5, 5, 5]);

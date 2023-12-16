@@ -46,7 +46,12 @@ export default function NewProfile({navigation}) {
 
   // Chuyen sang screen danh gia mon hoc
   const handleRateClassOnPress = () => {
-    navigation.navigate('RateClassScreen');
+    navigation.navigate('RateClassListScreen');
+  };
+
+  // Chuyen sang screen danh sach lop hoc
+  const handleClassListOnPress = () => {
+    navigation.navigate('ClassListScreen');
   };
 
   return (
@@ -107,7 +112,9 @@ export default function NewProfile({navigation}) {
         </TouchableOpacity>
 
         {/* Lop hoc cua toi */}
-        <TouchableOpacity style={styles.midBtnWrapper}>
+        <TouchableOpacity
+          style={styles.midBtnWrapper}
+          onPress={handleClassListOnPress}>
           <View style={styles.midBtnIcon}>
             <IconMCI
               name="bag-personal"
