@@ -7,13 +7,8 @@ import {
   ScrollView,
   FlatList,
 } from 'react-native';
-// import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-// import { faHouse, faMagnifyingGlass, faBookOpen, faUser, faMicrophone, faChalkboardUser, faFlaskVial, faGraduationCap, faBook } from '@fortawesome/free-solid-svg-icons';
 import {Dimensions, StyleSheet} from 'react-native';
 import React, {useState, useMemo} from 'react';
-
-// import { faHeart } from '@fortawesome/free-solid-svg-icons/faHeart'
-// import { faStar} from '@fortawesome/free-solid-svg-icons/faStar'
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import IconFontisto from 'react-native-vector-icons/Fontisto';
