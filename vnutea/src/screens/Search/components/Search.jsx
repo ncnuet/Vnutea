@@ -235,7 +235,7 @@ export default function Search({navigation}) {
           <View style={styles.searchItemTag}>
             <FlatList
               data={item.tagList}
-              keyExtractor={tag => tag.tagText}
+              keyExtractor={tag => tag.tagText.toString()}
               renderItem={renderTagItem}
               horizontal={true}
             />
@@ -296,14 +296,14 @@ export default function Search({navigation}) {
 
   const textOptionsStyle = useMemo(
     () => ({
-      fontSize: 0.04 * windowWidth,
+      fontSize: 0.0132 * windowWidth + 0.0132 * windowHeight,
     }),
     [],
   );
 
   const textOptionsSelectedStyle = useMemo(
     () => ({
-      fontSize: 0.04 * windowWidth,
+      fontSize: 0.0132 * windowWidth + 0.0132 * windowHeight,
       fontWeight: 'bold',
     }),
     [typeSearch],
@@ -348,6 +348,7 @@ export default function Search({navigation}) {
                   style={styles.inputSearchText}
                   maxLength={40}
                   value={mySearch}
+                  onSubmitEditing={handleSearchOnPress}
                   onChangeText={text => {
                     setMySearch(text);
                   }}></TextInput>
