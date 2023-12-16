@@ -34,7 +34,7 @@ const myBoldGray = '#9EA1A5';
 const myMaxLength = 40;
 const mySpecBlue = '#19253D';
 
-export default function FavTeacher() {
+export default function FavTeacher({ navigation }) {
   const [likeList, setLikeList] = useState([
     'true',
     'true',
@@ -55,6 +55,11 @@ export default function FavTeacher() {
       );
     });
   };
+
+  //TUrn back button
+  const handleReturnOnPress = () => {
+    navigation.pop();
+  }
 
   //render tag giang vien
   const renderTagItem = ({item}) => (
@@ -134,12 +139,18 @@ export default function FavTeacher() {
     <View>
       {/* Top bar */}
       <View style={styles.topBar}>
+        <Image style={styles.headerImg} source={require('../assets/Vector2.png')}></Image>
+
         <View style={styles.topWrapper}>
+
+          {/* Nut turn back */}
           <TouchableOpacity style={styles.topBtn}>
             <IconAntDesign
               name="arrowleft"
               size={0.02 * windowHeight + 0.02 * windowWidth}
-              color={mySpecBlue}></IconAntDesign>
+              color={mySpecBlue}
+              onPress={handleReturnOnPress}
+              ></IconAntDesign>
           </TouchableOpacity>
 
           <View style={styles.topTextWrapper}>

@@ -6,6 +6,7 @@
         "compile_server"
     ],
     "dependencies": {
+        "babel-preset-react-native": "^2.1.0",
         "pre-commit": "^1.2.2"
     }
 }

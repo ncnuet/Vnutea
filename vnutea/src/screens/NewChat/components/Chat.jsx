@@ -168,7 +168,7 @@ export default function Chat({route, navigation}) {
   };
 
   const handleOnSubmitText = () => {
-    //Call API
+    //Call API 
     const newId = dataChat.length;
     const newSender = 1;
     const newType = 'text';
