@@ -38,7 +38,7 @@ const myBoldGray = '#9EA1A5';
 const myMaxLength = 40;
 const mySpecBlue = '#19253D';
 
-export default function RateClass({route,navigation}) {
+export default function RateClass({route, navigation}) {
   const {idClass, codeClass} = route.params;
   const [nameSubject, setNameSubject] = useState(codeClass);
   // const [reactOpen, setReactOpen] = useState([false, false, false]);
@@ -117,6 +117,10 @@ export default function RateClass({route,navigation}) {
       }
     }
     return <Image source={path} style={styles.itemBtnImage}></Image>;
+  };
+
+  const handleSaveRate = () => {
+    navigation.pop();
   };
 
   const handleTurnOnReact = id => {
@@ -257,7 +261,6 @@ export default function RateClass({route,navigation}) {
       </View>
       {/* Body */}
       <ScrollView>
-
         {/* Danh sach danh gia */}
         <View style={styles.reactBoxContainer}>
           <FlatList
@@ -267,11 +270,10 @@ export default function RateClass({route,navigation}) {
         </View>
 
         {/* Nut luu nhan xet */}
-        <TouchableOpacity style={styles.btnSubmit}>
+        <TouchableOpacity style={styles.btnSubmit} onPress={handleSaveRate}>
           <Text style={styles.btnSubmitText}>Lưu nhận xét</Text>
         </TouchableOpacity>
       </ScrollView>
-
     </View>
   );
 }
