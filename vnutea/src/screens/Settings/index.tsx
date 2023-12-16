@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,7 +12,7 @@ const url =
 const name = 'Trương Minh Đức';
 const id = '21020304';
 
-const Settings = ({navigation}) => {
+const Settings = ({ navigation }) => {
   const [showBox, setShowBox] = useState(true);
 
   const showConfirmLogout = () => {
@@ -21,7 +21,7 @@ const Settings = ({navigation}) => {
       {
         text: 'Yes',
         onPress: () => {
-          navigation.replace('Login');
+          navigation.replace('Login', { isLogout: true });
         },
       },
       // The "No" button

@@ -4,6 +4,7 @@ import config from "@/configs/env";
 import { checkRWT } from "./checkRWT.middler";
 import TokenModel from "@/models/token.model";
 import { IUser } from "@/types/auth";
+import { parse } from "cookie"
 
 interface ICheckJWT {
     tokenOn?: "query" | "cookie"
@@ -34,14 +35,19 @@ export async function checkJWT(this: ICheckJWT | void, req: Request, res: Respon
 }
 
 export function checkJWTForIO(socket: MySocket, next: any) {
-    const token = <string>socket.handshake.query.token;
+    const co = <string>socket.handshake.headers.cookie;
+    const co_obj = parse(co);
+    const token = co_obj.token || undefined;
+    console.log(token);
     if (!token) next(new Error("Unauthorized access token"))
 
     try {
-        const user = <IUser>jwt.verify(token, config.JWT_CHAT);
+        const user = <IUser>jwt.verify(token, config.JWT_KEY);
         socket.user = user;
+        console.log(user);
         next()
     } catch (error) {
-        next(new Error("Unauthorized access token"));
+        console.log(error);
+        next(new Error("Access token expired"));
     }
 }

@@ -2,7 +2,9 @@
   "extends": "@tsconfig/react-native/tsconfig.json",
   "compilerOptions": {
     "strict": true,
-    "typeRoots": ["./src/types"],
+    "typeRoots": [
+      "./src/types"
+    ],
     "baseUrl": ".",
     "paths": {
       "@/*": [

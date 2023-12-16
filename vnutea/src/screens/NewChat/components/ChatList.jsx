@@ -6,6 +6,7 @@ import {
   TextInput,
   FlatList,
   ScrollView,
+  Alert,
 } from 'react-native';
 import {Animated, StyleSheet, Button, SafeAreaView} from 'react-native';
 import React, {
@@ -23,6 +24,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import IconFontisto from 'react-native-vector-icons/Fontisto';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
+import {socket} from '@/service/socket';
 
 import {styles} from './ChatListcss.js';
 import axios from 'axios';
@@ -100,35 +102,50 @@ const fakeDataChatList = [
 ];
 
 export default function ChatList({navigation}) {
+  const handelConnect = async () => {
+    console.log('Lo');
+
+    socket.connect();
+    socket.on('connection', () => {
+      console.log('Hello');
+    });
+
+    socket.on('connect_error', err => {
+      console.log('Connection error', err);
+      Alert.alert('Lỗi');
+    });
+
+    // socket.on("chat", ())
+  };
+
+  async function getData() {
+    try {
+      const response = await axios.get(BASE_URL + '/chat/', {
+        withCredentials: true,
+      });
+      if (response.status === 200) {
+        // console.log('success: ',response.data.data);
+        const tmp = response.data.data.map(item => ({
+          id: item._id,
+          name: item.name,
+          avt: require('../assets/avtlpd.png'),
+          mess: 'okey, Đừng đến trễ nhé',
+          newMess: 10000,
+          time: new Date(item.updatedAt).getHours(),
+        }));
+        setDataChatList(tmp);
+      }
+    } catch (error) {
+      console.log('BigError: ', error.message);
+    }
+  }
+
   const [dataChatList, setDataChatList] = useState(fakeDataChatList);
 
   useEffect(() => {
-    async function getData() {
-      try {
-        // const a = await CookieManager.get("http://192.168.43.213");
-        // console.log('cookies: ',a);
-        const response = await axios.get(BASE_URL + '/chat/', {
-          withCredentials: true,
-        });
-        if (response.status === 200) {
-          // console.log('success: ',response.data.data);
-          const tmp = response.data.data.map(item => ({
-            id: item._id,
-            name: item.name,
-            avt: require('../assets/avtlpd.png'),
-            mess: 'okey, Đừng đến trễ nhé',
-            newMess: 10000,
-            time: new Date(item.updatedAt).getHours(),
-          }));
-          setDataChatList(tmp);
-        }
-      } catch (error) {
-        console.log('BigError: ',error.message);
-      }
-    }
-
+    handelConnect();
     getData();
-  },[]);
+  }, []);
 
   //Fake data
   const [isDated, setIsDated] = useState(true);
@@ -136,6 +153,7 @@ export default function ChatList({navigation}) {
 
   //Xu ly nhan tin voi mot nguoi cu the
   const handleChatPressed = item => {
+    socket.emit('join', item.id);
     navigation.navigate('ChatScreen', {
       name: item.name,
       avt: item.avt,

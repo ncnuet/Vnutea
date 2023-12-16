@@ -18,7 +18,7 @@ import { RootStackParamList } from '@/types/routing';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
-export default function Login({ navigation }: Props) {
+export default function Login({ navigation, route }: Props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setIsLoading] = useState(false);
@@ -37,7 +37,7 @@ export default function Login({ navigation }: Props) {
       setIsLoading(false);
     }
 
-    checkLogin();
+    if (route.params && !route.params.isLogout) checkLogin();
   }, [])
 
   const login = async () => {

@@ -1,7 +1,7 @@
 export type RootStackParamList = {
   OnBoarding: undefined;
   MainRootApp: undefined;
-  Login: undefined;
+  Login: { isLogout: boolean };
 };
 
 export type StudentTabParamList = {

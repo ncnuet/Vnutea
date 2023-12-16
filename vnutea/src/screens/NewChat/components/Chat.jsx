@@ -29,6 +29,7 @@ import {styles} from './ChatListcss.js';
 import axios from 'axios';
 import {BASE_URL} from '@/context/config.js';
 import CookieManager from '@react-native-cookies/cookies';
+import {socket} from '@/service/socket';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -44,6 +45,28 @@ export default function Chat({route, navigation}) {
   const [messText, setMessText] = useState('');
   const [status, setStatus] = useState(true);
   const [isTyping, setIsTyping] = useState(false);
+
+  socket.on('chat', msg => {
+    console.log(msg, msg.message, msg.type);
+
+    const newId = dataChat.length;
+    const newSender = 0;
+    const newType = 'text';
+    const newMess = msg.content.message;
+    // const newTime = ...;
+
+    const newChat = {
+      id: newId,
+      sender: newSender,
+      mess: newMess,
+      type: newType,
+      time: '00000',
+    };
+
+    const newDataChat = [...dataChat, newChat];
+    setDataChat(newDataChat);
+    setMessText('');
+  });
 
   //Fake data
   const [dataChat, setDataChat] = useState([
@@ -168,13 +191,19 @@ export default function Chat({route, navigation}) {
   };
 
   const handleOnSubmitText = () => {
-    //Call API 
+    //Call API
     const newId = dataChat.length;
     const newSender = 1;
     const newType = 'text';
     const newMess = messText;
     // const newTime = ...;
-
+    socket.emit('chat', {
+      content: {
+        message: messText,
+        type: 'text',
+      },
+      to: roomId,
+    });
     const newChat = {
       id: newId,
       sender: newSender,
