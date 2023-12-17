@@ -5,35 +5,22 @@ import {
   Text,
   TextInput,
   FlatList,
-  ScrollView,
   LogBox,
 } from 'react-native';
-import {Animated, StyleSheet, Button, SafeAreaView} from 'react-native';
-import React, {
-  useCallback,
-  useRef,
-  useState,
-  useSyncExternalStore,
-  useMemo,
-  useEffect,
-} from 'react';
-import {ImageBackground} from 'react-native';
+
+import React, {useState, useEffect, useContext} from 'react';
 import {Dimensions} from 'react-native';
 
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import IconFontisto from 'react-native-vector-icons/Fontisto';
-import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import IconMC from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconIonicons from 'react-native-vector-icons/Ionicons';
 
 import {styles} from './ChatListcss.js';
-import axios from 'axios';
-import {BASE_URL} from '@/context/config.js';
-import CookieManager from '@react-native-cookies/cookies';
+import {UserContext} from '@/hooks/user.context';
+
 import {socket} from '@/service/socket';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-// import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import fetch from '@/service/fetching';
+import axios from '@/service/axios';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -45,6 +32,8 @@ const myMaxLength = 40;
 const mySpecBlue = '#19253D';
 
 export default function Chat({route, navigation}) {
+  const {user} = useContext(UserContext);
+
   useEffect(() => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
@@ -61,7 +50,6 @@ export default function Chat({route, navigation}) {
     const newSender = 0;
     const newType = 'text';
     const newMess = msg.content.message;
-    // const newTime = ...;
 
     const newChat = {
       id: newId,
@@ -76,89 +64,9 @@ export default function Chat({route, navigation}) {
     setMessText('');
   });
 
-  //Fake data
-  const [dataChat, setDataChat] = useState([
-    // {
-    //   id: 0,
-    //   sender: 0,
-    //   mess: 'Ok hay gap mat nhe!',
-    //   type: 'text',
-    //   time: '10:21',
-    // },
-    // {
-    //   id: 1,
-    //   sender: 1,
-    //   mess: 'Ok hay gap mat nhe! . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ',
-    //   type: 'text',
-    //   time: '11:22',
-    // },
-    // {
-    //   id: 2,
-    //   sender: 0,
-    //   mess: 'Ok hay gap mat nhe! 2',
-    //   type: 'text',
-    //   time: '12:13',
-    // },
-    // {
-    //   id: 3,
-    //   sender: 0,
-    //   mess: 'Ok hay gap mat nhe! 3',
-    //   type: 'text',
-    //   time: '12:15',
-    // },
-    // {
-    //   id: 4,
-    //   sender: 1,
-    //   mess: 'Ok hay gap mat nhe! 4',
-    //   type: 'text',
-    //   time: '12:30',
-    // },
-    // {
-    //   id: 5,
-    //   sender: 0,
-    //   mess: 'Dit me may cho bo may xin cai dia chi! Dit me may noi it thoi',
-    //   type: 'text',
-    //   time: '12:30',
-    // },
-    // {
-    //   id: 6,
-    //   sender: 0,
-    //   mess: 'Dit me may cho bo may xin cai dia chi! Dit me may noi it thoi',
-    //   type: 'text',
-    //   time: '12:30',
-    // },
-    // {
-    //   id: 7,
-    //   sender: 1,
-    //   mess: 'An noi kieu gi mat day the?',
-    //   type: 'text',
-    //   time: '12:30',
-    // },
-    // {
-    //   id: 8,
-    //   sender: 1,
-    //   mess: 'Mo coi bo me deo duoc day do tu te a?',
-    //   type: 'text',
-    //   time: '12:30',
-    // },
-    // {
-    //   id: 9,
-    //   sender: 0,
-    //   mess: 'Dit con me may!',
-    //   type: 'text',
-    //   time: '12:30',
-    // },
-    // {
-    //   id: 10,
-    //   sender: 1,
-    //   mess: 'Bo dit ca nha may luon day con lon!',
-    //   type: 'text',
-    //   time: '12:30',
-    // },
-  ]);
+  const [dataChat, setDataChat] = useState([]);
 
   const initMess = (item, currId) => {
-    // console.log(item.creator, ' ', currId);
     if (item.creator === currId) {
       return {
         id: item._id,
@@ -173,29 +81,18 @@ export default function Chat({route, navigation}) {
       };
   };
 
-  // Call API
+  async function getData() {
+    fetch(
+      () => axios.get('/chat/' + roomId),
+      async data => {
+        const tmp = data.messages.map(item => initMess(item, user.uid));
+        console.log(tmp);
+        setDataChat(tmp.reverse());
+      },
+    );
+  }
+
   useEffect(() => {
-    async function getData() {
-      const myCC = await AsyncStorage.getItem('user');
-      const currId = JSON.parse(myCC).uid;
-
-      try {
-        const res = await axios.get(BASE_URL + '/chat/' + roomId, {
-          withCredentials: true,
-        });
-
-        if (res.status === 200) {
-          const tmp = res.data.data.messages.map(item => {
-            return initMess(item, currId);
-          });
-          console.log(tmp);
-          setDataChat(tmp.reverse());
-        }
-      } catch (error) {
-        console.log('error: ', error.message);
-      }
-    }
-
     getData();
   }, [roomId]);
 
@@ -225,12 +122,11 @@ export default function Chat({route, navigation}) {
       return;
     }
 
-    //Call API
     const newId = dataChat.length;
     const newSender = 1;
     const newType = 'text';
     const newMess = messText;
-    // const newTime = ...;
+
     socket.emit('chat', {
       content: {
         message: messText,
@@ -238,6 +134,7 @@ export default function Chat({route, navigation}) {
       },
       to: roomId,
     });
+
     const newChat = {
       id: newId,
       sender: newSender,
@@ -294,9 +191,7 @@ export default function Chat({route, navigation}) {
                 </View>
               )}
 
-              <View style={styles.headerPaddingWrapper}>
-
-              </View>
+              <View style={styles.headerPaddingWrapper}></View>
             </View>
           </View>
         </View>

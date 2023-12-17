@@ -8,29 +8,17 @@ import {
   ScrollView,
   Alert,
   LogBox,
+  RefreshControl,
 } from 'react-native';
-import {Animated, StyleSheet, Button, SafeAreaView} from 'react-native';
-import React, {
-  useCallback,
-  useRef,
-  useState,
-  useSyncExternalStore,
-  useMemo,
-  useEffect,
-} from 'react';
-import {ImageBackground} from 'react-native';
-import {Dimensions} from 'react-native';
+import React, {useState, useEffect} from 'react';
 
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import IconFontisto from 'react-native-vector-icons/Fontisto';
-import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
+import {Dimensions} from 'react-native';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
-import {socket} from '@/service/socket';
 
 import {styles} from './ChatListcss.js';
-import axios from 'axios';
-import {BASE_URL} from '@/context/config.js';
-import CookieManager from '@react-native-cookies/cookies';
+import {socket} from '@/service/socket';
+import axios from '@/service/axios';
+import fetch from '@/service/fetching';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -43,140 +31,66 @@ const mySpecBlue = '#19253D';
 
 const maxMessLength = 30;
 
-const fakeDataChatList = [
-  // {
-  //   id: 0,
-  //   name: 'Lê Phê Đô',
-  //   avt: require('../assets/avtlpd.png'),
-  //   mess: 'okey, Đừng đến trễ nhé',
-  //   newMess: 4,
-  //   time: '1m',
-  // },
-];
-
-const addfakeDataChatList = [
-  {
-    id: 100,
-    name: 'Lê Phê Đô',
-    avt: require('../assets/avtlpd.png'),
-    mess: 'okey, Đừng đến trễ nhé',
-    newMess: 2,
-    time: '11m',
-    status: 'offline',
-  },
-  {
-    id: 101,
-    name: 'Đỗ Đức Đông',
-    avt: require('../assets/avtddd.jpg'),
-    mess: 'Em làm nốt các bài tập từ chương 3 đến chương 5 để hoàn thiện nốt nhé',
-    newMess: 4,
-    time: '2h',
-    status: 'offline',
-  },
-  {
-    id: 102,
-    name: 'Lê Minh Hoàng',
-    avt: require('../assets/avtphm.jpeg'),
-    mess: 'Tuần này thầy rất bận, có lẽ phải để tuần sau em nhé',
-    newMess: 1,
-    time: '2h',
-    status: 'online',
-  },
-  {
-    id: 103,
-    name: 'Phạm Hồng Minh',
-    avt: require('../assets/avtdtn.jpg'),
-    mess: 'Làm nốt phần 11 nhé',
-    newMess: 8,
-    time: '12m',
-    status: 'offline',
-  },
-];
-
 export default function ChatList({navigation}) {
+  const [dataChatList, setDataChatList] = useState([]);
+
   useEffect(() => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
 
   const handelConnect = async () => {
-    console.log('Lo');
-
     socket.connect();
-    socket.on('connection', () => {
-      console.log('Hello');
-    });
 
     socket.on('connect_error', err => {
       console.log('Connection error', err);
-      Alert.alert('Lỗi');
+      Alert.alert('Lỗi ket noi socket');
     });
-
-    // socket.on("chat", ())
   };
 
-  // Lay du lieu chat cuoi cung
   async function getDataChat(roomId) {
-    var resVal;
-    try {
-      const res = await axios.get(BASE_URL + '/chat/' + roomId, {
-        withCredentials: true,
-      });
-
-      if (res.status === 200) {
-        resVal = res.data.data.messages[0].message;
-      }
-    } catch (error) {
-      console.log('error: ', error.message);
-      resVal = 'error';
-    }
-    return resVal;
+    return new Promise((resolve, reject) => {
+      fetch(
+        () => axios.get('/chat/' + roomId),
+        async data => {
+          resolve(data.messages[0].message);
+        },
+      );
+    });
   }
 
   const initChatItem = async item => {
-    try {
-      const lastMess = await getDataChat(item._id);
-
-      return {
-        id: item._id,
-        name: item.name,
-        avt: require('../assets/fakeavt.png'),
-        mess: lastMess,
-        newMess: 1,
-        time: '1m',
-        status: 'online',
-      };
-    } catch (error) {
-      console.error('Error in initChatItem:', error);
-      // Xử lý lỗi nếu cần thiết
-    }
+    const lastMsg = await getDataChat(item._id);
+    return {
+      id: item._id,
+      name: item.name,
+      avt: require('../assets/fakeavt.png'),
+      mess: lastMsg,
+      newMess: 1,
+      time: '1m',
+      status: 'online',
+    };
   };
 
   async function getData() {
-    try {
-      const response = await axios.get(BASE_URL + '/chat/', {
-        withCredentials: true,
-      });
-      if (response.status === 200) {
-        let tmp = await Promise.all(
-          response.data.data.map(item => initChatItem(item)),
-        );
+    fetch(
+      () => axios.get('/chat'),
+      async data => {
+        tmp = await Promise.all(data.map(item => initChatItem(item)));
 
         if (tmp.length > 0) {
           tmp[tmp.length - 1].status = 'offline';
           tmp[tmp.length - 1].avt = require('../assets/fakeavt3.png');
         }
 
-        tmp = [...tmp, ...addfakeDataChatList];
-        console.log(tmp);
-
         setDataChatList(tmp);
-      }
-    } catch (error) {
-      console.log('BigError: ', error.message);
-    }
+      },
+    );
   }
 
-  const [dataChatList, setDataChatList] = useState(fakeDataChatList);
+  function handleReload() {
+    handelConnect();
+    getData();
+  }
 
   useEffect(() => {
     handelConnect();
@@ -284,7 +198,10 @@ export default function ChatList({navigation}) {
         </View>
       </View>
 
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={false} onRefresh={handleReload} />
+        }>
         {/* Search Input */}
         <View style={styles.searchWrapper}>
           <TouchableOpacity style={styles.searchBtn}>
