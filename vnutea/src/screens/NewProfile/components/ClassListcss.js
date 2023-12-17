@@ -195,9 +195,6 @@ export const styles = StyleSheet.create({
         width: '100%',
         height: 0.674 * windowHeight,
         marginTop: 0.012 * windowHeight,
-        // marginLeft: 0.07 * windowWidth,
-        // marginRight: 0.07 * windowWidth,
-        // borderWidth: 1,
     },
     allListWrapper: {
         marginTop: 0.03 * windowHeight,
@@ -252,7 +249,7 @@ export const styles = StyleSheet.create({
     itemNameText: {
         color: mySpecBlue,
         fontSize: 0.0126 * windowHeight + 0.0126 * windowWidth,
-        fontWeight: '500',
+        fontWeight: '600',
         fontFamily: "Montserrat",
     },
     itemCodeWrapper: {
@@ -262,8 +259,9 @@ export const styles = StyleSheet.create({
     },
     itemCodeText: {
         color: mySpecBlue,
-        fontSize: 0.0126 * windowHeight + 0.0126 * windowWidth,
+        fontSize: 0.0112 * windowHeight + 0.0112 * windowWidth,
         fontWeight: '500',
+        fontFamily: "Montserrat",
     },
     itemDesMidWrapper: {
         marginTop: -0.008 * windowHeight,
@@ -318,6 +316,7 @@ export const styles = StyleSheet.create({
         borderRadius: 7,
         alignSelf: 'flex-start',
         marginBottom: 0.004 * windowHeight,
+        marginTop: -0.02 * windowHeight,
     },
     itemDesBotText: {
         color: '#fff',
