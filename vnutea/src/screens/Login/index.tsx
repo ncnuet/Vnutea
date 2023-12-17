@@ -29,10 +29,10 @@ export default function Login({ navigation, route }: Props) {
     const response = await axios.get("/me");
     if (response.status === 200) {
       const user = response.data.data;
-      console.log(user);
+      // console.log(user);
       await AsyncStorage.setItem("user", JSON.stringify(user));
       navigation.replace("MainRootApp")
-      console.log('!!!: ', await AsyncStorage.getItem("user") );
+      // console.log('!!!: ', await AsyncStorage.getItem("user") );
     }
     setIsLoading(false);
   }

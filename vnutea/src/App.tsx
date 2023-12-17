@@ -16,7 +16,7 @@ import IconFeather from 'react-native-vector-icons/Feather';
 import IconIonicons from 'react-native-vector-icons/Ionicons';
 import {SearchStackNavigator} from './screens/Search';
 import {ChatStackNavigator} from './screens/NewChat';
-import {ProfileNavigator} from './screens/FavTeacher';
+import { ProfileNavigator } from './screens/NewProfile';
 import Profile from './screens/Profile';
 import Settings from './screens/Settings';
 

@@ -24,6 +24,9 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import IconFontisto from 'react-native-vector-icons/Fontisto';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
+import IconFontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+import IconMCI from 'react-native-vector-icons/MaterialCommunityIcons';
+import IconOcticons from 'react-native-vector-icons/Octicons';
 
 import {styles} from './Searchcss.js';
 
@@ -141,7 +144,7 @@ export default function Search({navigation}) {
         },
         {
           tagColor: '#F8411E',
-          tagText: 'Có người yêu',
+          tagText: 'GV5T',
         },
       ],
     },
@@ -196,9 +199,9 @@ export default function Search({navigation}) {
             <Image style={styles.avtStyle} source={item.image} />
           </View>
           <View style={styles.rateWrapper}>
-            <IconAntDesign
-              name="star"
-              size={0.012 * windowHeight + 0.012 * windowWidth}
+            <Icon
+              name="star-half-alt"
+              size={0.0112 * windowHeight + 0.0112 * windowWidth}
               color="#19253D"
             />
             <Text> {item.star} </Text>
@@ -221,15 +224,15 @@ export default function Search({navigation}) {
               style={styles.searchHeartWrapper}
               onPress={() => handleHeartBtn(item.id)}>
               {likeList[item.id] == 'true' && (
-                <IconAntDesign
-                  name="heart"
+                <IconOcticons
+                  name="heart-fill"
                   size={0.018 * windowHeight + 0.018 * windowWidth}
                   color="#F64545"
                 />
               )}
               {likeList[item.id] == 'false' && (
-                <IconAntDesign
-                  name="hearto"
+                <IconOcticons
+                  name="heart"
                   size={0.018 * windowHeight + 0.018 * windowWidth}
                   color="#F64545"
                 />

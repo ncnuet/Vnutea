@@ -28,6 +28,7 @@ import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import IconFontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import IconMCI from 'react-native-vector-icons/MaterialCommunityIcons';
+import IconOcticons from 'react-native-vector-icons/Octicons';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -134,10 +135,10 @@ export default function NewProfile({navigation}) {
           style={styles.midBtnWrapper}
           onPress={handleFavTeacherOnPress}>
           <View style={styles.midBtnIcon}>
-            <IconAntDesign
-              name="heart"
+            <IconOcticons
+              name="heart-fill"
               color={mySpecBlue}
-              size={0.02 * windowHeight + 0.02 * windowWidth}></IconAntDesign>
+              size={0.02 * windowHeight + 0.02 * windowWidth}></IconOcticons>
           </View>
           <Text style={styles.midBtnText}>Giảng viên yêu thích</Text>
         </TouchableOpacity>
