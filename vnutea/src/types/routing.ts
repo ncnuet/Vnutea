@@ -27,7 +27,8 @@ export type StudentStackParamList = {
     id: string
   };
   ClassScreen: {
-    id: string
+    id?: string,
+    name?: string 
   };
   LabScreen: {
     id: string

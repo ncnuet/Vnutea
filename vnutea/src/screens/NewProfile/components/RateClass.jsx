@@ -120,6 +120,7 @@ export default function RateClass({route, navigation}) {
   };
 
   const handleSaveRate = () => {
+    
     navigation.pop();
   };
 

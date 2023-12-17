@@ -1,14 +1,13 @@
 import { useRef, useState } from "react";
 import { View, Text, Image, ScrollView, TouchableOpacity, FlatList } from "react-native";
 import Comment from "./Comment";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const data = [
     { value: 1, x: require("@/assets/emo1ticked.png"), y: require("@/assets/emo1.png") },
-    { value: 3, x: require("@/assets/emo1ticked.png"), y: require("@/assets/emo1.png") },
-    { value: 2, x: require("@/assets/emo1ticked.png"), y: require("@/assets/emo1.png") },
-    { value: 4, x: require("@/assets/emo1ticked.png"), y: require("@/assets/emo1.png") },
-    { value: 5, x: require("@/assets/emo1ticked.png"), y: require("@/assets/emo1.png") },
+    { value: 3, x: require("@/assets/emo2ticked.png"), y: require("@/assets/emo2.png") },
+    { value: 2, x: require("@/assets/emo3ticked.png"), y: require("@/assets/emo3.png") },
+    { value: 4, x: require("@/assets/emo4ticked.png"), y: require("@/assets/emo4.png") },
+    { value: 5, x: require("@/assets/emo5ticked.png"), y: require("@/assets/emo5.png") },
 ]
 
 export default function Evaluation() {
@@ -37,7 +36,7 @@ export default function Evaluation() {
                         </TouchableOpacity>}
                 >
                 </FlatList>
-                <Text className="font-montserrat mt-3 font-semibold">Dựa trên 20 phiếu đánh giá</Text>
+                <Text className="font-montserrat mt-3 font-semibold text-gray-400">Dựa trên 20 phiếu đánh giá</Text>
             </View>
             <Comment />
             <View className="h-28"></View>
