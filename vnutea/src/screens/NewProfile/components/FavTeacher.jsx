@@ -88,7 +88,7 @@ export default function FavTeacher({ navigation }) {
               size={0.0112 * windowHeight + 0.0112 * windowWidth}
               color="#19253D"
             />
-            <Text> {item.star} </Text>
+            <Text style={{color: mySpecBlue}}> {item.star} </Text>
           </View>
         </View>
 

@@ -140,6 +140,7 @@ export const styles = StyleSheet.create({
     },
     searchNameText: {
         fontWeight: "bold",
+        color: mySpecBlue,
         fontSize: 0.0164 * windowHeight + 0.0164 * windowWidth,
     },
     searchItemJob: {

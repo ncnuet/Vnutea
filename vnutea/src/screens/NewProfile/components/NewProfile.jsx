@@ -14,21 +14,14 @@ import React, {
   useState,
   useSyncExternalStore,
   useMemo,
+  useContext,
 } from 'react';
-import {ImageBackground} from 'react-native';
 import {Dimensions} from 'react-native';
 
 import {styles} from './NewProfilecss.js';
-
-import {Svg, Path} from 'react-native-svg';
-
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import IconFontisto from 'react-native-vector-icons/Fontisto';
-import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
-import IconAntDesign from 'react-native-vector-icons/AntDesign';
-import IconFontAwesome6 from 'react-native-vector-icons/FontAwesome6';
-import IconMCI from 'react-native-vector-icons/MaterialCommunityIcons';
-import IconOcticons from 'react-native-vector-icons/Octicons';
+import IconFeather from 'react-native-vector-icons/Feather';
+import IconIonIcons from 'react-native-vector-icons/Ionicons';
+import {UserContext} from '@/hooks/user.context';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -40,6 +33,8 @@ const myMaxLength = 40;
 const mySpecBlue = '#19253D';
 
 export default function NewProfile({navigation}) {
+  const {user, setUser} = useContext(UserContext);
+
   // Chuyen sang screen giang vien
   const handleFavTeacherOnPress = () => {
     navigation.navigate('FavTeacherScreen');
@@ -57,7 +52,7 @@ export default function NewProfile({navigation}) {
 
   // Logout
   const handleLogoutOnPress = () => {
-    navigation.replace('Login');
+    navigation.replace('Login', {isLogout: true});
   };
 
   return (
@@ -68,33 +63,30 @@ export default function NewProfile({navigation}) {
           style={styles.headerImg}
           source={require('../assets/Vector2.png')}></Image>
 
-        <View style={styles.headerBoxWrapper}>
-          <View style={styles.headerLogoWrapper}>
-            <Image
-              source={require('../assets/Logo2x.png')}
-              style={styles.headerLogo}></Image>
-
+        <View className="flex flex-row justify-between items-center p-10 pt-16">
+          {/* <View className="w-10 flex-none">
+            <IconFeather name="coffee" color="#19253D" size={32} />
             <View style={styles.headerLogoTextWrapper}>
-              <Text style={styles.headerLogoText}>VNUTEA</Text>
+              <Text className='text-xl font-montserrat font-semibold text-primary'>VNUTEA</Text>
             </View>
-          </View>
+          </View> */}
 
-          <View style={styles.headerInfoWrapper}>
-            <View style={styles.headerInfoTextWrapper}>
+          <View className="flex flex-row flex-1 justify-end">
+            <View className="mr-3">
               {/* Name */}
-              <View style={styles.headerInfoNameWrapper}>
-                <Text style={styles.headerInfoNameText}>Đỗ Tuấn Nghĩa</Text>
-              </View>
-
-              <View style={styles.headerInfoIdWrapper}>
-                <Text style={styles.headerInfoIdText}>21020023</Text>
-              </View>
+              <Text className="text-primary font-montserrat font-semibold text-xl">
+                {user.name}
+              </Text>
+              <Text className="text-primary font-lato text-right font-bold">
+                {user.username}
+              </Text>
             </View>
 
-            <View style={styles.headerAvtWrapper}>
+            <View className="h-16 w-16">
               <Image
                 style={styles.headerAvt}
-                source={require('../assets/avtstu.jpg')}></Image>
+                source={require('../assets/avtstu.jpg')}
+              />
             </View>
           </View>
         </View>
@@ -107,14 +99,15 @@ export default function NewProfile({navigation}) {
           style={styles.midBtnWrapper}
           onPress={handleRateClassOnPress}>
           <View style={styles.midBtnIcon}>
-            <IconFontAwesome6
-              name="crown"
+            <IconIonIcons
+              name="shield-checkmark-outline"
+              size={28}
               color={mySpecBlue}
-              size={
-                0.02 * windowHeight + 0.02 * windowWidth
-              }></IconFontAwesome6>
+            />
           </View>
-          <Text style={styles.midBtnText}>Đánh giá môn học</Text>
+          <Text className="text-lg" style={styles.midBtnText}>
+            Đánh giá môn học
+          </Text>
         </TouchableOpacity>
 
         {/* Lop hoc cua toi */}
@@ -122,12 +115,11 @@ export default function NewProfile({navigation}) {
           style={styles.midBtnWrapper}
           onPress={handleClassListOnPress}>
           <View style={styles.midBtnIcon}>
-            <IconMCI
-              name="bag-personal"
-              color={mySpecBlue}
-              size={0.024 * windowHeight + 0.024 * windowWidth}></IconMCI>
+            <IconIonIcons name="school-outline" size={28} color={mySpecBlue} />
           </View>
-          <Text style={styles.midBtnText}>Lớp học của tôi</Text>
+          <Text className="text-lg" style={styles.midBtnText}>
+            Lớp học của tôi
+          </Text>
         </TouchableOpacity>
 
         {/* Giang vien yeu thich */}
@@ -135,12 +127,11 @@ export default function NewProfile({navigation}) {
           style={styles.midBtnWrapper}
           onPress={handleFavTeacherOnPress}>
           <View style={styles.midBtnIcon}>
-            <IconOcticons
-              name="heart-fill"
-              color={mySpecBlue}
-              size={0.02 * windowHeight + 0.02 * windowWidth}></IconOcticons>
+            <IconIonIcons name="heart-outline" size={28} color={mySpecBlue} />
           </View>
-          <Text style={styles.midBtnText}>Giảng viên yêu thích</Text>
+          <Text className="text-lg" style={styles.midBtnText}>
+            Giảng viên yêu thích
+          </Text>
         </TouchableOpacity>
       </View>
 
@@ -149,12 +140,13 @@ export default function NewProfile({navigation}) {
         style={styles.logoutBtnWrapper}
         onPress={handleLogoutOnPress}>
         <View style={styles.midBtnIcon}>
-          <IconMCI
-            name="exit-to-app"
-            color={'#FF7070'}
-            size={0.024 * windowHeight + 0.024 * windowWidth}></IconMCI>
+          <IconIonIcons name="log-out-outline" size={28} color="#FF7070" />
         </View>
-        <Text style={[styles.midBtnText, {color: '#FF7070'}]}>Logout</Text>
+        <Text
+          className="text-lg"
+          style={[styles.midBtnText, {color: '#FF7070'}]}>
+          Logout
+        </Text>
       </TouchableOpacity>
     </View>
   );

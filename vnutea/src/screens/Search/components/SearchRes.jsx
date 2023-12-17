@@ -20,6 +20,7 @@ import IconMCI from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconOcticons from 'react-native-vector-icons/Octicons';
 
 import {styles} from './Searchcss.js';
+import axios from '@/service/axios.js';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -43,8 +44,18 @@ export default function Search({route, navigation}) {
   useEffect(() => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
-
+  
   const {searchValue, typeSearchValue} = route.params;
+
+  // async function getData(){
+  //   fetch(
+  //     () => axios.get("")
+  //   )
+  // }
+
+  // useEffect(()=>)
+
+
   // const searchValue = '1';
   // const typeSearchValue = '2';
 

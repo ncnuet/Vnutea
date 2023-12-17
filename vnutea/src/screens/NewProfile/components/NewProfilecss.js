@@ -1,16 +1,16 @@
 import { StyleSheet } from "react-native";
-import {Dimensions} from 'react-native';
+import { Dimensions } from 'react-native';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const myBlue = '#0672F7';
-const myWidth = '86%'; 
-const myGray ='#E5EBF2';
+const myWidth = '86%';
+const myGray = '#E5EBF2';
 const myBoldGray = '#9EA1A5';
 const myMaxLength = 40;
 const mySpecBlue = '#19253D';
 
-export const styles = StyleSheet.create({ 
+export const styles = StyleSheet.create({
     topBar: {
         backgroundColor: '#FFC700',
         width: '100%',
@@ -31,12 +31,12 @@ export const styles = StyleSheet.create({
         width: '86%',
         height: 0.06 * windowHeight,
         flexDirection: 'row',
-        // borderWidth: 1,
+        borderWidth: 1,
     },
     headerLogoWrapper: {
-        width: '45%',
+        width: '25%',
         height: '100%',
-        // borderWidth: 1,
+        borderWidth: 1,
         flexDirection: 'row',
         alignItems: 'center',
     },
@@ -55,12 +55,13 @@ export const styles = StyleSheet.create({
     headerLogoText: {
         color: mySpecBlue,
         fontWeight: '600',
+        fontFamily: "Montserrat",
         fontSize: 0.0162 * windowHeight + 0.0162 * windowWidth,
     },
     headerInfoWrapper: {
-        width: '55%',
+        width: '65%',
         height: '100%',
-        // borderWidth: 1,
+        borderWidth: 1,
         flexDirection: 'row',
         justifyContent: 'flex-end',
         alignItems: 'flex-end',
@@ -90,14 +91,14 @@ export const styles = StyleSheet.create({
     headerInfoNameWrapper: {
         width: '100%',
         height: '50%',
-        // borderWidth: 1,
+        borderWidth: 1,
         alignItems: 'flex-end',
         justifyContent: 'center',
     },
     headerInfoNameText: {
         color: mySpecBlue,
         fontWeight: '800',
-        fontSize: 0.0146 * windowHeight + 0.0146 * windowWidth,
+        fontSize: 0.0126 * windowHeight + 0.0126 * windowWidth,
     },
     headerInfoIdWrapper: {
         width: '80%',
@@ -130,14 +131,15 @@ export const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         // paddingLeft: 0.02 * windowWidth,
-        
+
         // borderWidth: 1,
     },
     midBtnText: {
-        // marginLeft: 0.02 * windowWidth,
+        marginLeft: 0.02 * windowWidth,
         color: mySpecBlue,
-        fontSize: 0.016 * windowHeight + 0.016 * windowWidth,
+        // fontSize: 0.016 * windowHeight + 0.016 * windowWidth,
         fontWeight: '500',
+        fontFamily: "Montserrat"
     },
     midBtnIcon: {
         height: '100%',

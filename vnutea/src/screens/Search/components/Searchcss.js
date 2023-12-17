@@ -1,19 +1,21 @@
 import { StyleSheet } from "react-native";
-import {Dimensions} from 'react-native';
+import { Dimensions } from 'react-native';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const myBlue = '#0672F7';
-const myWidth = '86%'; 
-const myGray ='#E5EBF2';
+const myWidth = '86%';
+const myGray = '#E5EBF2';
 const myBoldGray = '#9EA1A5';
 const myMaxLength = 40;
+const mySpecBlue = '#19253D';
 
 export const styles = StyleSheet.create({
     container: {
         backgroundColor: "#19253D",
         backgroundColor: "#fff",
         flex: 1,
+        color: "black",
     },
     emptyTop: {
         backgroundColor: "#fff",
@@ -24,14 +26,14 @@ export const styles = StyleSheet.create({
         backgroundColor: "#fff",
         width: "100%",
         maxHeight: 0.85 * windowHeight,
-        height: 0.85* windowHeight,
+        height: 0.85 * windowHeight,
         borderBottomLeftRadius: 40,
         borderBottomRightRadius: 40,
         //paddingBottom: 0.028 * windowHeight,
         paddingTop: 0.03 * windowHeight,
     },
     labelWrapper: {
-        width: {myWidth},
+        width: { myWidth },
         marginLeft: 0.07 * windowWidth,
         marginRight: 0.07 * windowWidth,
         height: 0.08 * windowHeight,
@@ -45,7 +47,7 @@ export const styles = StyleSheet.create({
         color: "#19253D",
     },
     inputWrapper: {
-        width: {myWidth},
+        width: { myWidth },
         height: 0.06 * windowHeight,
         marginLeft: 0.07 * windowWidth,
         marginRight: 0.07 * windowWidth,
@@ -90,7 +92,7 @@ export const styles = StyleSheet.create({
     },
     fourOptionsWrapper: {
         marginTop: 0.04 * windowHeight,
-        width: {myWidth},
+        width: { myWidth },
         height: 0.124 * windowHeight,
         marginLeft: 0.07 * windowWidth,
         marginRight: 0.07 * windowWidth,
@@ -134,7 +136,7 @@ export const styles = StyleSheet.create({
         fontSize: 0.04 * windowWidth,
         fontWeight: "bold",
     },
-    
+
     recentSearchsWrapper: {
         height: 0.05 * windowHeight,
         width: myWidth,
@@ -150,6 +152,8 @@ export const styles = StyleSheet.create({
     recentSearchText: {
         fontSize: 0.026 * windowHeight,
         fontWeight: "bold",
+        fontFamily: "Montserrat",
+        color: mySpecBlue
     },
     recentSeachClearBtn: {
         width: 0.24 * windowWidth,
@@ -162,8 +166,10 @@ export const styles = StyleSheet.create({
     },
     recentSearchClearBtnText: {
         fontSize: 0.036 * windowWidth,
-        fontWeight: "bold",
+        // fontWeight: "semibold",
         color: myBoldGray,
+        fontFamily: "Lato",
+        fontWeight: "500"
     },
     recentSearchsListWrapper: {
         width: myWidth,
@@ -187,6 +193,8 @@ export const styles = StyleSheet.create({
     topSearchText: {
         fontSize: 0.026 * windowHeight,
         fontWeight: "bold",
+        color: mySpecBlue,
+        fontFamily: "Montserrat"
     },
     topSeachClearBtn: {
         width: 0.24 * windowWidth,
@@ -201,6 +209,8 @@ export const styles = StyleSheet.create({
         fontSize: 0.036 * windowWidth,
         fontWeight: "bold",
         color: myBoldGray,
+        fontFamily: "Lato",
+        fontWeight: "500"
     },
     topSearchsListWrapper: {
         width: myWidth,
@@ -373,7 +383,7 @@ export const styles = StyleSheet.create({
 
     tabBarWrapper: {
         width: "90%",
-        height: 0.08* windowHeight,
+        height: 0.08 * windowHeight,
         flexDirection: "row",
         //borderWidth: 1,
         //borderColor: "red",
@@ -419,5 +429,5 @@ export const styles = StyleSheet.create({
     paddingBottomItem: {
         height: 0.05 * windowHeight,
         width: '100%',
-    }   
+    }
 })

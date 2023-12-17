@@ -27,6 +27,7 @@ import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import IconFontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import IconMCI from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconOcticons from 'react-native-vector-icons/Octicons';
+import IconIonIcons from 'react-native-vector-icons/Ionicons';
 
 import {styles} from './Searchcss.js';
 
@@ -36,6 +37,7 @@ const windowHeight = Dimensions.get('window').height;
 const myBlue = '#0672F7';
 const myWidth = '86%';
 const myGray = '#E5EBF2';
+const mySpecBlue = '#19253D';
 const myBoldGray = '#9EA1A5';
 const myMaxLength = 40;
 
@@ -305,14 +307,17 @@ export default function Search({navigation}) {
 
   const textOptionsStyle = useMemo(
     () => ({
-      fontSize: 0.0132 * windowWidth + 0.0132 * windowHeight,
+      fontSize: 0.01 * windowWidth + 0.01 * windowHeight,
+      color: mySpecBlue,
+      fontFamily: 'Montserrat',
     }),
     [],
   );
 
   const textOptionsSelectedStyle = useMemo(
     () => ({
-      fontSize: 0.0132 * windowWidth + 0.0132 * windowHeight,
+      fontSize: 0.01 * windowWidth + 0.01 * windowHeight,
+      color: mySpecBlue,
       fontWeight: 'bold',
     }),
     [typeSearch],
@@ -331,37 +336,38 @@ export default function Search({navigation}) {
         <ScrollView style={styles.allWrapper}>
           {/* Label */}
           <View style={styles.labelWrapper}>
-            <Text style={styles.labelText}>Search</Text>
+            <Text className="font-montserrat text-primary text-4xl font-bold">
+              Tìm kiếm
+            </Text>
           </View>
 
           {/* Input Search */}
           <View style={styles.inputWrapper}>
             {/* Input and Button Search Wrapper */}
-            <View style={styles.inputAndBtnWrapper}>
+            <View className="flex flex-row items-center bg-gray-200 rounded-full px-5">
               {/* Nut tim kiem */}
               <TouchableOpacity
-                style={styles.btnSearch}
+                className="flex-none mr-3"
                 onPress={handleSearchOnPress}>
-                {/* <FontAwesomeIcon icon={faMagnifyingGlass} color={'#000'} size={0.028 * windowHeight}/> */}
-                <Icon
-                  name="search"
-                  size={0.02 * windowHeight + 0.02 * windowWidth}
-                  color="#000"
+                <IconIonIcons
+                  name="search-outline"
+                  color={mySpecBlue}
+                  size={32}
                 />
               </TouchableOpacity>
 
               {/* O Tim Kiem voi do dai toi da la 40 ky tu*/}
-              <View style={styles.inputSearch}>
-                <TextInput
-                  placeholder="Nhập từ khóa tìm kiếm"
-                  style={styles.inputSearchText}
-                  maxLength={40}
-                  value={mySearch}
-                  onSubmitEditing={handleSearchOnPress}
-                  onChangeText={text => {
-                    setMySearch(text);
-                  }}></TextInput>
-              </View>
+              <TextInput
+                className="text-lg text-primary"
+                placeholder="Nhập từ khóa tìm kiếm"
+                placeholderTextColor="gray"
+                maxLength={40}
+                value={mySearch}
+                onSubmitEditing={handleSearchOnPress}
+                onChangeText={text => {
+                  setMySearch(text);
+                }}
+              />
             </View>
 
             {/* Nut tim kiem bang giong noi */}
@@ -370,12 +376,7 @@ export default function Search({navigation}) {
               onPress={() => {
                 //Xu ly tim kiem bang giong noi
               }}>
-              {/* <FontAwesomeIcon icon={faMicrophone} size={0.028 * windowHeight} color={"white"}/> */}
-              <Icon
-                name="microphone"
-                size={0.02 * windowHeight + 0.02 * windowWidth}
-                color="#fff"
-              />
+              <IconIonIcons name="mic" size={32} color="white" />
             </TouchableOpacity>
           </View>
 
@@ -389,10 +390,9 @@ export default function Search({navigation}) {
                   typeSearch === 'Teachers' && btnOptionsSelectedStyle,
                 ]}
                 onPress={handleTeachersOnPress}>
-                {/* <FontAwesomeIcon icon={faChalkboardUser} size={0.03 * windowHeight} color={typeSearch === 'Teachers' ? '#fff' : myBoldGray}/> */}
-                <Icon
-                  name="chalkboard-teacher"
-                  size={0.0164 * windowHeight + 0.0164 * windowWidth}
+                <IconIonIcons
+                  name="person"
+                  size={32}
                   color={typeSearch === 'Teachers' ? '#fff' : myBoldGray}
                 />
               </TouchableOpacity>
@@ -415,10 +415,9 @@ export default function Search({navigation}) {
                   typeSearch === 'Lab' && btnOptionsSelectedStyle,
                 ]}
                 onPress={handleLabOnPress}>
-                {/* <FontAwesomeIcon icon={faFlaskVial } size={0.03 * windowHeight} color={typeSearch === 'Lab' ? '#fff' : myBoldGray}/> */}
-                <IconFontisto
-                  name="laboratory"
-                  size={0.0164 * windowHeight + 0.0164 * windowWidth}
+                <IconIonIcons
+                  name="hardware-chip"
+                  size={32}
                   color={typeSearch === 'Lab' ? '#fff' : myBoldGray}
                 />
               </TouchableOpacity>
@@ -441,10 +440,9 @@ export default function Search({navigation}) {
                   typeSearch === 'Class' && btnOptionsSelectedStyle,
                 ]}
                 onPress={handleClassOnPress}>
-                {/* <FontAwesomeIcon icon={faGraduationCap} size={0.03 * windowHeight} color={typeSearch === 'Class' ? '#fff' : myBoldGray}/> */}
-                <IconFontAwesome
-                  name="mortar-board"
-                  size={0.0164 * windowHeight + 0.0164 * windowWidth}
+                <IconIonIcons
+                  name="school"
+                  size={32}
                   color={typeSearch === 'Class' ? '#fff' : myBoldGray}
                 />
               </TouchableOpacity>
@@ -467,10 +465,9 @@ export default function Search({navigation}) {
                   typeSearch === 'Facility' && btnOptionsSelectedStyle,
                 ]}
                 onPress={handleFacilityOnPress}>
-                {/* <FontAwesomeIcon icon={faBook} size={0.03 * windowHeight} color={typeSearch === 'Facility' ? '#fff' : myBoldGray}/> */}
-                <IconFontAwesome
-                  name="book"
-                  size={0.0164 * windowHeight + 0.0164 * windowWidth}
+                <IconIonIcons
+                  name="business"
+                  size={32}
                   color={typeSearch === 'Facility' ? '#fff' : myBoldGray}
                 />
               </TouchableOpacity>
@@ -502,58 +499,27 @@ export default function Search({navigation}) {
           </View>
 
           {/* Muc hien thi danh sach tim kiem gan day */}
-          <View style={styles.recentSearchsListWrapper}>
-            <ScrollView
-              contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap'}}
-              style={{height: 0.1 * windowHeight}}>
-              {fakeRecentSearchsList.map(item => (
-                <View key={item.key} style={styles.itemRecentSearchs}>
-                  <TouchableOpacity
-                    style={styles.btnRecentSearchs}
-                    onPress={() => {
-                      //Xu ly tim kiem luon
-                    }}>
-                    <Icon
-                      name="search"
-                      size={0.014 * windowHeight + 0.014 * windowWidth}
-                      color={myBoldGray}
-                    />
-                    <Text style={styles.textRecentSearchs}>
-                      {ReduceString(item.title)}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              ))}
-            </ScrollView>
+          <View className="flex flex-row flex-wrap p-5 pt-3">
+            {fakeRecentSearchsList.map(item => (
+              <View key={item.key} style={styles.itemRecentSearchs}>
+                <TouchableOpacity
+                  style={styles.btnRecentSearchs}
+                  onPress={() => {
+                    //Xu ly tim kiem luon
+                  }}>
+                  <IconIonIcons
+                    name="search-outline"
+                    color="gray"
+                    size={20}
+                  />
+                  <Text className='text-gray-400 ml-2 font-montserrat'>
+                    {ReduceString(item.title)}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            ))}
           </View>
-
-          {/* Top Search Label*/}
-          <View style={styles.topSearchsWrapper}>
-            {/* Text Top Search*/}
-            <Text style={styles.topSearchText}>Top searchs</Text>
-
-            {/* Nut de xoa lich su tim kiem nhieu nhat */}
-            <TouchableOpacity
-              style={styles.topSeachClearBtn}
-              onPress={() => {
-                //Xu ly xoa lich su tim kiem nhieu nhat
-              }}>
-              <Text style={styles.topSearchClearBtnText}>Clear history</Text>
-            </TouchableOpacity>
-          </View>
-
-          {/* Muc hien thi danh sach tim kiem nhieu nhat */}
-          <View style={styles.topSearchsListWrapper}>
-            <FlatList
-              data={fakeTopSearchsList}
-              keyExtractor={item => item.id.toString()}
-              renderItem={renderTopSearchItem}
-            />
-            <View style={styles.paddingBottomItem}></View>
-          </View>
-          {/* --- */}
         </ScrollView>
-        {/* Het danh sach hien thi! Ben duoi la bottomTab */}
       </View>
     </View>
   );
