@@ -18,6 +18,7 @@ import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import IconFontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import IconMCI from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconOcticons from 'react-native-vector-icons/Octicons';
+import IconIonIcons from 'react-native-vector-icons/Ionicons';
 
 import {styles} from './Searchcss.js';
 // import axios from '@/service/axios.js';
@@ -28,6 +29,7 @@ const myBlue = '#0672F7';
 const myWidth = '86%';
 const myGray = '#E5EBF2';
 const myBoldGray = '#9EA1A5';
+const mySpecBlue = '#19253D';
 const myMaxLength = 40;
 
 const ReduceString = myString => {
@@ -149,15 +151,19 @@ export default function Search({route, navigation}) {
 
   const textOptionsStyle = useMemo(
     () => ({
-      fontSize: 0.0132 * windowWidth + 0.0132 * windowHeight,
+      fontSize: 0.01 * windowWidth + 0.01 * windowHeight,
+      color: mySpecBlue,
+      fontFamily: "Montserrat",
     }),
     [],
   );
 
   const textOptionsSelectedStyle = useMemo(
     () => ({
-      fontSize: 0.0132 * windowWidth + 0.0132 * windowHeight,
+      fontSize: 0.01 * windowWidth + 0.01 * windowHeight,
       fontWeight: 'bold',
+      fontFamily: "Montserrat",
+      color: mySpecBlue,
     }),
     [typeSearch],
   );
@@ -198,7 +204,7 @@ export default function Search({route, navigation}) {
               size={0.0112 * windowHeight + 0.0112 * windowWidth}
               color="#19253D"
             />
-            <Text> {item.star} </Text>
+            <Text style={{color:mySpecBlue, fontFamily:'Montserrat', fontWeight: '600',}}> {item.star} </Text>
           </View>
         </View>
 
@@ -254,23 +260,25 @@ export default function Search({route, navigation}) {
       <View>
         <ScrollView style={[styles.allWrapper]}>
           <View style={styles.labelWrapper}>
-            <Text style={styles.labelText}>Search</Text>
+            <Text style={styles.labelText}>Tìm kiếm</Text>
           </View>
+          {/* Input Search */}
           <View style={styles.inputWrapper}>
             <View style={styles.inputAndBtnWrapper}>
               <TouchableOpacity
                 style={styles.btnSearch}
                 onPress={handleSearchOnPress}>
                 {/* <FontAwesomeIcon icon={faMagnifyingGlass} color={'#000'} size={0.028 * windowHeight} /> */}
-                <Icon
-                  name="search"
-                  size={0.02 * windowHeight + 0.02 * windowWidth}
+                <IconIonIcons
+                  name="search-outline"
+                  size={26}
                   color="#000"
                 />
               </TouchableOpacity>
               <View style={styles.inputSearch}>
                 <TextInput
                   placeholder="Nhập từ khóa tìm kiếm"
+                  placeholderTextColor="gray"
                   style={styles.inputSearchText}
                   maxLength={40}
                   value={mySearch}
@@ -293,7 +301,9 @@ export default function Search({route, navigation}) {
               />
             </TouchableOpacity>
           </View>
+
           <View style={styles.fourOptionsWrapper}>
+            {/* Nut Teachers */}
             <View style={styles.btnOptionsWrapper}>
               <TouchableOpacity
                 style={[
@@ -301,13 +311,14 @@ export default function Search({route, navigation}) {
                   typeSearch === 'Teachers' && btnOptionsSelectedStyle,
                 ]}
                 onPress={handleTeachersOnPress}>
-                {/* <FontAwesomeIcon icon={faChalkboardUser} size={0.03 * windowHeight} color={typeSearch === 'Teachers' ? '#fff' : myBoldGray} /> */}
-                <Icon
-                  name="chalkboard-teacher"
-                  size={0.0164 * windowHeight + 0.0164 * windowWidth}
+                <IconIonIcons
+                  name="person"
+                  size={32}
                   color={typeSearch === 'Teachers' ? '#fff' : myBoldGray}
                 />
               </TouchableOpacity>
+
+              {/* Teachers */}
               <Text
                 style={[
                   textOptionsStyle,
@@ -316,6 +327,8 @@ export default function Search({route, navigation}) {
                 Teachers
               </Text>
             </View>
+
+            {/* Nut Lab */}
             <View style={styles.btnOptionsWrapper}>
               <TouchableOpacity
                 style={[
@@ -323,13 +336,14 @@ export default function Search({route, navigation}) {
                   typeSearch === 'Lab' && btnOptionsSelectedStyle,
                 ]}
                 onPress={handleLabOnPress}>
-                {/* <FontAwesomeIcon icon={faFlaskVial} size={0.03 * windowHeight} color={typeSearch === 'Lab' ? '#fff' : myBoldGray} /> */}
-                <IconFontisto
-                  name="laboratory"
-                  size={0.0164 * windowHeight + 0.0164 * windowWidth}
+                <IconIonIcons
+                  name="hardware-chip"
+                  size={32}
                   color={typeSearch === 'Lab' ? '#fff' : myBoldGray}
                 />
               </TouchableOpacity>
+
+              {/* Lab */}
               <Text
                 style={[
                   textOptionsStyle,
@@ -338,6 +352,8 @@ export default function Search({route, navigation}) {
                 Lab
               </Text>
             </View>
+
+            {/* Nut Class */}
             <View style={styles.btnOptionsWrapper}>
               <TouchableOpacity
                 style={[
@@ -345,13 +361,14 @@ export default function Search({route, navigation}) {
                   typeSearch === 'Class' && btnOptionsSelectedStyle,
                 ]}
                 onPress={handleClassOnPress}>
-                {/* <FontAwesomeIcon icon={faGraduationCap} size={0.03 * windowHeight} color={typeSearch === 'Class' ? '#fff' : myBoldGray} /> */}
-                <IconFontAwesome
-                  name="mortar-board"
-                  size={0.0164 * windowHeight + 0.0164 * windowWidth}
+                <IconIonIcons
+                  name="school"
+                  size={32}
                   color={typeSearch === 'Class' ? '#fff' : myBoldGray}
                 />
               </TouchableOpacity>
+
+              {/* Class */}
               <Text
                 style={[
                   textOptionsStyle,
@@ -360,6 +377,8 @@ export default function Search({route, navigation}) {
                 Class
               </Text>
             </View>
+
+            {/* Facility */}
             <View style={styles.btnOptionsWrapper}>
               <TouchableOpacity
                 style={[
@@ -367,13 +386,14 @@ export default function Search({route, navigation}) {
                   typeSearch === 'Facility' && btnOptionsSelectedStyle,
                 ]}
                 onPress={handleFacilityOnPress}>
-                {/* <FontAwesomeIcon icon={faBook} size={0.03 * windowHeight} color={typeSearch === 'Facility' ? '#fff' : myBoldGray} /> */}
-                <IconFontAwesome
-                  name="book"
-                  size={0.0164 * windowHeight + 0.0164 * windowWidth}
+                <IconIonIcons
+                  name="business"
+                  size={32}
                   color={typeSearch === 'Facility' ? '#fff' : myBoldGray}
                 />
               </TouchableOpacity>
+
+              {/* Facility */}
               <Text
                 style={[
                   textOptionsStyle,

@@ -91,7 +91,7 @@ const addfakeDataChatList = [
     time: '12m',
     status: 'offline',
   },
-]
+];
 
 export default function ChatList({navigation}) {
   useEffect(() => {
@@ -168,7 +168,7 @@ export default function ChatList({navigation}) {
 
         tmp = [...tmp, ...addfakeDataChatList];
         console.log(tmp);
-        
+
         setDataChatList(tmp);
       }
     } catch (error) {
@@ -279,7 +279,7 @@ export default function ChatList({navigation}) {
           </TouchableOpacity>
 
           <View style={styles.headerTextWrapper}>
-            <Text style={styles.headerText}>Chat</Text>
+            <Text style={styles.headerText}>Danh sách trò chuyện</Text>
           </View>
         </View>
       </View>
@@ -295,7 +295,8 @@ export default function ChatList({navigation}) {
           </TouchableOpacity>
           <TextInput
             style={styles.searchInputWrapper}
-            placeholder="Search"></TextInput>
+            placeholder="Nhập từ khóa tìm kiếm"
+            placeholderTextColor="gray"></TextInput>
         </View>
 
         {/* Khung hien thi cuoc hen */}
@@ -318,7 +319,9 @@ export default function ChatList({navigation}) {
                   </Text>
                 ))}
 
-                <Text style={styles.textDate}>, hãy nhắn tin cho thầy nhé</Text>
+                <Text style={styles.textDate}>
+                  , hãy nhắn tin cho thầy nhé!
+                </Text>
               </View>
 
               <TouchableOpacity style={styles.btnDateWrapper}>
@@ -330,7 +333,7 @@ export default function ChatList({navigation}) {
 
         {/* Danh sach chat Label*/}
         <View style={styles.chatListLabel}>
-          <Text style={styles.chatListTextLabel}>Chat</Text>
+          <Text style={styles.chatListTextLabel}>Tin nhắn</Text>
         </View>
 
         {/* Danh sach chat */}

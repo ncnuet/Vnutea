@@ -342,6 +342,7 @@ export default function Chat({route, navigation}) {
               <TextInput
                 style={styles.chatInputText}
                 placeholder="Nhập văn bản"
+                placeholderTextColor="gray"
                 value={messText}
                 onChangeText={text => handleOnChangeText(text)}
                 onSubmitEditing={handleOnSubmitText}></TextInput>
