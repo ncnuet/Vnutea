@@ -31,7 +31,7 @@ const myBlue = '#0672F7';
 const myWidth = '86%';
 const myGray = '#E5EBF2';
 const myBoldGray = '#9EA1A5';
-const myMaxLength = 28;
+const myMaxLength = 23;
 const mySpecBlue = '#19253D';
 
 export default function RateClassList({navigation}) {
@@ -67,7 +67,7 @@ export default function RateClassList({navigation}) {
 
   //   Chinh do dai cua xau khong vuot qua myMaxLength
   const adjustString = name => {
-    if (name.length >= myMaxLength) {
+    if (name.length >= myMaxLength - 1) {
       let res = name.substr(0, myMaxLength - 3);
       res = res + '...';
       return res;
@@ -166,7 +166,7 @@ export default function RateClassList({navigation}) {
   };
 
   return (
-    <View style={{flex: 1, backgroundColor: '#F6F6F6'}}>
+    <View style={{flex: 1, backgroundColor: '#F6F6F6', }}>
       {/* Top bar */}
       <View style={styles.topBar}>
         <Image
@@ -184,7 +184,7 @@ export default function RateClassList({navigation}) {
           </TouchableOpacity>
 
           <View style={styles.topTextWrapper}>
-            <Text style={styles.topText}>Danh sách lớp học hiện tại</Text>
+            <Text style={styles.topText}>Đánh giá lớp học </Text>
           </View>
         </View>
       </View>

@@ -7,7 +7,7 @@ const myBlue = '#0672F7';
 const myWidth = '86%'; 
 const myGray ='#E5EBF2';
 const myBoldGray = '#9EA1A5';
-const myMaxLength = 40;
+const myMaxLength = 24;
 const mySpecBlue = '#19253D';
 
 export const styles = StyleSheet.create({
@@ -49,7 +49,8 @@ export const styles = StyleSheet.create({
     topText: {
         fontSize: 0.0164 * windowHeight + 0.0164 * windowWidth,
         color: mySpecBlue,
-        fontWeight: '500',
+        fontWeight: '600',
+        fontFamily: "Montserrat",
     },
     topSearchsItem: {
         marginVertical: 0.008 * windowHeight,
@@ -252,6 +253,7 @@ export const styles = StyleSheet.create({
         color: mySpecBlue,
         fontSize: 0.0126 * windowHeight + 0.0126 * windowWidth,
         fontWeight: '500',
+        fontFamily: "Montserrat",
     },
     itemCodeWrapper: {
         marginLeft: 0.012 * windowWidth,
@@ -301,7 +303,8 @@ export const styles = StyleSheet.create({
     itemDesValue: {
         color: mySpecBlue,
         fontSize: 0.0132 * windowHeight + 0.0132 * windowWidth,
-        fontWeight: '500',
+        fontWeight: '600',
+        fontFamily: "Montserrat",
     },
     itemDesBotWrapper: {
         height: '25%',
@@ -319,7 +322,8 @@ export const styles = StyleSheet.create({
     itemDesBotText: {
         color: '#fff',
         fontWeight: '600',
-        fontSize: 0.0074 * windowHeight + 0.0074 * windowHeight,
+        fontSize: 0.0068 * windowHeight + 0.0068 * windowHeight,
+        fontFamily: "Montserrat",
     },
 
     renderTypeWrapper: {
@@ -341,8 +345,9 @@ export const styles = StyleSheet.create({
     },
     typeItemText: {
         color: mySpecBlue,
-        fontWeight: '500',
-        fontSize: 0.0132 * windowHeight + 0.0132 * windowWidth,
+        fontWeight: '600',
+        fontSize: 0.01 * windowHeight + 0.01 * windowWidth,
+        fontFamily: "Montserrat",
     },
     typeTickedWrapper: {
         backgroundColor: '#FFC700',

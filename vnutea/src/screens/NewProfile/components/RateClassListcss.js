@@ -49,7 +49,8 @@ export const styles = StyleSheet.create({
     topText: {
         fontSize: 0.0164 * windowHeight + 0.0164 * windowWidth,
         color: mySpecBlue,
-        fontWeight: '500',
+        fontWeight: '600',
+        fontFamily: "Montserrat",
     },
     topSearchsItem: {
         marginVertical: 0.008 * windowHeight,
@@ -212,8 +213,9 @@ export const styles = StyleSheet.create({
     },
     typeItemText: {
         color: mySpecBlue,
-        fontWeight: '500',
-        fontSize: 0.0132 * windowHeight + 0.0132 * windowWidth,
+        fontWeight: '600',
+        fontSize: 0.0112 * windowHeight + 0.0112 * windowWidth,
+        fontFamily: "Montserrat",
     },
     typeTickedText: {
         color: '#fff',
@@ -278,8 +280,9 @@ export const styles = StyleSheet.create({
     },
     itemNameText: {
         color: mySpecBlue,
-        fontSize: 0.0126 * windowHeight + 0.0126 * windowWidth,
+        fontSize: 0.0112 * windowHeight + 0.0112 * windowWidth,
         fontWeight: '500',
+        fontFamily: "Montserrat",
     },
     itemCodeWrapper: {
         marginLeft: 0.012 * windowWidth,
@@ -326,14 +329,15 @@ export const styles = StyleSheet.create({
         height: '80%',
         // width: 0.304 * windowWidth,
         // borderWidth: 1,
-        marginLeft: 0.02 * windowWidth,
+        marginLeft: 0.004 * windowWidth,
         justifyContent: 'center',
         alignItems: 'center',
     },
     itemDesValue: {
         color: mySpecBlue,
-        fontSize: 0.014 * windowHeight + 0.014 * windowWidth,
+        fontSize: 0.012 * windowHeight + 0.012 * windowWidth,
         fontWeight: '500',
+        fontFamily: "Montserrat",
     },
     itemDesBotWrapper: {
         height: '25%',
@@ -352,5 +356,6 @@ export const styles = StyleSheet.create({
         color: '#fff',
         fontWeight: '600',
         fontSize: 0.0074 * windowHeight + 0.0074 * windowHeight,
+        fontFamily: "Montserrat",
     },
 })

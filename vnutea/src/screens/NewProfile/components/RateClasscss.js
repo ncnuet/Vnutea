@@ -55,7 +55,8 @@ export const styles = StyleSheet.create({
     headerTopText: {
         color: mySpecBlue,
         fontSize: 0.0164 * windowHeight + 0.0164 * windowWidth,
-        fontWeight: '500',
+        fontWeight: '600',
+        fontFamily: "Montserrat",
     },
     headerBottomTextWrapper: {
         height: '45%',
@@ -69,6 +70,7 @@ export const styles = StyleSheet.create({
         fontSize: 0.0132 * windowHeight + 0.0132 * windowWidth,
         fontWeight: '500',
         textTransform: 'uppercase',
+        fontFamily: "Montserrat",
     },
     reactBoxContainer: {
         // backgroundColor: 'red',
@@ -107,18 +109,20 @@ export const styles = StyleSheet.create({
         width: '100%',
     },
     itemNameText: {
-        fontSize: 0.016 * windowHeight + 0.016 * windowWidth,
+        fontSize: 0.0146 * windowHeight + 0.0146 * windowWidth,
         color: mySpecBlue,
         fontWeight: '700',
+        fontFamily: "Montserrat",
     },
     itemDesWrapper: {
         width: '100%',
         marginTop: 0.002 * windowHeight,
     },
     itemDesText: {
-        fontSize: 0.011 * windowHeight + 0.011 * windowWidth,
+        fontSize: 0.0104 * windowHeight + 0.0104 * windowWidth,
         color: mySpecBlue,
         fontWeight: '300',
+        fontFamily: "Montserrat",
     },
 
     itemBtnWrapper: {
@@ -184,6 +188,7 @@ export const styles = StyleSheet.create({
     btnSubmitText: {
         color: mySpecBlue,
         fontWeight: '600',
-        fontSize: 0.014 * windowHeight + 0.014 * windowWidth,
+        fontSize: 0.0142 * windowHeight + 0.0142 * windowWidth,
+        fontFamily: "Montserrat",
     },
 });

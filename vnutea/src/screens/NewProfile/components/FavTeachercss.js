@@ -47,9 +47,10 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     topText: {
-        fontSize: 0.0164 * windowHeight + 0.0164 * windowWidth,
+        fontSize: 0.0148 * windowHeight + 0.0148 * windowWidth,
         color: mySpecBlue,
-        fontWeight: '500',
+        fontWeight: '600',
+        fontFamily: "Montserrat",
     },
     topSearchsItem: {
         marginVertical: 0.008 * windowHeight,
@@ -141,7 +142,8 @@ export const styles = StyleSheet.create({
     searchNameText: {
         fontWeight: "bold",
         color: mySpecBlue,
-        fontSize: 0.0164 * windowHeight + 0.0164 * windowWidth,
+        fontSize: 0.0142 * windowHeight + 0.0142 * windowWidth,
+        fontFamily: "Montserrat",
     },
     searchItemJob: {
         width: "100%",
@@ -155,6 +157,7 @@ export const styles = StyleSheet.create({
     searchJobText: {
         fontSize: 0.0104 * windowHeight + 0.0104 * windowWidth,
         color: myBoldGray,
+        fontFamily: "Montserrat",
     },
     searchHeartWrapper: {
         paddingTop: 0.01 * windowHeight,
@@ -179,7 +182,7 @@ export const styles = StyleSheet.create({
     },
     searchTagText: {
         // height: "90%",
-        fontSize: 0.0092 * windowHeight + 0.0092 * windowWidth,
+        fontSize: 0.0074 * windowHeight + 0.0074 * windowWidth,
         // fontWeight: "bold",
         color: "white",
         backgroundColor: "#4BBEFA",
@@ -187,13 +190,14 @@ export const styles = StyleSheet.create({
         marginHorizontal: 0.005 * windowWidth,
         borderRadius: 5,
         paddingBottom: 1,
+        fontFamily: "Montserrat",
     },
     colorTagText2: {
         backgroundColor: "#14D950",
     },
     topSearchsListWrapper: {
         width: '100%',
-        height: 0.664 * windowHeight,
+        height: 0.726 * windowHeight,
         marginTop: 0.012 * windowHeight,
         // marginLeft: 0.07 * windowWidth,
         // marginRight: 0.07 * windowWidth,

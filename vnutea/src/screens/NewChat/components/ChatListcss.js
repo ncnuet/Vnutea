@@ -50,11 +50,12 @@ export const styles = StyleSheet.create({
     },
     headerText: {
         color: mySpecBlue,
-        fontWeight: '500',
-        fontSize: 0.016 * windowHeight + 0.016 * windowWidth,
+        fontWeight: '600',
+        fontSize: 0.0154 * windowHeight + 0.0154 * windowWidth,
+        fontFamily: "Montserrat",
     },
     searchWrapper: {
-        marginTop: 0.04 * windowHeight,
+        marginTop: 0.028 * windowHeight,
         backgroundColor: '#F3F5F3',
         width: '86%',
         height: 0.06 * windowHeight,
@@ -77,6 +78,8 @@ export const styles = StyleSheet.create({
         width: 0.67 * windowWidth,
         marginLeft: 0.00 * windowWidth,
         fontSize: 0.015 * windowHeight + 0.015 * windowWidth,
+        fontFamily: "Montserrat",
+        color: mySpecBlue,
     },
     dateWrapper: {
         height: 0.11 * windowHeight,
@@ -118,19 +121,23 @@ export const styles = StyleSheet.create({
         marginBottom: 0.009 * windowHeight,
         flexDirection: 'row',
         flexWrap: 'wrap',
+        marginBottom: -0.004 * windowHeight,
+        marginTop: 0.01 * windowHeight,
     },
     textDate: {
-        fontSize: 0.0108 * windowHeight + 0.0108 * windowWidth,
+        fontSize: 0.0088 * windowHeight + 0.0088 * windowWidth,
         fontWeight: '500',
         color: '#000',
+        fontFamily: "Montserrat",
     },
     nameDate: {
-        fontSize: 0.0112 * windowHeight + 0.0112 * windowWidth,
+        fontSize: 0.009 * windowHeight + 0.009 * windowWidth,
         color: '#77C9A3',
         fontWeight: '500',
+        fontFamily: "Montserrat",
     },
     btnDateWrapper: {
-        width: '56%',
+        width: '60%',
         height: '44%',
         // borderWidth: 1,
         borderRadius: 11,
@@ -140,7 +147,9 @@ export const styles = StyleSheet.create({
     },
     textBtn: {
         color: '#fff',
-        fontSize: 0.011 * windowHeight + 0.011 * windowWidth,
+        fontSize: 0.0092 * windowHeight + 0.0092 * windowWidth,
+        fontWeight: '500',
+        fontFamily: "Montserrat",
     },
     chatListLabel: {
         marginTop: 0.016 * windowHeight,
@@ -149,7 +158,8 @@ export const styles = StyleSheet.create({
     chatListTextLabel: {
         fontSize: 0.018 * windowHeight + 0.018 * windowWidth,
         color: mySpecBlue,
-        fontWeight: '500',
+        fontWeight: '600',
+        fontFamily: "Montserrat",
     },
     chatListWrapper: {
         // flex: 1,
@@ -201,8 +211,9 @@ export const styles = StyleSheet.create({
     },
     chatNameText: {
         color: mySpecBlue,
-        fontSize: 0.015 * windowHeight + 0.015 * windowWidth,
-        fontWeight: '500',
+        fontSize: 0.0138 * windowHeight + 0.0138 * windowWidth,
+        fontWeight: '600',
+        fontFamily: "Montserrat",
     },
     chatMessWrapper: {
         height: '40%',
@@ -212,6 +223,7 @@ export const styles = StyleSheet.create({
     chatMessText: {
         fontSize: 0.011 * windowHeight + 0.011 * windowWidth,
         color: myBoldGray,
+        fontFamily: "Montserrat",
     },
     chatDesRightWrapper: {
         height: '100%',
@@ -231,6 +243,8 @@ export const styles = StyleSheet.create({
     chatTimeText: {
         color: myBoldGray,
         fontSize: 0.0104 * windowHeight + 0.0104 * windowWidth,
+        fontWeight: '500',
+        fontFamily: "Montserrat",
     },
     chatNewMessWrapper: {
         marginTop: 0.003 * windowHeight,
@@ -246,6 +260,7 @@ export const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 0.009 * windowWidth + 0.009 * windowHeight,
         fontWeight: '500',
+        fontFamily: "Montserrat",
     },
     headerChatBar: {
         backgroundColor: '#77C9A3',
@@ -315,8 +330,9 @@ export const styles = StyleSheet.create({
     },
     headerNameText: {
         color: mySpecBlue,
-        fontSize: 0.016 * windowHeight + 0.016 * windowWidth,
-        fontWeight: '500',
+        fontSize: 0.0142 * windowHeight + 0.0142 * windowWidth,
+        fontWeight: '600',
+        fontFamily: "Montserrat",
     },
     headerTimeWrapper: {
         marginTop: -0.006 * windowHeight,
@@ -328,7 +344,8 @@ export const styles = StyleSheet.create({
     },
     headerTimeText: {
         color: '#fff',
-        fontSize: 0.01 * windowHeight + 0.01 * windowWidth,
+        fontSize: 0.0096 * windowHeight + 0.0096 * windowWidth,
+        fontFamily: "Montserrat",
     },
     headerPaddingWrapper: {
         width: '100%',
@@ -419,6 +436,9 @@ export const styles = StyleSheet.create({
         width: '78%',
         // borderWidth: 1,
         marginLeft: 0.024 * windowWidth,
+        fontFamily: "Montserrat",
+        color: mySpecBlue,
+        fontSize: 0.0148 * windowHeight + 0.0148 * windowWidth,
     },
     chatEmojiWrapper: {
         height: '100%',
@@ -451,11 +471,13 @@ export const styles = StyleSheet.create({
     },
     itemTextLeft: {
         color: mySpecBlue,
-        fontSize: 0.012 * windowHeight + 0.012 * windowWidth,
+        fontSize: 0.0112 * windowHeight + 0.0112 * windowWidth,
+        fontFamily: "Montserrat",
     },
     itemTextRight: {
         color: '#fff',
-        fontSize: 0.012 * windowHeight + 0.012 * windowWidth,
+        fontSize: 0.0112 * windowHeight + 0.0112 * windowWidth,
+        fontFamily: "Montserrat",
     },
 
     allChatWrapper: {

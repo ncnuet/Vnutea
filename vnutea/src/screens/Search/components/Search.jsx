@@ -343,40 +343,41 @@ export default function Search({navigation}) {
 
           {/* Input Search */}
           <View style={styles.inputWrapper}>
-            {/* Input and Button Search Wrapper */}
-            <View className="flex flex-row items-center bg-gray-200 rounded-full px-5">
-              {/* Nut tim kiem */}
+            <View style={styles.inputAndBtnWrapper}>
               <TouchableOpacity
-                className="flex-none mr-3"
+                style={styles.btnSearch}
                 onPress={handleSearchOnPress}>
+                {/* <FontAwesomeIcon icon={faMagnifyingGlass} color={'#000'} size={0.028 * windowHeight} /> */}
                 <IconIonIcons
                   name="search-outline"
-                  color={mySpecBlue}
-                  size={32}
+                  size={26}
+                  color="#000"
                 />
               </TouchableOpacity>
-
-              {/* O Tim Kiem voi do dai toi da la 40 ky tu*/}
-              <TextInput
-                className="text-lg text-primary"
-                placeholder="Nhập từ khóa tìm kiếm"
-                placeholderTextColor="gray"
-                maxLength={40}
-                value={mySearch}
-                onSubmitEditing={handleSearchOnPress}
-                onChangeText={text => {
-                  setMySearch(text);
-                }}
-              />
+              <View style={styles.inputSearch}>
+                <TextInput
+                  placeholder="Nhập từ khóa tìm kiếm"
+                  placeholderTextColor="gray"
+                  style={styles.inputSearchText}
+                  maxLength={40}
+                  value={mySearch}
+                  onSubmitEditing={handleSearchOnPress}
+                  onChangeText={text => {
+                    setMySearch(text);
+                  }}></TextInput>
+              </View>
             </View>
-
-            {/* Nut tim kiem bang giong noi */}
             <TouchableOpacity
               style={styles.btnMic}
               onPress={() => {
-                //Xu ly tim kiem bang giong noi
+                /* Xu ly tim kiem bang giong noi */
               }}>
-              <IconIonIcons name="mic" size={32} color="white" />
+              {/* <FontAwesomeIcon icon={faMicrophone} size={0.028 * windowHeight} color={"white"} /> */}
+              <Icon
+                name="microphone"
+                size={0.02 * windowHeight + 0.02 * windowWidth}
+                color="#fff"
+              />
             </TouchableOpacity>
           </View>
 

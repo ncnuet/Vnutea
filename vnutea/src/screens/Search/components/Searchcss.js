@@ -45,6 +45,7 @@ export const styles = StyleSheet.create({
         fontSize: 36,
         fontWeight: "bold",
         color: "#19253D",
+        fontFamily: 'Montserrat',
     },
     inputWrapper: {
         width: { myWidth },
@@ -52,14 +53,14 @@ export const styles = StyleSheet.create({
         marginLeft: 0.07 * windowWidth,
         marginRight: 0.07 * windowWidth,
         //borderColor: "red",
-        //borderWidth: 1,
+        // borderWidth: 1,
         flexDirection: "row",
         justifyContent: "space-between",
     },
     inputAndBtnWrapper: {
         height: "100%",
         width: 0.86 * windowWidth - 0.06 * windowHeight - 0.012 * windowHeight,
-        //borderWidth: 1,
+        // borderWidth: 1,
         //borderColor: "green",
         borderRadius: 100,
         backgroundColor: myGray,
@@ -81,6 +82,8 @@ export const styles = StyleSheet.create({
     },
     inputSearchText: {
         fontSize: 0.02 * windowHeight,
+        // fontFamily: ""
+        color: mySpecBlue,
     },
     btnMic: {
         alignItems: "center",
@@ -341,7 +344,9 @@ export const styles = StyleSheet.create({
     },
     searchNameText: {
         fontWeight: "bold",
-        fontSize: 0.0164 * windowHeight + 0.0164 * windowWidth,
+        fontSize: 0.0142 * windowHeight + 0.0142 * windowWidth,
+        fontFamily:'Montserrat',
+        color: mySpecBlue,
     },
     searchItemJob: {
         width: "100%",
@@ -355,6 +360,7 @@ export const styles = StyleSheet.create({
     searchJobText: {
         fontSize: 0.0104 * windowHeight + 0.0104 * windowWidth,
         color: myBoldGray,
+        fontFamily:'Montserrat',
     },
     searchItemTag: {
         width: "100%",
@@ -367,15 +373,16 @@ export const styles = StyleSheet.create({
         alignItems: "center",
     },
     searchTagText: {
-        // height: "90%",
-        fontSize: 0.0092 * windowHeight + 0.0092 * windowWidth,
-        // fontWeight: "bold",
-        color: "white",
-        backgroundColor: "#4BBEFA",
-        paddingHorizontal: 0.01 * windowWidth,
-        marginHorizontal: 0.005 * windowWidth,
-        borderRadius: 5,
-        paddingBottom: 1,
+         // height: "90%",
+         fontSize: 0.0074 * windowHeight + 0.0074 * windowWidth,
+         // fontWeight: "bold",
+         color: "white",
+         backgroundColor: "#4BBEFA",
+         paddingHorizontal: 0.01 * windowWidth,
+         marginHorizontal: 0.005 * windowWidth,
+         borderRadius: 5,
+         paddingBottom: 1,
+         fontFamily: "Montserrat",
     },
     colorTagText2: {
         backgroundColor: "#14D950",
