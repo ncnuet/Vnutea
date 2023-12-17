@@ -59,12 +59,12 @@ export default function ChatList({navigation}) {
   }
 
   const initChatItem = async item => {
-    const lastMsg = await getDataChat(item._id);
+    // const lastMsg = (await getDataChat(item._id)) || "";
     return {
       id: item._id,
       name: item.name,
       avt: require('../assets/fakeavt.png'),
-      mess: lastMsg,
+      mess: "",
       newMess: 1,
       time: '1m',
       status: 'online',
@@ -76,6 +76,7 @@ export default function ChatList({navigation}) {
       () => axios.get('/chat'),
       async data => {
         tmp = await Promise.all(data.map(item => initChatItem(item)));
+        console.log(tmp);
 
         if (tmp.length > 0) {
           tmp[tmp.length - 1].status = 'offline';
