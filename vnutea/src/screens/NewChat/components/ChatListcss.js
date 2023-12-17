@@ -305,6 +305,7 @@ export const styles = StyleSheet.create({
         // borderWidth: 1,
         marginLeft: 0.026 * windowWidth,
         flexDirection: 'column',
+        justifyContent: 'center',
     },
     headerNameWrapper: {
         width: '100%',
@@ -328,6 +329,13 @@ export const styles = StyleSheet.create({
     headerTimeText: {
         color: '#fff',
         fontSize: 0.01 * windowHeight + 0.01 * windowWidth,
+    },
+    headerPaddingWrapper: {
+        width: '100%',
+        height: '32%',
+        // borderWidth: 1,
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
     },
     chatAllWrapper: {
         marginTop: 0.012 * windowHeight,
@@ -452,5 +460,18 @@ export const styles = StyleSheet.create({
 
     allChatWrapper: {
         backgroundColor: '#EDF2EE',
+    }
+    ,
+
+    dotOnline: {
+        backgroundColor: '#2DD035',
+        borderRadius: 100,
+        position: 'absolute',
+        bottom: 0,
+        right: 0.0,
+        width: 0.04 * windowWidth,
+        aspectRatio: 1,
+        borderWidth: 2,
+        borderColor: '#EDF2EE',
     }
 })

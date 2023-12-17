@@ -9,6 +9,7 @@ type ChatStackParamList = {
         roomId: string;
         name: string;
         avt: undefined;
+        statusOnl: string;
     };
 }
 

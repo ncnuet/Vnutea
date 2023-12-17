@@ -45,12 +45,11 @@ const myMaxLength = 40;
 const mySpecBlue = '#19253D';
 
 export default function Chat({route, navigation}) {
-
   useEffect(() => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
-  
-  const {name, avt, roomId} = route.params;
+
+  const {name, avt, roomId, statusOnl} = route.params;
   const [messText, setMessText] = useState('');
   const [status, setStatus] = useState(true);
   const [isTyping, setIsTyping] = useState(false);
@@ -277,7 +276,7 @@ export default function Chat({route, navigation}) {
             <View style={styles.headerAvtWrapper}>
               <Image style={styles.headerAvt} source={avt}></Image>
 
-              {status == true && (
+              {statusOnl == 'online' && (
                 <View style={styles.headerStatusWrapper}>
                   <View style={styles.headerStatus}></View>
                 </View>
@@ -289,8 +288,14 @@ export default function Chat({route, navigation}) {
                 <Text style={styles.headerNameText}>{name}</Text>
               </View>
 
-              <View style={styles.headerTimeWrapper}>
-                <Text style={styles.headerTimeText}>Online now</Text>
+              {statusOnl == 'online' && (
+                <View style={styles.headerTimeWrapper}>
+                  <Text style={styles.headerTimeText}>Online now</Text>
+                </View>
+              )}
+
+              <View style={styles.headerPaddingWrapper}>
+
               </View>
             </View>
           </View>

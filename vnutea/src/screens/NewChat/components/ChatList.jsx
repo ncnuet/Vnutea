@@ -52,58 +52,48 @@ const fakeDataChatList = [
   //   newMess: 4,
   //   time: '1m',
   // },
-  // {
-  //   id: 1,
-  //   name: 'Đỗ Đức Đông',
-  //   avt: require('../assets/avtdtn.jpg'),
-  //   mess: 'Thầy cho em A+, em đéo cần học làm gì cho mệt :D',
-  //   newMess: 4,
-  //   time: '51m',
-  // },
-  // {
-  //   id: 2,
-  //   name: 'Hồ Đắc Phương',
-  //   avt: require('../assets/avtphm.jpeg'),
-  //   mess: 'okey, Đừng đến trễ nhé',
-  //   newMess: 10,
-  //   time: '1h',
-  // },
-  // {
-  //   id: 3,
-  //   name: 'Phạm Hồng Minh',
-  //   avt: require('../assets/avtlmh.jpg'),
-  //   mess: 'okey, Đừng đến trễ nhé',
-  //   newMess: 4,
-  //   time: '2d',
-  // },
-  // {
-  //   id: 4,
-  //   name: 'Đỗ Tuấn Nghĩa',
-  //   avt: require('../assets/avtlpd.png'),
-  //   mess: 'okey, Đừng đến trễ nhé',
-  //   newMess: 100,
-  //   time: '1m',
-  // },
-  // {
-  //   id: 5,
-  //   name: 'Bàn Văn Hiếu',
-  //   avt: require('../assets/avtlpd.png'),
-  //   mess: 'okey, Đừng đến trễ nhé',
-  //   newMess: 4,
-  //   time: '1m',
-  // },
-  // {
-  //   id: 6,
-  //   name: 'Đỗ Minh Đức',
-  //   avt: require('../assets/avtlpd.png'),
-  //   mess: 'okey, Đừng đến trễ nhé',
-  //   newMess: 10000,
-  //   time: '1m',
-  // },
 ];
 
-export default function ChatList({navigation}) {
+const addfakeDataChatList = [
+  {
+    id: 100,
+    name: 'Lê Phê Đô',
+    avt: require('../assets/avtlpd.png'),
+    mess: 'okey, Đừng đến trễ nhé',
+    newMess: 2,
+    time: '11m',
+    status: 'offline',
+  },
+  {
+    id: 101,
+    name: 'Đỗ Đức Đông',
+    avt: require('../assets/avtddd.jpg'),
+    mess: 'Em làm nốt các bài tập từ chương 3 đến chương 5 để hoàn thiện nốt nhé',
+    newMess: 4,
+    time: '2h',
+    status: 'offline',
+  },
+  {
+    id: 102,
+    name: 'Lê Minh Hoàng',
+    avt: require('../assets/avtphm.jpeg'),
+    mess: 'Tuần này thầy rất bận, có lẽ phải để tuần sau em nhé',
+    newMess: 1,
+    time: '2h',
+    status: 'online',
+  },
+  {
+    id: 103,
+    name: 'Phạm Hồng Minh',
+    avt: require('../assets/avtdtn.jpg'),
+    mess: 'Làm nốt phần 11 nhé',
+    newMess: 8,
+    time: '12m',
+    status: 'offline',
+  },
+]
 
+export default function ChatList({navigation}) {
   useEffect(() => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
@@ -149,10 +139,11 @@ export default function ChatList({navigation}) {
       return {
         id: item._id,
         name: item.name,
-        avt: require('../assets/avtlpd.png'),
+        avt: require('../assets/fakeavt.png'),
         mess: lastMess,
         newMess: 1,
         time: '1m',
+        status: 'online',
       };
     } catch (error) {
       console.error('Error in initChatItem:', error);
@@ -166,9 +157,18 @@ export default function ChatList({navigation}) {
         withCredentials: true,
       });
       if (response.status === 200) {
-        const tmp = await Promise.all(
+        let tmp = await Promise.all(
           response.data.data.map(item => initChatItem(item)),
         );
+
+        if (tmp.length > 0) {
+          tmp[tmp.length - 1].status = 'offline';
+          tmp[tmp.length - 1].avt = require('../assets/fakeavt3.png');
+        }
+
+        tmp = [...tmp, ...addfakeDataChatList];
+        console.log(tmp);
+        
         setDataChatList(tmp);
       }
     } catch (error) {
@@ -194,6 +194,7 @@ export default function ChatList({navigation}) {
       name: item.name,
       avt: item.avt,
       roomId: item.id,
+      statusOnl: item.status,
     });
   };
 
@@ -221,6 +222,9 @@ export default function ChatList({navigation}) {
       {/* Avt */}
       <View style={styles.chatAvtWrapper}>
         <Image source={item.avt} style={styles.chatAvt}></Image>
+
+        {/* Dot online status */}
+        {item.status == 'online' && <View style={styles.dotOnline}></View>}
       </View>
 
       <View style={styles.chatDesWrapper}>
