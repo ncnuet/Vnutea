@@ -28,6 +28,7 @@ import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import IconFontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import IconMCI from 'react-native-vector-icons/MaterialCommunityIcons';
+import IconOcticons from 'react-native-vector-icons/Octicons';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -52,6 +53,11 @@ export default function NewProfile({navigation}) {
   // Chuyen sang screen danh sach lop hoc
   const handleClassListOnPress = () => {
     navigation.navigate('ClassListScreen');
+  };
+
+  // Logout
+  const handleLogoutOnPress = () => {
+    navigation.replace('Login');
   };
 
   return (
@@ -88,7 +94,7 @@ export default function NewProfile({navigation}) {
             <View style={styles.headerAvtWrapper}>
               <Image
                 style={styles.headerAvt}
-                source={require('../assets/avtlpd.png')}></Image>
+                source={require('../assets/avtstu.jpg')}></Image>
             </View>
           </View>
         </View>
@@ -129,17 +135,19 @@ export default function NewProfile({navigation}) {
           style={styles.midBtnWrapper}
           onPress={handleFavTeacherOnPress}>
           <View style={styles.midBtnIcon}>
-            <IconAntDesign
-              name="heart"
+            <IconOcticons
+              name="heart-fill"
               color={mySpecBlue}
-              size={0.02 * windowHeight + 0.02 * windowWidth}></IconAntDesign>
+              size={0.02 * windowHeight + 0.02 * windowWidth}></IconOcticons>
           </View>
           <Text style={styles.midBtnText}>Giảng viên yêu thích</Text>
         </TouchableOpacity>
       </View>
 
       {/* Nut logout */}
-      <TouchableOpacity style={styles.logoutBtnWrapper}>
+      <TouchableOpacity
+        style={styles.logoutBtnWrapper}
+        onPress={handleLogoutOnPress}>
         <View style={styles.midBtnIcon}>
           <IconMCI
             name="exit-to-app"

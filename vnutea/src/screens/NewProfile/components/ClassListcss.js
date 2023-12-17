@@ -192,7 +192,7 @@ export const styles = StyleSheet.create({
     },
     topSearchsListWrapper: {
         width: '100%',
-        height: 0.664 * windowHeight,
+        height: 0.674 * windowHeight,
         marginTop: 0.012 * windowHeight,
         // marginLeft: 0.07 * windowWidth,
         // marginRight: 0.07 * windowWidth,
@@ -322,5 +322,33 @@ export const styles = StyleSheet.create({
         fontSize: 0.0074 * windowHeight + 0.0074 * windowHeight,
     },
 
+    renderTypeWrapper: {
+        width: '100%',
+        height: 0.04 * windowHeight,
+        // backgroundColor: 'red',
+        marginTop: 0.01 * windowHeight,
+        marginLeft: 0.08 * windowWidth,
+    },
+    typeItemWrapper: {
+        height: '100%',
+        alignSelf: 'flex-start',
+        backgroundColor: '#fff',
+        borderRadius: 1000,
+        paddingHorizontal: 0.026 * windowWidth,
+        marginHorizontal: 0.01 * windowWidth,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    typeItemText: {
+        color: mySpecBlue,
+        fontWeight: '500',
+        fontSize: 0.0132 * windowHeight + 0.0132 * windowWidth,
+    },
+    typeTickedWrapper: {
+        backgroundColor: '#FFC700',
+    },
+    typeTickedText: {
+        color: '#fff',
+    },
     
 })

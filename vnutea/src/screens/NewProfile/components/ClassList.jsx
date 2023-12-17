@@ -35,22 +35,77 @@ const myMaxLength = 28;
 const mySpecBlue = '#19253D';
 
 export default function ClassList({navigation}) {
+  const [statusRender, setStatusRender] = useState('all');
+
+  const filteredClassList = useMemo(() => {
+    if (statusRender === 'all') {
+      return fakeDataClassList;
+    } else if (statusRender === 'pass') {
+      return fakeDataClassList.filter(item => item.status === 'pass');
+    } else {
+      return fakeDataClassList.filter(item => item.status === 'failed');
+    }
+  }, [statusRender]);
+
+  //Doi trang thai render
+  const handleTypeRenderChange = id => {
+    if (id === 0) {
+      setStatusRender('all');
+    } else if (id === 1) {
+      setStatusRender('pass');
+    } else {
+      setStatusRender('notPass');
+    }
+  };
+
+  const renderTypeClass = ({item}) => {
+    let itemStyle = styles.typeItemWrapper;
+    let textStyle = styles.typeItemText;
+
+    // Kiểm tra giá trị của item.id và áp dụng style tương ứng
+    if (item.id === 0) {
+      if (statusRender === 'all') {
+        itemStyle = [styles.typeItemWrapper, styles.typeTickedWrapper];
+        textStyle = [styles.typeItemText, styles.typeTickedText];
+      }
+    } else if (item.id === 1) {
+      if (statusRender === 'pass') {
+        itemStyle = [styles.typeItemWrapper, styles.typeTickedWrapper];
+        textStyle = [styles.typeItemText, styles.typeTickedText];
+      }
+    } else if (item.id === 2) {
+      if (statusRender === 'notPass') {
+        itemStyle = [styles.typeItemWrapper, styles.typeTickedWrapper];
+        textStyle = [styles.typeItemText, styles.typeTickedText];
+      }
+    }
+
+    return (
+      <TouchableOpacity
+        style={itemStyle}
+        onPress={() => handleTypeRenderChange(item.id)}>
+        <Text style={textStyle}>{item.type}</Text>
+      </TouchableOpacity>
+    );
+  };
+
+
   //   Ket hop ca ten mon hoc va ma mon hoc
   const mergeNameCode = (name, code) => {
-    let res = name + '  '+ code;
+    let res = name + '  ' + code;
     return adjustString(res);
   };
 
-//   Chinh do dai cua xau khong vuot qua myMaxLength
-  const adjustString = (name) => {
+  //   Chinh do dai cua xau khong vuot qua myMaxLength
+  const adjustString = name => {
     if (name.length >= myMaxLength) {
-        let res = name.substr(0,myMaxLength - 3);
-        res = res + '...';
-        return res;
+      let res = name.substr(0, myMaxLength - 3);
+      res = res + '...';
+      return res;
     }
 
     return name;
-  }
+  };
 
   //Xu ly Like/ Unlike
   const handleHeartBtn = itemId => {
@@ -92,9 +147,10 @@ export default function ClassList({navigation}) {
         <View style={styles.itemDesWrapper}>
           <View style={styles.itemDesTopWrapper}>
             <View style={styles.itemNameWrapper}>
-              <Text style={styles.itemNameText}>{mergeNameCode(item.name,item.code)}</Text>
+              <Text style={styles.itemNameText}>
+                {mergeNameCode(item.name, item.code)}
+              </Text>
             </View>
-
           </View>
 
           <View style={styles.itemDesMidWrapper}>
@@ -135,14 +191,11 @@ export default function ClassList({navigation}) {
             </View>
           </View>
 
-          {
-            item.status == 'pass' &&
+          {item.status == 'pass' && (
             <View style={styles.itemDesBotWrapper}>
-              <Text style={styles.itemDesBotText}>
-                Đã tốt nghiệp
-              </Text>
+              <Text style={styles.itemDesBotText}>Đã tốt nghiệp</Text>
             </View>
-          }
+          )}
         </View>
       </TouchableOpacity>
     );
@@ -172,9 +225,19 @@ export default function ClassList({navigation}) {
         </View>
       </View>
 
+      {/* Cac lua chon render */}
+      <View style={styles.renderTypeWrapper}>
+        <FlatList
+          data={renderTypeList}
+          keyExtractor={item => item.id.toString()}
+          renderItem={renderTypeClass}
+          horizontal={true}></FlatList>
+      </View>
+
+      {/* Danh sach cac mon hoc */}
       <View style={styles.topSearchsListWrapper}>
         <FlatList
-          data={fakeDataClassList}
+          data={filteredClassList}
           keyExtractor={item => item.id.toString()}
           renderItem={renderClassList}
         />
@@ -190,27 +253,106 @@ const fakeDataClassList = [
     id: 0,
     name: 'Xác suất thống kê',
     code: 'MAT1042',
-    rate1: 4.8,
+    rate1: 3.1,
     rate2: 4.8,
-    rate3: 5,
+    rate3: 4.3,
     status: 'failed',
   },
   {
     id: 1,
-    name: 'Xác suất thống kê',
-    code: 'MAT1042',
-    rate1: 4.8,
-    rate2: 4.8,
-    rate3: 5,
+    name: 'Tín hiệu hệ thống',
+    code: 'INT3301',
+    rate1: 1.0,
+    rate2: 3.8,
+    rate3: 2.8,
     status: 'pass',
   },
   {
     id: 2,
-    name: 'Xác suất thống kê',
-    code: 'MAT1042',
-    rate1: 4.8,
+    name: 'Lập trình hướng đối tượng',
+    code: 'INT2203',
+    rate1: 2.4,
     rate2: 4.8,
-    rate3: 5,
+    rate3: 4.9,
+    status: 'pass',
+  },
+  {
+    id: 3,
+    name: 'Lập trình Nâng cao',
+    code: 'INT1107',
+    rate1: 3.4,
+    rate2: 4.8,
+    rate3: 4.9,
+    status: 'pass',
+  },
+  {
+    id: 4,
+    name: 'Khai phá dữ liệu',
+    code: 'INT1107',
+    rate1: 3.8,
+    rate2: 3.8,
+    rate3: 4.2,
+    status: 'failed',
+  },
+  {
+    id: 5,
+    name: 'Tư tưởng Hồ CHí Minh',
+    code: 'TTHCM01',
+    rate1: 2.6,
+    rate2: 4.8,
+    rate3: 3.2,
+    status: 'failed',
+  },
+  {
+    id: 6,
+    name: 'Kinh tế chính trị',
+    code: 'KTCT001',
+    rate1: 3.6,
+    rate2: 4.8,
+    rate3: 4.2,
+    status: 'pass',
+  },
+  {
+    id: 7,
+    name: 'Nhập môn lập trình',
+    code: 'INT0001',
+    rate1: 4,
+    rate2: 4.8,
+    rate3: 3,
+    status: 'pass',
+  },
+  {
+    id: 8,
+    name: 'Phát triển ứng dụng di động',
+    code: 'MBB2036',
+    rate1: 3.2,
+    rate2: 4.8,
+    rate3: 4.2,
+    status: 'failed',
+  },
+  {
+    id: 9,
+    name: 'Lập trình mạng',
+    code: 'MAT9911',
+    rate1: 3.2,
+    rate2: 4.8,
+    rate3: 4.2,
     status: 'pass',
   },
 ];
+
+const renderTypeList = [
+  {
+    type: 'Tất cả',
+    id: 0,
+  },
+  {
+    type: 'Đã tốt nghiệp',
+    id: 1,
+  },
+  {
+    type: 'Chưa tốt nghiệp',
+    id: 2,
+  },
+];
+

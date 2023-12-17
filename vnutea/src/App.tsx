@@ -8,13 +8,11 @@ import { HomeStackNavigator } from './ContactStackNavigator';
 import SplashScreen from 'react-native-splash-screen';
 import Onboarding from './screens/Onboarding';
 import Login from './screens/Login';
-import Icon from 'react-native-vector-icons/Octicons';
-import IconFeather from 'react-native-vector-icons/Feather';
-import IconIonicons from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { SearchStackNavigator } from './screens/Search';
 import { ChatStackNavigator } from './screens/NewChat';
-import { ProfileNavigator } from './screens/FavTeacher';
 import { UserProvider } from './hooks/user.context';
+import { ProfileNavigator } from './screens/NewProfile';
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 const TabApp = createMaterialBottomTabNavigator<StudentTabParamList>();
@@ -26,7 +24,7 @@ function MainRootApp() {
         name="Home"
         component={HomeStackNavigator}
         options={{
-          tabBarIcon: () => <Icon name="home" size={24} color="#19253D" />,
+          tabBarIcon: () => <Icon name="home-outline" size={24} color="#19253D" />,
         }}
       />
 
@@ -34,7 +32,9 @@ function MainRootApp() {
         name="Search"
         component={SearchStackNavigator}
         options={{
-          tabBarIcon: () => <Icon name="search" size={24} color="#19253D" />,
+          tabBarIcon: () => (
+            <Icon name="search-outline" size={24} color="#19253D" />
+          )
         }}
       />
 
@@ -43,11 +43,7 @@ function MainRootApp() {
         component={ChatStackNavigator}
         options={{
           tabBarIcon: () => (
-            <IconIonicons
-              name="chatbox-ellipses-outline"
-              size={28}
-              color="#19253D"
-            />
+            <Icon name="chatbox-ellipses-outline" size={28} color="#19253D" />
           ),
         }}
       />
@@ -57,7 +53,7 @@ function MainRootApp() {
         component={ProfileNavigator}
         options={{
           tabBarIcon: () => (
-            <IconFeather name="user" size={28} color="#19253D" />
+            <Icon name="person-circle-outline" size={28} color="#19253D" />
           ),
         }}
       />
