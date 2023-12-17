@@ -94,7 +94,7 @@ export default function NewProfile({navigation}) {
             <View style={styles.headerAvtWrapper}>
               <Image
                 style={styles.headerAvt}
-                source={require('../assets/avtlpd.png')}></Image>
+                source={require('../assets/avtstu.jpg')}></Image>
             </View>
           </View>
         </View>
