@@ -46,7 +46,7 @@ import {
           }}>
           <View style={styles.logoWrapper}>
             <Image
-              source={require('../assets/science.png')}
+              source={require('./assets/science.png')}
               style={styles.logoImg}></Image>
           </View>
   
