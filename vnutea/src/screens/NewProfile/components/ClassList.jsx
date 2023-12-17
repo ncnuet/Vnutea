@@ -25,7 +25,7 @@ import IconFontisto from 'react-native-vector-icons/Fontisto';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 
-import RenderClassList from '../RenderClassList/RenderClassList.jsx';
+import RenderClassList from '../../../components/RenderClassList/RenderClassList.jsx';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;

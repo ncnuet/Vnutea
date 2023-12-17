@@ -14,6 +14,8 @@ import {
   const myMaxLength = 22;
   
   export default function RenderClassList({navigation, dataChatList, statusRender}) {
+
+    console.log("DDDDDD: ", dataChatList)
   
     const filteredClassList = useMemo(() => {
       if (statusRender === 'all') {
@@ -38,6 +40,9 @@ import {
   
     //Render danh sach lop hoc
     const renderClassList = ({item}) => {
+
+      console.log("item", item);
+
       return (
         <TouchableOpacity
           style={styles.itemWrapper}
@@ -77,19 +82,21 @@ import {
     };
   
     return (
-      <View style={{flex: 1, backgroundColor: '#F6F6F6'}}>
+      // <View style={{flex: 1, backgroundColor: 'transparent'}}>
   
-        {/* Danh sach cac mon hoc */}
         <View style={styles.topSearchsListWrapper}>
+          {/* <Text>
+            test
+          </Text> */}
           <FlatList
-            data={filteredClassList}
+            data={dataChatList}
             keyExtractor={item => item.id.toString()}
             renderItem={renderClassList}
           />
           <View style={styles.paddingBottomItem}></View>
         </View>
 
-      </View>
+    // </View>
     );
   }
 

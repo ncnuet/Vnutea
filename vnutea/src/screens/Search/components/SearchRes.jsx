@@ -19,6 +19,7 @@ import {ItemLecturer} from '@/components/ItemLecturer';
 import {styles} from './Searchcss.js';
 import axios from '@/service/axios';
 import fetch from '@/service/fetching';
+import RenderClassList from '@/components/RenderClassList/RenderClassList.jsx';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -303,24 +304,45 @@ export default function Search({route, navigation}) {
               {`Results for '${searchValue}'`}
             </Text>
 
-            {/* Render ket qua tim kiem o day */}
-            <View className="bg-slate-200 w-full p-3 rounded-xl mt-5">
-              {result.teachers.map(item => (
-                <ItemLecturer
-                  id={item.id}
-                  name={item.name}
-                  department={item.department.name}
-                  image={
-                    item.image
-                      ? item.image
-                      : 'https://bizweb.dktcdn.net/100/354/778/files/ky-thuat-chup-anh-chan-dung-dep-nhat-1.jpg?v=1619759659660'
-                  }
-                  like={item.liked}
-                  key={item.id}
-                  awards={item.awards}
+            {typeSearch === 'Teachers' && (
+              <View className="bg-slate-200 w-full p-3 rounded-xl mt-5">
+                {result.teachers.map(item => (
+                  <ItemLecturer
+                    id={item.id}
+                    name={item.name}
+                    department={item.department.name}
+                    image={
+                      item.image
+                        ? item.image
+                        : 'https://bizweb.dktcdn.net/100/354/778/files/ky-thuat-chup-anh-chan-dung-dep-nhat-1.jpg?v=1619759659660'
+                    }
+                    like={item.liked}
+                    key={item.id}
+                    awards={item.awards}
+                  />
+                ))}
+              </View>
+            )}
+
+            {typeSearch === 'Class' && (
+              <View className="bg-slate-200 w-full p-3 rounded-xl mt-5"
+              //  style={{
+              //   marginLeft: -0.07 * windowWidth,
+              //   width: "120%",
+              //   marginRight: -0.07 * windowWidth,
+              //  }}
+              >
+                <RenderClassList
+                  dataChatList={result.classes.map(item => ({
+                    id: item.id,
+                    code: item.classID,
+                    name: item.name,
+                    status: "pass"
+                  }))}
+                  statusRender={'all'}
                 />
-              ))}
-            </View>
+              </View>
+            )}
 
             <View className="h-36"></View>
           </View>
