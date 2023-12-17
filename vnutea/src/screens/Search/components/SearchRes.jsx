@@ -20,7 +20,7 @@ import IconMCI from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconOcticons from 'react-native-vector-icons/Octicons';
 
 import {styles} from './Searchcss.js';
-import axios from '@/service/axios.js';
+// import axios from '@/service/axios.js';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
