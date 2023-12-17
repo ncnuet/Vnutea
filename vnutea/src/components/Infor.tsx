@@ -1,16 +1,28 @@
+import { IInfo } from "@/types";
 import { FlatList, Text, View } from "react-native";
 
-export default function Info() {
+
+
+export default function Info({ title, content }: IInfo) {
     return (
         <>
             <View className='p-7 pt-0'>
                 <Text
                     className='font-montserrat font-semibold text-lg text-primary'>
-                    Current Management Positions
+                    {title}
                 </Text>
 
                 <View className='bg-gray-200 p-4 rounded-2xl mt-2'>
-                    <FlatList
+                    {content.map((item, index) => (
+                        <Text
+                            key={index.toString()}
+                            className='text-primary mb-2 font-semibold font-lato'>
+                            {`\u25CF ${item}`}
+                        </Text>
+                    ))}
+
+
+                    {/* <FlatList
                         data={[
                             { key: 'Head, Department of Science, Technology and International Relations, VNU-UET.' },
                             { key: 'Director, VNU Key Laboratory for Smart Integrated Systems (SISLAB).' },
@@ -20,10 +32,8 @@ export default function Info() {
                             { key: ' Member of IEICE (Chairman, IEICE Vietnam Section).' },
                         ]}
                         renderItem={({ item }) =>
-                            <Text className='text-primary mb-2 font-semibold font-lato'>
-                                {`\u25CF ${item.key}`}
-                            </Text>}
-                    />
+                           }
+                    /> */}
                 </View>
             </View>
         </>

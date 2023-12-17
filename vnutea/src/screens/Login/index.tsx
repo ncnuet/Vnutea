@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import {
-  StyleSheet,
   Text,
   View,
   TextInput,
@@ -14,6 +13,8 @@ import Icon from "react-native-vector-icons/Feather"
 import axios from '@/service/axios';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@/types/routing';
+import { UserContext } from '@/hooks/user.context';
+import { IUser } from '@/types';
 
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
@@ -23,21 +24,25 @@ export default function Login({ navigation, route }: Props) {
   const [password, setPassword] = useState('');
   const [loading, setIsLoading] = useState(false);
   const [viewPassword, setViewPassword] = useState(false);
+  const { user, setUser } = useContext(UserContext)
+
+  async function checkLogin() {
+    setIsLoading(true)
+    const response = await axios.get("/me");
+    if (response.status === 200) {
+      const user = response.data.data as IUser
+      console.log(user);
+
+      AsyncStorage.setItem("user", JSON.stringify(user)); // deprecated
+      setUser(user);
+
+      navigation.replace("MainRootApp")
+    }
+    setIsLoading(false);
+  }
 
   useEffect(() => {
-    async function checkLogin() {
-      setIsLoading(true)
-      const response = await axios.get("/me");
-      if (response.status === 200) {
-        const user = response.data.data;
-        console.log(user);
-        AsyncStorage.setItem("user", JSON.stringify(user));
-        navigation.replace("MainRootApp")
-      }
-      setIsLoading(false);
-    }
-
-    if (route.params && !route.params.isLogout) checkLogin();
+    if (!route.params.isLogout) checkLogin();
   }, [])
 
   const login = async () => {
@@ -50,6 +55,7 @@ export default function Login({ navigation, route }: Props) {
 
         if (response.status === 200) {
           setIsLoading(false);
+          await checkLogin();
           navigation.replace('MainRootApp')
         } else {
           Alert.alert("Login failed");

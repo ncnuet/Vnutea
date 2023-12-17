@@ -1,3 +1,4 @@
+import { IDepartmentName } from '@/types';
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, FlatList, _Image } from 'react-native';
 
@@ -32,15 +33,12 @@ const Item = ({ name, status, onClick }: ItemProps) => {
     )
 };
 
-interface Department {
-    name: string;
-    id: string;
-}
-
 interface IProps {
-    data: Department[],
+    data: IDepartmentName[],
     onChange: (data: string[]) => void;
 }
+
+const defaultDep = { name: "All", id: "0" }
 
 export default function ListDepartment({ data, onChange }: IProps) {
     const [selected, setSelected] = useState<string[]>(["0"]);
@@ -62,8 +60,8 @@ export default function ListDepartment({ data, onChange }: IProps) {
     return (
         <View className='mt-5 mx-5'>
             <FlatList
-                horizontal={true}
-                data={data}
+                horizontal
+                data={[defaultDep, ...data]}
                 renderItem={({ item }) =>
                     <Item
                         name={item.name}

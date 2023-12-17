@@ -11,7 +11,8 @@
         "Mongoosastic",
         "uids",
         "vnutea",
-        "Vnutea"
+        "Vnutea",
+        "vnuteaapp"
     ],
     "java.compile.nullAnalysis.mode": "automatic"
 }

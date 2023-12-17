@@ -7,69 +7,54 @@ import {
   Image,
   StatusBar,
   RefreshControl,
-  Alert,
+  LogBox,
 } from 'react-native';
 
-import Icon from 'react-native-vector-icons/Feather';
-import OutstandingLecturer from './components/lecturerOuts';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { StudentStackParamList } from '@/types/routing';
-import TrendingSection from './components/trending';
-import { Department, Outstanding, Teacher } from '@/types';
+import { IDepartmentName, IOutstanding, ITeacher } from '@/types';
+import Icon from 'react-native-vector-icons/Feather';
+import Outstanding from './components/Oustanding';
+import Trending from './components/Trending';
 import axios from '@/service/axios';
+import fetch from '@/service/fetching';
 
 type TProps = NativeStackScreenProps<StudentStackParamList, 'HomeScreen'>;
-const defaultDep = { name: "All", id: "0" }
 
 export default function HomeScreen({ navigation }: TProps) {
   const [refreshing, setRefreshing] = useState(false);
-  const [outstanding, setOutstanding] = useState<Outstanding[]>([]);
-  const [departments, setDepartments] = useState<Department[]>([defaultDep]);
-  const [teachers, setTeachers] = useState<Teacher[]>([]);
+  const [outstanding, setOutstanding] = useState<IOutstanding[]>([]);
+  const [departments, setDepartments] = useState<IDepartmentName[]>([]);
+  const [teachers, setTeachers] = useState<ITeacher[]>([]);
 
   async function getDepartments() {
-    try {
-      const response = await axios.get("/department/name");
-      if (response.status === 200) {
-        console.log(response.data.data.departments);
-        setDepartments([{ name: "All", id: "0" }, ...response.data.data.departments]);
-      } else {
-        Alert.alert("Lỗi");
-      }
-    } catch (error: any) {
-      console.log(error.message);
-      Alert.alert("Lỗi")
-    }
+    fetch<{ departments: IDepartmentName[] }>(
+      () => axios.get("/department/name"),
+      async (data) => {
+        setDepartments(data.departments);
+      })
   }
 
   async function getTeacher() {
-    try {
-      const response = await axios.get("/teacher");
-      if (response.status === 200) {
-        console.log(response.data.data.teacher);
-        setTeachers(response.data.data.teacher);
-      } else {
-        Alert.alert("Lỗi");
-      }
-    } catch (error: any) {
-      console.log(error.message);
-      Alert.alert("Lỗi")
-    }
+    fetch<{ teacher: ITeacher[] }>(
+      () => axios.get("/teacher"),
+      async (data) => {
+        setTeachers(data.teacher);
+      })
   }
 
   async function getOuts() {
-    try {
-      const response = await axios.get("/outstanding");
-      if (response.status === 200) {
-        console.log(response.data.data.outstanding);
-        setOutstanding(response.data.data.outstanding);
-      } else {
-        Alert.alert("Lỗi")
-      }
-    } catch (error) {
-      Alert.alert("Lỗi")
-    }
+    fetch<{ outstanding: IOutstanding[] }>(
+      () => axios.get("/outstanding"),
+      async (data) => {
+        setOutstanding(data.outstanding);
+      })
   }
+
+  useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+  }, [])
+
 
   useEffect(() => {
     getOuts();
@@ -101,7 +86,7 @@ export default function HomeScreen({ navigation }: TProps) {
             <Image
               style={{ width: '100%', height: '100%', borderRadius: 40 }}
               source={{
-                uri: 'https://pyxis.nymag.com/v1/imgs/51b/28a/622789406b8850203e2637d657d5a0e0c3-avatar-rerelease.1x.rsquare.w1400.jpg',
+                uri: 'https://e-space.vn/avatar/student/42674.jpg',
               }}
             />
           </TouchableOpacity>
@@ -115,9 +100,13 @@ export default function HomeScreen({ navigation }: TProps) {
             onRefresh={onRefresh} />
         }
       >
-        <Text className="font-montserrat text-primary text-lg font-semibold ml-5">Giảng viên nổi bật</Text>
-        <OutstandingLecturer outstanding={outstanding} />
-        <TrendingSection departments={departments} teachers={teachers} />
+        <Text className="font-montserrat text-primary text-lg font-semibold ml-5">Cá nhân và đơn vị nổi bật</Text>
+        <Outstanding outstanding={outstanding} />
+
+        <Text className="font-montserrat text-primary text-lg font-semibold ml-5 mt-7">Giảng viên VNU</Text>
+        <Trending
+          departments={departments}
+          teachers={teachers} />
       </ScrollView>
     </View>
   );

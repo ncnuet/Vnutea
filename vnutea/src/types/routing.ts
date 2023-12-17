@@ -1,8 +1,13 @@
+import { NavigationProp } from "@react-navigation/native";
+import { ITeacherDetails } from ".";
+
 export type RootStackParamList = {
   OnBoarding: undefined;
   MainRootApp: undefined;
   Login: { isLogout: boolean };
 };
+
+export type NavRootProp = NavigationProp<RootStackParamList>;
 
 export type StudentTabParamList = {
   Home: undefined;
@@ -14,14 +19,22 @@ export type StudentTabParamList = {
 
 export type StudentStackParamList = {
   HomeScreen: undefined;
+  TeacherList: undefined;
+  ContactScreen: {
+    user: ITeacherDetails
+  };
   LecturerScreen: {
     id: string
   };
-  ContactScreen: undefined;
-  ClassScreen: undefined;
-  LabScreen: undefined;
-  DepartmentScreen: undefined;
-  TeacherList: undefined;
+  ClassScreen: {
+    id: string
+  };
+  LabScreen: {
+    id: string
+  };
+  DepartmentScreen: {
+    id: string
+  };
 };
 
 export type MyStackParamList = {

@@ -1,24 +1,20 @@
-import React, {useEffect} from 'react';
-import {
-  CompositeScreenProps,
-  NavigationContainer,
-} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+import React, { useEffect } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {RootStackParamList, StudentTabParamList} from './types/routing';
-import {HomeStackNavigator} from './ContactStackNavigator';
+import { RootStackParamList, StudentTabParamList } from './types/routing';
+import { HomeStackNavigator } from './ContactStackNavigator';
 import SplashScreen from 'react-native-splash-screen';
 import Onboarding from './screens/Onboarding';
 import Login from './screens/Login';
 import Icon from 'react-native-vector-icons/Octicons';
 import IconFeather from 'react-native-vector-icons/Feather';
 import IconIonicons from 'react-native-vector-icons/Ionicons';
-import {SearchStackNavigator} from './screens/Search';
-import {ChatStackNavigator} from './screens/NewChat';
-import {ProfileNavigator} from './screens/FavTeacher';
-import Profile from './screens/Profile';
-import Settings from './screens/Settings';
+import { SearchStackNavigator } from './screens/Search';
+import { ChatStackNavigator } from './screens/NewChat';
+import { ProfileNavigator } from './screens/FavTeacher';
+import { UserProvider } from './hooks/user.context';
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 const TabApp = createMaterialBottomTabNavigator<StudentTabParamList>();
@@ -92,15 +88,17 @@ function App(): JSX.Element {
   }, []);
 
   return isFirstLaunched !== null ? (
-    <NavigationContainer>
-      <RootStack.Navigator screenOptions={{headerShown: false}}>
-        {isFirstLaunched && (
-          <RootStack.Screen name="OnBoarding" component={Onboarding} />
-        )}
-        <RootStack.Screen name="Login" component={Login}></RootStack.Screen>
-        <RootStack.Screen name="MainRootApp" component={MainRootApp} />
-      </RootStack.Navigator>
-    </NavigationContainer>
+    <UserProvider>
+      <NavigationContainer>
+        <RootStack.Navigator screenOptions={{ headerShown: false }}>
+          {isFirstLaunched && (
+            <RootStack.Screen name="OnBoarding" component={Onboarding} />
+          )}
+          <RootStack.Screen name="Login" component={Login} initialParams={{ isLogout: false }} />
+          <RootStack.Screen name="MainRootApp" component={MainRootApp} />
+        </RootStack.Navigator>
+      </NavigationContainer>
+    </UserProvider>
   ) : (
     <></>
   );

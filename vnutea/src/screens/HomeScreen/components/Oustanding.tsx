@@ -8,28 +8,28 @@ import {
   TouchableOpacity,
   Image
 } from 'react-native';
-import { StudentStackParamList } from '@/types/routing';
-import { Outstanding } from '@/types';
+import { IDepartmentDetails, IOutstanding, ITeacher } from '@/types';
+import { NavHomeProp } from '@/ContactStackNavigator';
 
 interface IProp {
-  name: string;
-  position: string;
-  department: string;
-  id: string;
-  index: number;
+  type: "teacher" | "department",
+  data: ITeacher | IDepartmentDetails,
+  index: number
 }
 
-function Item({ name, position, department, id, index }: IProp) {
-  const navigation = useNavigation<NavigationProp<StudentStackParamList>>()
+function Item({ data, type, index }: IProp) {
+  const navigation = useNavigation<NavHomeProp>()
 
-  function handlePress(id: string) {
-    console.log(id, id);
-    navigation.navigate("LecturerScreen", { id })
+  function handlePress() {
+    if (type === "teacher")
+      navigation.navigate("LecturerScreen", { id: data.id })
+    else
+      navigation.navigate("DepartmentScreen", { id: data.id })
   }
 
   return (
     <TouchableOpacity
-      onPress={() => { handlePress(id) }}
+      onPress={handlePress}
       className={
         'mx-2 rounded-3xl p-5 w-[80vw] pl-7 relative overflow-hidden ' +
         (index % 2 == 0 ? "bg-green-patel" : "bg-blue-sea")} >
@@ -44,6 +44,7 @@ function Item({ name, position, department, id, index }: IProp) {
             color="#30BBDE"
             size={300} />}
       </View>
+
       <View className='absolute -bottom-0 -right-0'>
         <Image
           source={require("@/assets/people.png")}>
@@ -51,19 +52,24 @@ function Item({ name, position, department, id, index }: IProp) {
       </View>
 
       <View className='flex flex-col'>
-        <Text className='text-primary font-montserrat uppercase font-bold text-3xl'>{name}</Text>
+        <Text className='text-primary font-montserrat uppercase font-bold text-3xl'>{data.name}</Text>
         <View>
           <View className='border-t-4 border-primary w-28 pt-3'>
-            <Text className='text-white font-montserrat font-semibold'>{position}</Text>
+            <Text className='text-white font-montserrat font-semibold'>{
+              type === "teacher"
+                ? (data as ITeacher).awards.length > 0 ? (data as ITeacher).awards[0].name : "Giảng viên ưu tú"
+                : (data as IDepartmentDetails).contact.emails.length > 0
+                  ? (data as IDepartmentDetails).contact.emails[0]
+                  : "cntt@edu.vnu.vn"
+            }</Text>
           </View>
-          <Text className='text-white font-montserrat font-semibold'>{department}</Text>
         </View>
       </View>
     </TouchableOpacity>
   )
 };
 
-export default function OutstandingLecturer({ outstanding }: { outstanding: Outstanding[] }) {
+export default function Outstanding({ outstanding }: { outstanding: IOutstanding[] }) {
   return (
     <View className='h-48 ml-3 mt-5'>
       <FlatList
@@ -71,14 +77,12 @@ export default function OutstandingLecturer({ outstanding }: { outstanding: Outs
         data={outstanding}
         renderItem={({ item, index }) => (
           <Item
-            name={item.name}
-            position={item.position[0]}
-            department={item.awards[0] ? item.awards[0].name : "Giảng viên nổi bật"}
-            id={item.user}
+            type={item.type}
+            data={item.data}
             index={index}
           />)}
         showsHorizontalScrollIndicator={false}
-        keyExtractor={item => item.user}
+        keyExtractor={item => item.data.id}
       />
     </View>
   );

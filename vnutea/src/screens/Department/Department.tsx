@@ -1,7 +1,6 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import React, { useRef, useState } from 'react';
 import {
-    FlatList,
     ScrollView,
     Text,
     TouchableOpacity,
@@ -53,7 +52,7 @@ export default function DepartmentScreen({ navigation, route }: Props) {
                 <View className='p-7'>
                     <View className='flex flex-row'>
                         <View className='flex-grow'>
-                            <Text className='text-xl text-blue-500 font-lato font-semibold'>Phòng nghiên cứu</Text>
+                            <Text className='text-xl text-blue-500 font-lato font-semibold'>Khoa</Text>
                             <Text className='text-primary text-3xl font-montserrat font-extrabold'>An toàn mạng</Text>
                         </View>
 
@@ -86,7 +85,7 @@ export default function DepartmentScreen({ navigation, route }: Props) {
                     </View>
                 </View>
 
-                <Info />
+                {/* <Info /> */}
                 <View className='h-24' />
             </ScrollView>
         </KeyboardAvoidingView>

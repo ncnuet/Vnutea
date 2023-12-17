@@ -1,5 +1,5 @@
 import Header from "@/components/Header";
-import TaskLecturer from "@/components/TaskLecturer";
+import TaskLecturer from "@/components/ItemLecturer";
 import { FlatList, View, Text } from "react-native";
 
 export default function () {
