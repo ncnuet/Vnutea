@@ -6,6 +6,10 @@ const windowHeight = Dimensions.get('window').height;
 const mySpecBlue = '#19253D';
 
 export const styles = StyleSheet.create({
+    topSearchsListWrapper: {
+        marginBottom: 0.012 * windowHeight,
+        marginTop: 0.012 * windowHeight,
+    },
     itemWrapper: {
         width: '86%',
         marginLeft: 0.07 * windowWidth,
