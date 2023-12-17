@@ -21,15 +21,10 @@ import {ImageBackground} from 'react-native';
 import {Dimensions} from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import IconFontisto from 'react-native-vector-icons/Fontisto';
-import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
-import IconAntDesign from 'react-native-vector-icons/AntDesign';
-import IconFontAwesome6 from 'react-native-vector-icons/FontAwesome6';
-import IconMCI from 'react-native-vector-icons/MaterialCommunityIcons';
-import IconOcticons from 'react-native-vector-icons/Octicons';
 import IconIonIcons from 'react-native-vector-icons/Ionicons';
 
 import {styles} from './Searchcss.js';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //Cac du lieu la hang so dung cho css
 const windowWidth = Dimensions.get('window').width;
@@ -61,204 +56,27 @@ export default function Search({navigation}) {
 
   const [typeSearch, setTypeSearch] = useState('Teachers');
   const [mySearch, setMySearch] = useState('');
-  const [likeList, setLikeList] = useState([
-    'true',
-    'true',
-    'false',
-    'false',
-    'false',
-  ]);
+  const [recent, setRecent] = useState([]);
 
-  //Fake du lieu lich su tim kiem gan day
-  const fakeRecentSearchsList = [
-    {id: '-1', title: 'Le phe do1'},
-    {id: '0', title: 'Do Duc doong'},
-    {id: '1', title: 'Lap trinh guong doi tuong'},
-    {id: '2', title: 'A+ qua da pepsi oi'},
-    {id: '3', title: 'Le phe da'},
-    {id: '4', title: 'Le phe da2'},
-    {id: '5', title: 'Le phe da2'},
-  ];
-
-  //Fake du lieu top tim kiem
-  const fakeTopSearchsList = [
-    {
-      id: 0,
-      name: 'Lê Phê Đô',
-      position: 'Tiến sĩ, Trưởng khoa',
-      star: 4.8,
-      image: require('../assets/avtlpd.png'),
-      like: 'true',
-      tagList: [
-        {
-          tagColor: '#4BBEFA',
-          tagText: 'G.V Xuất sắc nhất T8',
-        },
-        {
-          tagColor: '#14D950',
-          tagText: 'Được yêu thích nhất',
-        },
-      ],
-    },
-    {
-      id: 1,
-      name: 'Đỗ Đức Đông',
-      position: 'Giáo sư',
-      star: 5,
-      image: require('../assets/avtddd.jpg'),
-      like: 'true',
-      tagList: [
-        {
-          tagColor: '#4BBEFA',
-          tagText: 'G.V Xuất sắc nhất T8',
-        },
-        {
-          tagColor: '#14D950',
-          tagText: 'Được yêu thích nhất',
-        },
-      ],
-    },
-    {
-      id: 2,
-      name: 'Phạm Hồng Minh',
-      position: 'Giảng viên, kỹ sư phần mềm',
-      star: 4.9,
-      image: require('../assets/avtphm.jpeg'),
-      like: 'false',
-      tagList: [
-        {
-          tagColor: '#4BBEFA',
-          tagText: 'G.V Xuất sắc nhất T8',
-        },
-      ],
-    },
-    {
-      id: 3,
-      name: 'Đỗ Tuấn Nghĩa',
-      position: 'Phó hiệu trưởng, trưởng khoa',
-      star: 4.8,
-      image: require('../assets/avtdtn.jpg'),
-      like: 'false',
-      tagList: [
-        {
-          tagColor: '#4BBEFA',
-          tagText: 'G.V Xuất sắc nhất T8',
-        },
-        {
-          tagColor: '#F8411E',
-          tagText: 'GV5T',
-        },
-      ],
-    },
-    {
-      id: 4,
-      name: 'Bàn Văn Hiếu',
-      position: 'Hiệu trưởng, trưởng ban',
-      star: 4.6,
-      image: require('../assets/avtlmh.jpg'),
-      like: 'false',
-      tagList: [
-        {
-          tagColor: '#4BBEFA',
-          tagText: 'G.V Xuất sắc nhất T8',
-        },
-        {
-          tagColor: '#14D950',
-          tagText: 'Được yêu thích nhất',
-        },
-      ],
-    },
-  ];
-
-  //Xu ly Like/ Unlike
-  const handleHeartBtn = itemId => {
-    //Call API
-
-    setLikeList(prevLikeList => {
-      return prevLikeList.map((like, index) =>
-        index === itemId ? (like === 'true' ? 'false' : 'true') : like,
-      );
-    });
-  };
-
-  //render tag giang vien
-  const renderTagItem = ({item}) => (
-    <Text style={[styles.searchTagText, {backgroundColor: item.tagColor}]}>
-      {item.tagText}
-    </Text>
-  );
-
-  //Render top search
-  const renderTopSearchItem = ({item}) => {
-    return (
-      <TouchableOpacity
-        style={styles.topSearchsItem}
-        onPress={() => {
-          //Xu ly truy cap lap tuc
-        }}>
-        <View style={styles.searchItemAvtWrapper}>
-          <View style={styles.avtGv}>
-            <Image style={styles.avtStyle} source={item.image} />
-          </View>
-          <View style={styles.rateWrapper}>
-            <Icon
-              name="star-half-alt"
-              size={0.0112 * windowHeight + 0.0112 * windowWidth}
-              color="#19253D"
-            />
-            <Text> {item.star} </Text>
-          </View>
-        </View>
-
-        <View style={styles.searchItemDesWrapper}>
-          {/* ten, vai tro va cam xuc */}
-          <View style={styles.searchItemMain}>
-            <View style={styles.searchItemTextWrapper}>
-              <View style={styles.searchItemName}>
-                <Text style={styles.searchNameText}>{item.name}</Text>
-              </View>
-              <View style={styles.searchItemJob}>
-                <Text style={styles.searchJobText}>{item.position}</Text>
-              </View>
-            </View>
-
-            <TouchableOpacity
-              style={styles.searchHeartWrapper}
-              onPress={() => handleHeartBtn(item.id)}>
-              {likeList[item.id] == 'true' && (
-                <IconOcticons
-                  name="heart-fill"
-                  size={0.018 * windowHeight + 0.018 * windowWidth}
-                  color="#F64545"
-                />
-              )}
-              {likeList[item.id] == 'false' && (
-                <IconOcticons
-                  name="heart"
-                  size={0.018 * windowHeight + 0.018 * windowWidth}
-                  color="#F64545"
-                />
-              )}
-            </TouchableOpacity>
-          </View>
-
-          {/* Cac the thanh tuu danh gia */}
-          <View style={styles.searchItemTag}>
-            <FlatList
-              data={item.tagList}
-              keyExtractor={tag => tag.tagText.toString()}
-              renderItem={renderTagItem}
-              horizontal={true}
-            />
-          </View>
-        </View>
-      </TouchableOpacity>
-    );
-  };
+  useEffect(() => {
+    async function checkRecent() {
+      const data = await AsyncStorage.getItem('recentSearch');
+      if (data) {
+        const re = JSON.parse(re);
+        setRecent(data);
+      }
+    }
+    checkRecent();
+  });
 
   //Xu ly tim kiem
   const handleSearchOnPress = () => {
     if (mySearch != '') {
+      AsyncStorage.setItem(
+        'recentSearch',
+        JSON.stringify([...recent, mySearch]),
+      );
+      setRecent([...recent, mySearch]);
       navigation.navigate('SearchResScreen', {
         searchValue: mySearch,
         typeSearchValue: typeSearch,
@@ -348,11 +166,7 @@ export default function Search({navigation}) {
                 style={styles.btnSearch}
                 onPress={handleSearchOnPress}>
                 {/* <FontAwesomeIcon icon={faMagnifyingGlass} color={'#000'} size={0.028 * windowHeight} /> */}
-                <IconIonIcons
-                  name="search-outline"
-                  size={26}
-                  color="#000"
-                />
+                <IconIonIcons name="search-outline" size={26} color="#000" />
               </TouchableOpacity>
               <View style={styles.inputSearch}>
                 <TextInput
@@ -492,8 +306,9 @@ export default function Search({navigation}) {
             {/* Nut de xoa lich su tim kiem gan day */}
             <TouchableOpacity
               style={styles.recentSeachClearBtn}
-              onPress={() => {
-                //Xu ly xoa lich su tim kiem gan day
+              onPress={async () => {
+                setRecent([]);
+                await AsyncStorage.setItem('recentSearch', JSON.stringify([]));
               }}>
               <Text style={styles.recentSearchClearBtnText}>Clear history</Text>
             </TouchableOpacity>
@@ -501,20 +316,19 @@ export default function Search({navigation}) {
 
           {/* Muc hien thi danh sach tim kiem gan day */}
           <View className="flex flex-row flex-wrap p-5 pt-3">
-            {fakeRecentSearchsList.map(item => (
-              <View key={item.key} style={styles.itemRecentSearchs}>
+            {recent.map((item, index) => (
+              <View key={index.toString()} style={styles.itemRecentSearchs}>
                 <TouchableOpacity
                   style={styles.btnRecentSearchs}
                   onPress={() => {
-                    //Xu ly tim kiem luon
+                    navigation.navigate('SearchResScreen', {
+                      searchValue: item,
+                      typeSearchValue: typeSearch,
+                    });
                   }}>
-                  <IconIonIcons
-                    name="search-outline"
-                    color="gray"
-                    size={20}
-                  />
-                  <Text className='text-gray-400 ml-2 font-montserrat'>
-                    {ReduceString(item.title)}
+                  <IconIonIcons name="search-outline" color="gray" size={20} />
+                  <Text className="text-gray-400 ml-2 font-montserrat">
+                    {item}
                   </Text>
                 </TouchableOpacity>
               </View>

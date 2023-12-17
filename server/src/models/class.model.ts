@@ -45,12 +45,29 @@ export default class ClassModel {
                 hydrateOptions: { select: "name _id" }
             })
 
-        return departments.body.hits.hydrated;
+        return departments.body.hits.hydrated.map(item=>({
+            name: item.name,
+            id: item.id
+        }))
     }
 
     static async get(ids: string[]) {
         const result = await ClassBaseModel.find({ _id: { $in: ids } }).exec();
         return result;
+    }
+
+    static async getAll(classID?: string[]) {
+        const result = await ClassBaseModel.find(
+            classID
+                ? { _id: { $in: classID } }
+                : {},
+            { name: 1, classID: 1, _id: 1 }
+        ).exec();
+        return result.map(item => ({
+            name: item.name,
+            classID: item.classID,
+            id: item._id
+        }));
     }
 
     static async addComment(id: string, data: ICreateComment) {

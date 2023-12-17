@@ -17,12 +17,13 @@ type ItemProps = {
     awards: {
         name: string,
         color: string,
-    }[]
+    }[],
+    isUpdateOutside?: boolean
 };
 
-const Item = memo(({ id, name, department, image, like, awards }: ItemProps) => {
+const Item = memo(({ id, name, department, image, like, awards, isUpdateOutside = false }: ItemProps) => {
     const navigation = useNavigation<NavHomeProp>()
-    const { dispatchTeachers } = useContext(TeacherListContext);
+    const context = useContext(TeacherListContext);
     const [isLove, setLove] = useState(like);
 
     useEffect(() => {
@@ -40,7 +41,7 @@ const Item = memo(({ id, name, department, image, like, awards }: ItemProps) => 
             )
         }
 
-        dispatchTeachers({
+        isUpdateOutside && context.dispatchTeachers({
             type: EActionUpdate.UPDATE_LIKE,
             id,
             value: !isLove
@@ -129,3 +130,4 @@ const TaskLecturer = ({ dep }: IProps) => {
 }
 
 export default TaskLecturer;
+export { Item as ItemLecturer }

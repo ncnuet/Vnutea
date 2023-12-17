@@ -35,7 +35,10 @@ export default class DepartmentModel {
                 hydrateOptions: { select: "name _id" }
             })
 
-        return departments.body.hits.hydrated;
+        return departments.body.hits.hydrated.map(item => ({
+            name: item.name,
+            id: item._id.toString()
+        }))
     }
 
     static async get(ids: string[]) {

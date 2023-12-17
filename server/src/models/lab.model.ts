@@ -42,11 +42,28 @@ export default class LabModel {
                 hydrateOptions: { select: "name _id" }
             })
 
-        return departments.body.hits.hydrated;
+        return departments.body.hits.hydrated.map(item => ({
+            id: item._id.toString(),
+            name: item.name
+        }));
     }
 
     static async get(ids: string[]) {
         const result = await LabBaseModel.find({ _id: { $in: ids } }).exec();
         return result;
+    }
+
+    static async getAll(labIDs?: string[]) {
+        const result = await LabBaseModel.find(
+            labIDs
+                ? { _id: { $in: labIDs } }
+                : {},
+            { name: 1, _id: 1, image: 1 }
+        ).exec();
+        return result.map(item => ({
+            name: item.name,
+            id: item._id.toString(),
+            image: item.image
+        }));
     }
 }

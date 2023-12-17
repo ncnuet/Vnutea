@@ -55,10 +55,13 @@ export default class TeacherModel {
             },
             {
                 hydrate: true,
-                hydrateOptions: { select: "name _id" }
+                hydrateOptions: { select: "name user" }
             })
 
-        return users.body.hits.hydrated;
+        return users.body.hits.hydrated.map(item => ({
+            id: item.user.toString(),
+            name: item.name
+        }));
     }
 
     static async addClass(id: string, classID: string) {
