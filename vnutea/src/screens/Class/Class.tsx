@@ -17,7 +17,6 @@ import DynamicHeader from "@/components/DynamicHeader";
 import { StudentStackParamList } from '@/types/routing';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import Evaluation from './evaluation';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 interface Props extends NativeStackScreenProps<StudentStackParamList, 'ClassScreen'> {
 
@@ -55,7 +54,7 @@ export default function Class({ navigation, route }: Props) {
                     <View className='flex flex-row'>
                         <View className='flex-grow'>
                             <Text className='text-xl text-blue-500 font-lato font-semibold'>Lớp học</Text>
-                            <Text className='text-primary text-3xl font-montserrat font-extrabold'>An toàn thông tin cho sin vien cong nghệ</Text>
+                            <Text className='text-primary text-3xl font-montserrat font-extrabold'>{route.params.name}</Text>
                         </View>
 
                         <View className='flex flex-row gap-2'>
