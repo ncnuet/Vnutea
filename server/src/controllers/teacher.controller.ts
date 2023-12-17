@@ -6,6 +6,7 @@ import LabModel from "@/models/lab.model";
 import TeacherModel from "@/models/teacher.model";
 import TeacherValidator, { ICreateTeacher, IGetByDepartment, IUpdateTeacher } from "@/validators/teacher.validator";
 import UserModel from "@/models/user.model";
+import DepartmentModel from "@/models/department.model";
 
 export default class TeacherController {
     private static async precheck(data: ICreateTeacher | IUpdateTeacher) {
@@ -57,16 +58,44 @@ export default class TeacherController {
         handleError(res, async () => {
             const [teacher, favorites] = await Promise.all([
                 TeacherModel.getAll(),
-                UserModel.getFavourites(user.uid)
+                UserModel.getFavorites(user.uid)
             ]);
+
+            const departments = await DepartmentModel.getName(teacher.map(item => item.department))
 
             res.status(200).json({
                 message: "success",
                 data: {
                     teacher: teacher.map(teacher => ({
                         ...teacher,
-                        liked: favorites.some(fa => fa.ref)
+                        department: departments.find(dep => dep.id === teacher.department),
+                        liked: favorites.some(fa => fa.ref === teacher.id)
                     }))
+                }
+            })
+        })
+    }
+
+    static async getDetails(req: Request, res: Response) {
+        const user = res.locals.user;
+        const teacherID = req.params.id;
+
+        handleError(res, async () => {
+            const teacher = await TeacherModel.getDetails(teacherID as string)
+
+            const [departments, favorites] = await Promise.all([
+                await DepartmentModel.getName([teacher.department]),
+                await UserModel.getFavorites(user.uid)
+            ])
+
+            res.status(200).json({
+                message: "success",
+                data: {
+                    teacher: {
+                        ...teacher,
+                        department: departments.find(dep => dep.id === teacher.department),
+                        liked: favorites.some(fa => fa.ref === teacher.id)
+                    }
                 }
             })
         })

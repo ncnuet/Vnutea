@@ -71,7 +71,7 @@ export default class DepartmentController {
 
     static async getAllDepartmentsName(req: Request, res: Response) {
         handleError(res, async () => {
-            const departments = await DepartmentModel.getAllName();
+            const departments = await DepartmentModel.getName();
 
             res.status(200).json({
                 message: "success",

@@ -5,7 +5,8 @@ import { Router } from "express"
 const MeRouter = Router();
 
 MeRouter.get("/", [checkJWT], MeController.getProfile);
-MeRouter.get("/favourite", [checkJWT], MeController.getFavorite);
-MeRouter.post("/favourite", [checkJWT], MeController.addFavorite);
+MeRouter.get("/favorite", [checkJWT], MeController.getFavorite);
+MeRouter.post("/favorite", [checkJWT], MeController.addFavorite);
+MeRouter.delete("/favorite/:id", [checkJWT], MeController.delFavorite);
 
 export default MeRouter;

@@ -80,13 +80,27 @@ export default class OutstandingController {
     static async getAll(req: Request, res: Response) {
         handleError(res, async () => {
             const outstanding = await OutstandingModel.getAll();
-            const teacherIDs = outstanding.map(out => out.ref.toString());
-            const teachers = await TeacherModel.get(teacherIDs);
+            const refID = outstanding.map(outs => outs.ref.toString());
+
+            const teachers = await TeacherModel.getAll(refID);
+            const departments = await DepartmentModel.getAll(refID);
+
+            const result = outstanding.map(outs => {
+                if (outs.type === "teacher") {
+                    const teacher = teachers.filter(t => t.id === outs.ref.toString());
+                    return { data: teacher.length > 0 ? teacher[0] : null, type: "teacher" }
+                }
+                if (outs.type === "department") {
+                    const department = departments.filter(t => t.id === outs.ref.toString());
+                    return { data: department.length > 0 ? department[0] : null, type: "department" }
+                }
+                return;
+            })
 
             res.status(200).json({
                 message: "success",
                 data: {
-                    outstanding: teachers
+                    outstanding: result
                 }
             })
         })

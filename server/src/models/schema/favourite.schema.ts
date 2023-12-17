@@ -9,7 +9,6 @@ export enum EFavouriteType {
 export interface IFavourite {
     type: EFavouriteType,
     ref: string,
-    name: string
 }
 
 export interface IFavouriteSchema
@@ -18,7 +17,6 @@ export interface IFavouriteSchema
 }
 
 const FavoriteSchema = new Schema<IFavouriteSchema>({
-    name: { type: String, required: true },
     type: { type: String, required: true },
     ref: { type: Schema.Types.ObjectId }
 }, { timestamps: true })

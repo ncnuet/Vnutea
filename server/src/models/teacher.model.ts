@@ -108,13 +108,50 @@ export default class TeacherModel {
         }));
     }
 
-    static async getAll() {
-        const result = await TeacherBaseModel.find({}).exec();
-        return result.map(teacher=>({
-            id: teacher._id,
+    static async getAll(uids?: string[]) {
+        const result = await TeacherBaseModel.find(
+            uids
+                ? { user: { $in: uids } }
+                : {},
+            { user: 1, name: 1, image: 1, awards: 1, department: 1 }
+        ).exec();
+
+        return result.map(teacher => ({
+            id: teacher.user.toString(),
             name: teacher.name,
+            image: teacher.image,
             awards: teacher.awards,
-            department: teacher.department
+            department: teacher.department.toString()
         }));
+    }
+
+    static async getDetails(teacherID: string) {
+        const teacher = await TeacherBaseModel.findOne(
+            {
+                $or: [
+                    { user: teacherID },
+                    { _id: teacherID }
+                ]
+            },
+            {
+                user: 1, name: 1, image: 1,
+                awards: 1, department: 1, position: 1,
+                details: 1, description: 1, contact: 1,
+            }
+        ).exec();
+
+        if (teacher) {
+            return {
+                id: teacher.user.toString(),
+                name: teacher.name,
+                image: teacher.image,
+                awards: teacher.awards,
+                department: teacher.department.toString(),
+                position: teacher.position,
+                details: teacher.details,
+                description: teacher.description,
+                contact: teacher.contact
+            }
+        } else return null;
     }
 }

@@ -3,6 +3,9 @@ import { EFavouriteType, IFavourite } from "@/models/schema/favourite.schema";
 import { InputError } from "@/types/controller";
 
 export interface IAddFavourite extends IFavourite { }
+export interface IDelFavorite {
+    id: string;
+}
 
 export default class MeValidator extends BaseValidator {
     private static checkFavouriteType(type: string, und?: boolean) {
@@ -14,7 +17,6 @@ export default class MeValidator extends BaseValidator {
 
     static validateAddFavourite(data: IAddFavourite) {
         this.checkId(data.ref);
-        this.checkFavouriteType(data.type);
-        this.checkName(data.name);
+        this.checkFavouriteType(data.type)
     }
 }

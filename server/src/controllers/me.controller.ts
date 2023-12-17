@@ -47,8 +47,6 @@ export default class MeController {
         const data = <IAddFavourite>req.body;
 
         handleError(res, async () => {
-            console.log(data);
-            
             MeValidator.validateAddFavourite(data);
             await MeController.checkValidFavouriteRef(data);
 
@@ -61,10 +59,20 @@ export default class MeController {
         const user = res.locals.user;
 
         handleError(res, async () => {
-            const favorites = await UserModel.getFavourites(user.uid);
+            const favorites = await UserModel.getFavorites(user.uid);
             res.status(200).json({
                 message: "success", data: { favorites }
             })
+        })
+    }
+
+    public static async delFavorite(req: Request, res: Response) {
+        const user = res.locals.user;
+        const id = req.params.id;
+
+        handleError(res, async () => {
+            const ack = UserModel.delFavorite(user.uid, { id });
+            res.json({ message: ack ? "Delete successfully" : "Unable to add" });
         })
     }
 }

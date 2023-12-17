@@ -1,7 +1,7 @@
 import { ICreateUser } from "@/validators/user.validator";
 import { UserBaseModel } from "./base/user.base";
 import * as bcrypt from "bcryptjs";
-import { IAddFavourite } from "@/validators/me.validator";
+import { IAddFavourite, IDelFavorite } from "@/validators/me.validator";
 
 export default class UserModel {
     static async validateUID(uids: string[]): Promise<boolean> {
@@ -54,7 +54,6 @@ export default class UserModel {
             {
                 $push: {
                     favorites: {
-                        name: data.name,
                         ref: data.ref,
                         type: data.type
                     }
@@ -64,12 +63,31 @@ export default class UserModel {
         return response.acknowledged;
     }
 
-    static async getFavourites(id: string) {
+    static async delFavorite(id: string, data: IDelFavorite) {
+        const response = await UserBaseModel.updateOne(
+            { _id: id },
+            {
+                $pull: {
+                    favorites: {
+                        ref: data.id
+                    }
+                }
+            });
+
+        return response.acknowledged;
+    }
+
+    static async getFavorites(id: string) {
         const response = await UserBaseModel.findOne(
             { _id: id },
             { favorites: 1 }
         ).exec();
 
-        return response ? response.favorites : [];
+        return response
+            ? response.favorites.map(fa => ({
+                type: fa.type,
+                ref: fa.ref.toString()
+            }))
+            : [];
     }
 }

@@ -43,12 +43,33 @@ export default class DepartmentModel {
         return result;
     }
 
-    static async getAllName() {
-        const result = await DepartmentBaseModel.find().exec();
-        
+    static async getName(depIDs?: string[]) {
+        const result = await DepartmentBaseModel.find(
+            depIDs
+                ? { _id: { $in: depIDs } }
+                : {},
+            { _id: 1, name: 1 }
+        ).exec();
+
         return result.map(dep => ({
             name: dep.name,
-            id: dep._id
+            id: dep._id.toString()
+        }))
+    }
+
+    static async getAll(depIDs?: string[]) {
+        const result = await DepartmentBaseModel.find(
+            depIDs
+                ? { _id: { $in: depIDs } }
+                : {},
+            { _id: 1, name: 1, image: 1, contact: 1 }
+        ).exec();
+
+        return result.map(dep => ({
+            name: dep.name,
+            image: dep.image,
+            contact: dep.contact,
+            id: dep._id.toString() as string
         }))
     }
 }
