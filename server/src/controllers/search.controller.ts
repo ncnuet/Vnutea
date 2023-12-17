@@ -22,7 +22,10 @@ export default class SearchController {
                 message: "success",
                 data: {
                     query: data.query,
-                    users, labs, departments, classes
+                    users: users.filter(user => !!user),
+                    labs: labs.filter(lab => !!lab),
+                    departments: departments.filter(dep => !!dep),
+                    classes: classes.filter(classes => !!classes)
                 }
             })
         })
