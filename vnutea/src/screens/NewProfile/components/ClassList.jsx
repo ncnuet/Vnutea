@@ -25,6 +25,8 @@ import IconFontisto from 'react-native-vector-icons/Fontisto';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 
+import RenderClassList from '../RenderClassList/RenderClassList.jsx';
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const myBlue = '#0672F7';
@@ -36,16 +38,6 @@ const mySpecBlue = '#19253D';
 
 export default function ClassList({navigation}) {
   const [statusRender, setStatusRender] = useState('all');
-
-  const filteredClassList = useMemo(() => {
-    if (statusRender === 'all') {
-      return fakeDataClassList;
-    } else if (statusRender === 'pass') {
-      return fakeDataClassList.filter(item => item.status === 'pass');
-    } else {
-      return fakeDataClassList.filter(item => item.status === 'failed');
-    }
-  }, [statusRender]);
 
   //Doi trang thai render
   const handleTypeRenderChange = id => {
@@ -89,13 +81,6 @@ export default function ClassList({navigation}) {
     );
   };
 
-
-  //   Ket hop ca ten mon hoc va ma mon hoc
-  const mergeNameCode = (name, code) => {
-    let res = name + '  ' + code;
-    return adjustString(res);
-  };
-
   //   Chinh do dai cua xau khong vuot qua myMaxLength
   const adjustString = name => {
     if (name.length >= myMaxLength - 1) {
@@ -107,28 +92,10 @@ export default function ClassList({navigation}) {
     return name;
   };
 
-  //Xu ly Like/ Unlike
-  const handleHeartBtn = itemId => {
-    //Call API
-
-    setLikeList(prevLikeList => {
-      return prevLikeList.map((like, index) =>
-        index === itemId ? (like === 'true' ? 'false' : 'true') : like,
-      );
-    });
-  };
-
   //TUrn back button
   const handleReturnOnPress = () => {
     navigation.pop();
   };
-
-  //render tag giang vien
-  const renderTagItem = ({item}) => (
-    <Text style={[styles.searchTagText, {backgroundColor: item.tagColor}]}>
-      {item.tagText}
-    </Text>
-  );
 
   //Render danh sach lop hoc
   const renderClassList = ({item}) => {
@@ -148,47 +115,16 @@ export default function ClassList({navigation}) {
           <View style={styles.itemDesTopWrapper}>
             <View style={styles.itemNameWrapper}>
               <Text style={styles.itemNameText}>
-                {mergeNameCode(item.name, item.code)}
+                {adjustString(item.name)}
               </Text>
             </View>
           </View>
 
           <View style={styles.itemDesMidWrapper}>
-            <View style={styles.itemDesRateWrapper}>
-              <View style={styles.itemDesIconWrapper}>
-                <Image
-                  source={require('../assets/flag.png')}
-                  style={styles.itemDesIcon}></Image>
-              </View>
-
-              <View style={styles.itemDesValueWrapper}>
-                <Text style={styles.itemDesValue}>{item.rate1}</Text>
-              </View>
-            </View>
-
-            <View style={styles.itemDesRateWrapper}>
-              <View style={styles.itemDesIconWrapper}>
-                <Image
-                  source={require('../assets/hat2.png')}
-                  style={styles.itemDesIcon}></Image>
-              </View>
-
-              <View style={styles.itemDesValueWrapper}>
-                <Text style={styles.itemDesValue}>{item.rate2}</Text>
-              </View>
-            </View>
-
-            <View style={styles.itemDesRateWrapper}>
-              <View style={styles.itemDesIconWrapper}>
-                <Image
-                  source={require('../assets/emo4ticked.png')}
-                  style={styles.itemDesIcon}></Image>
-              </View>
-
-              <View style={styles.itemDesValueWrapper}>
-                <Text style={styles.itemDesValue}>{item.rate3}</Text>
-              </View>
-            </View>
+            <Text style={styles.itemCodeText}>
+              {adjustString(item.code)}
+            </Text>
+            
           </View>
 
           {item.status == 'pass' && (
@@ -235,14 +171,7 @@ export default function ClassList({navigation}) {
       </View>
 
       {/* Danh sach cac mon hoc */}
-      <View style={styles.topSearchsListWrapper}>
-        <FlatList
-          data={filteredClassList}
-          keyExtractor={item => item.id.toString()}
-          renderItem={renderClassList}
-        />
-        <View style={styles.paddingBottomItem}></View>
-      </View>
+      <RenderClassList dataChatList={fakeDataClassList} statusRender={statusRender}></RenderClassList>
     </View>
   );
 }
